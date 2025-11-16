@@ -423,4 +423,17 @@ x(t) = \frac{F_0}{\sqrt{(k - m \omega^2)^2 + (\gamma \omega)^2}} \cos(\omega t -
 \begin{equation}
 \arg \tilde{G}(\omega) = \tan^{-1} \left( \frac{\gamma \omega}{m(\omega_0^2 - \omega^2)} \right)
 \end{equation}
-我们现在计算系统在一个周期内吸收的能量:
+然后这个前面的系数就是频域格林函数的模长乘以 $F_0$.
+
+
+现在我们计算瞬时功率:
+\begin{equation}
+P(t) = F(t) \dv{x(t)}{t} = F_0 \cos \omega t \cdot \left( -\omega \frac{F_0}{\sqrt{(k - m \omega^2)^2 + (\gamma \omega)^2}} \sin(\omega t - \delta) \right)
+\end{equation}
+我们对瞬时功率做时间平均:
+\begin{equation}
+\expval{P} = \frac{1}{T} \int_{0}^{T} P(t) \dd{t} = \frac{1}{2} \omega F_0^2 \frac{\gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2} = \frac{1}{2} \omega F_0^2 \Im \tilde{G}(\omega)
+\end{equation}
+我们看到, 系统在一个周期内吸收的能量正比于频域格林函数的虚部.
+我们注意到 $\Im \tilde{G}(\omega)$ 永远是非负的, 也就是说外力总是给系统做正功, 这是因为阻尼项的存在, 能量最终会以热的形式耗散掉.
+也就是说虚部描述了系统在频率 $\omega$ 下对于外界能量输入的吸收能力, 也就是耗散特性.
