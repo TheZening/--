@@ -286,5 +286,84 @@ G(\tau) = \Theta(\tau) \frac{1}{m \omega_1} \mathrm{e}^{-\beta \tau} \sin \omega
 
 %=========================
 %=========================
-\subsection{Kramers-Kronig关系}
+\subsection{Kramers-Kronig 关系}
 \label{Sec: Green Function Subsec: Kramers-Kronig Relations}
+
+Kramers-Kronig 关系是联系一个线性系统响应函数的实部与虚部的一组积分关系, 这个关系最根本的基石是因果性 (Causality).
+就想象我们之前讨论的格林函数一样, 因果性要求系统的响应不能在激励之前发生.
+满足这个条件的格林函数, 我们称之为\newterm{推迟格林函数 (Retarded Green Function) $G_R$}, 因为系统的响应总是滞后于激励.
+我们考虑他的 Fourier 变换:
+\begin{equation}
+\tilde{G}_R(\omega) = \int_{-\infty}^{+\infty} G_R(\tau) \mathrm{e}^{\mathrm{i}\,\omega \tau} \dd{\tau} = \int_{0}^{+\infty} G_R(\tau) \mathrm{e}^{\mathrm{i}\,\omega \tau} \dd{\tau}
+\end{equation}
+一般来说, 推迟格林函数在时域上是复值的, 所以频域上的格林函数也是复值的:
+\begin{equation}
+\tilde{G}_R(\omega) = \Re \tilde{G}_R(\omega) + \mathrm{i}\, \Im \tilde{G}_R(\omega)
+\end{equation}
+我们现在要证明实部和虚部之间的关系.
+
+我们现在把 $\omega$ 推广到复平面上, $\omega = \Re \omega + \mathrm{i}\, \Im \omega$:
+\begin{equation}
+\tilde{G}_R(\omega) = \int_{0}^{+\infty} G_R(\tau) \mathrm{e}^{\mathrm{i}\,(\Re \omega + \mathrm{i}\, \Im \omega) \tau} \dd{\tau} = \int_{0}^{+\infty} G_R(\tau) \mathrm{e}^{\mathrm{i}\,\Re \omega \tau} \mathrm{e}^{-\Im \omega \tau} \dd{\tau}
+\end{equation}
+我们的积分区间是从 $0$ 到 $+\infty$, 所以只要 $\Im \omega > 0$, 指数项 $\mathrm{e}^{-\Im \omega \tau}$ 就会让积分收敛.
+所以我们可以断定, 推迟格林函数的 Fourier 变换 $\tilde{G}_R(\omega)$ 在复平面的上半平面是解析的 (Analytic).
+
+
+现在我们构造一个如下的围道积分:
+\begin{equation}
+I = \oint_{\gamma} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+其中 $\gamma$ 是如下的围道: 从 $-\infty$ 到 $\omega-\epsilon$ 沿实轴走, 然后绕过 $\omega$ 点, 然后从 $\omega+\epsilon$ 沿实轴走到 $+\infty$, 然后沿着无穷远的大半圆回到 $-\infty$.
+因为 $\tilde{G}_R(\omega')$ 在上半平面是解析的, 而我们选择的围道积分又绕过了 $\omega$ 点, 所以根据 Cauchy 积分定理, 我们有:
+\begin{equation}
+\oint_{\gamma} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} = 0
+\end{equation}
+我们把围道积分拆成三部分: 实轴上的积分, 绕过 $\omega$ 点的积分, 以及无穷远大半圆的积分.
+无穷远大半圆的积分根据 Jordan 引理会消失.
+所以我们有:
+\begin{equation}
+\int_{-\infty}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} + \int_{\text{绕过 } \omega} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} = 0
+\end{equation}
+我们计算绕过 $\omega$ 点的积分, 我们参数化小圆弧:
+\begin{equation}
+\omega' = \omega + \epsilon \mathrm{e}^{\mathrm{i}\,\theta}, \quad \dd{\omega'} = \mathrm{i}\, \epsilon \mathrm{e}^{\mathrm{i}\,\theta} \dd{\theta}, \quad \theta: \pi \to 0
+\end{equation}
+所以我们有:
+\begin{equation}
+\int_{\text{绕过 } \omega} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} = \int_{\pi}^{0} \frac{\tilde{G}_R(\omega + \epsilon \mathrm{e}^{\mathrm{i}\,\theta})}{\epsilon \mathrm{e}^{\mathrm{i}\,\theta}} \mathrm{i}\, \epsilon \mathrm{e}^{\mathrm{i}\,\theta} \dd{\theta} = \mathrm{i} \int_{\pi}^{0} \tilde{G}_R(\omega + \epsilon \mathrm{e}^{\mathrm{i}\,\theta}) \dd{\theta}
+\end{equation}
+然后我们取 $\epsilon \to 0$, 我们得到:
+\begin{equation}
+\int_{\text{绕过 } \omega} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} = -\mathrm{i} \pi \tilde{G}_R(\omega)
+\end{equation}
+
+
+现在我们来看实轴上的积分:
+\begin{equation}
+\int_{-\infty}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} = \mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+其中 $\mathcal{P}$ 表示主值积分 (Principal Value Integral):
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} = \lim_{\epsilon \to 0} \left( \int_{-\infty}^{\omega - \epsilon} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} + \int_{\omega + \epsilon}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} \right)
+\end{equation}
+综上所述, 我们有:
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'} - \mathrm{i} \pi \tilde{G}_R(\omega) = 0
+\end{equation}
+整理一下:
+\begin{equation}
+\tilde{G}_R(\omega) = \frac{1}{\mathrm{i}\, \pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+我们把上式的实部和虚部分别写出来:
+\begin{equation}
+\Re \tilde{G}_R(\omega) + \mathrm{i}\, \Im \tilde{G}_R(\omega) = \frac{1}{\mathrm{i}\, \pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Re \tilde{G}_R(\omega') + \mathrm{i}\, \Im \tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+从而我们得到 Kramers-Kronig 关系:
+\begin{equation}
+\Re \tilde{G}_R(\omega) = \frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Im \tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+\begin{equation}
+\Im \tilde{G}_R(\omega) = -\frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Re \tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+这个推导表明, 任何一个 Retarded Green Function 的实部和虚部之间都满足 Kramers-Kronig 关系, 不是随便来的, 而是源于因果性这个基本物理原则.
