@@ -367,3 +367,60 @@ I = \oint_{\gamma} \frac{\tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
 \Im \tilde{G}_R(\omega) = -\frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Re \tilde{G}_R(\omega')}{\omega' - \omega} \dd{\omega'}
 \end{equation}
 这个推导表明, 任何一个 Retarded Green Function 的实部和虚部之间都满足 Kramers-Kronig 关系, 不是随便来的, 而是源于因果性这个基本物理原则.
+
+
+实验上, 这个涨落-耗散定理有重要的应用价值, 我们可以仅仅过测量一个物理量, 就能计算出另一个完全不同的物理量.
+比如我们测量一个材料的吸收光谱很简单, 就是对着材料打光, 然后测量透射光的强度就可以了, 这个就是直接对应于频域格林函数的虚部.
+但是如果我们想知道材料的折射率, 直接测量就很麻烦, 需要复杂的干涉实验.
+但是利用 Kramers-Kronig 关系, 我们可以通过测量吸收光谱 (频域格林函数的虚部), 然后通过积分计算出折射率 (频域格林函数的实部).
+这就是因果性的巧妙之处.
+
+
+现在我们要讨论一下为什么我们一直在强调频域格林函数的虚部和阻尼有关, 以及实部和色散有关.
+这个问题的答案在于能量在一个周期内是如何被吸收和释放的.
+我们还是考虑之前的阻尼谐振子系统, 他的频域格林函数为:
+\begin{equation}
+\tilde{G}(\omega) = \frac{1}{m(\omega_0^2 - \omega^2) - \mathrm{i}\,\gamma\omega}
+\end{equation}
+我们计算他的实部和虚部:
+\begin{equation}
+\tilde{G}(\omega) = \frac{m(\omega_0^2 - \omega^2)}{(m^2(\omega_0^2 - \omega^2)^2 + (\gamma \omega)^2)} + \mathrm{i}\, \frac{\gamma \omega}{(m^2(\omega_0^2 - \omega^2)^2 + (\gamma \omega)^2)}
+\end{equation}
+现在我们考虑一个真实的例子, 我们的外力是一个强度为 $F_0$ 的余弦波:
+\begin{equation}
+F(t) = F_0 \cos \omega t = \Re \left( F_0 \mathrm{e}^{-\mathrm{i}\,\omega t} \right)
+\end{equation}
+从而我们可以完全的求解出来, 之前我们已经求过齐次解了:
+\begin{equation}
+x_h(t) = \mathrm{e}^{-\beta t} ( C_1 \cos \omega_1 t + C_2 \sin \omega_1 t )
+\end{equation}
+这就是一个阻尼震荡: 振幅会随着时间指数衰减, 在时间足够长的时候, 齐次解会消失殆尽.
+我们现在只需要求一个特解, 我们猜测特解的形式为:
+\begin{equation}
+x_p(t) = A \cos(\omega t) + B \sin(\omega t)
+\end{equation}
+代入方程, 我们得到:
+\begin{equation}
+A = \frac{F_0 (k - m \omega^2)}{(k - m \omega^2)^2 + (\gamma \omega)^2}, \quad B = \frac{F_0 \gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2}
+\end{equation}
+所以我们最终的解为:
+\begin{equation}
+x(t) = \mathrm{e}^{-\beta t} ( C_1 \cos \omega_1 t + C_2 \sin \omega_1 t ) + \frac{F_0 (k - m \omega^2)}{(k - m \omega^2)^2 + (\gamma \omega)^2} \cos(\omega t) + \frac{F_0 \gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2} \sin(\omega t)
+\end{equation}
+我们现在考虑系统在稳态下的行为, 也就是齐次解消失之后的行为:
+\begin{equation}
+x(t) = \frac{F_0 (k - m \omega^2)}{(k - m \omega^2)^2 + (\gamma \omega)^2} \cos(\omega t) + \frac{F_0 \gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2} \sin(\omega t)
+\end{equation}
+这可以写为振幅-相位的形式:
+\begin{equation}
+x(t) = \frac{F_0}{\sqrt{(k - m \omega^2)^2 + (\gamma \omega)^2}} \cos(\omega t - \delta)
+\end{equation}
+其中相位延迟 $\delta$ 为:
+\begin{equation}
+\tan \delta = \frac{\gamma \omega}{k - m \omega^2} \Rightarrow \delta = \arctan \left( \frac{\gamma \omega}{k - m \omega^2} \right)
+\end{equation}
+我们看到, 这个相位延迟 $\delta$ 恰好就是频域格林函数的相位:
+\begin{equation}
+\arg \tilde{G}(\omega) = \tan^{-1} \left( \frac{\gamma \omega}{m(\omega_0^2 - \omega^2)} \right)
+\end{equation}
+我们现在计算系统在一个周期内吸收的能量:
