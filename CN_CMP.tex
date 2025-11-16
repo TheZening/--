@@ -1,0 +1,215 @@
+%==============================
+%!TEX program = xelatex
+\documentclass[UTF8,zihao=-4,a4paper,fontset=none]{ctexart}
+\RequirePackage{fontspec}
+% 全局中文和西文统一楷体风格
+\setCJKmainfont{Kaiti SC}[BoldFont={Kaiti SC Bold}]
+\setCJKsansfont{Kaiti SC}[BoldFont={Kaiti SC Bold}]
+\setCJKmonofont{Kaiti SC}[BoldFont={Kaiti SC Bold}]
+%==============================
+% Page style
+%==============================
+% 版面与页边距设置 纸张尺寸 上下左右边距 装订线等
+\RequirePackage{geometry}
+% 显示当前版面参数 \layout 命令打印页边距/文本宽高等示意
+\RequirePackage{layout}
+% 作者与单位信息排版 多作者 多单位 脚注式单位标注
+\RequirePackage{authblk}
+\setlength{\affilsep}{0.25ex} 
+% 多栏排版支持 \begin{multicols}{n} ... \end{multicols}
+\RequirePackage{multicol}
+% 附录环境与编号格式控制 附录标题 章节编号切换
+\RequirePackage{appendix}
+% 微排版优化 字距/伸缩/边缘悬挂 提高可读性与行间对齐
+\RequirePackage{microtype}
+% 自定义页眉页脚 左右页不同 奇偶页区分 线条样式等
+\RequirePackage{fancyhdr}
+%====================
+\geometry{
+a4paper,headheight=1cm,footskip=1cm,
+left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm,
+}
+\makeatletter
+\renewcommand{\maketitle}{
+\begingroup
+\setlength{\parskip}{0pt}% 不要让标题区吃到全局 5mm 的段间距
+\begin{center}
+{\Large \@title\par}
+\vspace{10pt}
+{\normalsize \@author\par}
+\vspace{2pt} % ← 这里调小/大：比如 0pt 或 1pt
+{\normalsize \@date}
+\end{center}
+\vspace{-20pt}% ← 调这里
+{\parskip=0pt \tableofcontents}
+\endgroup
+}
+\makeatother
+\linespread{1.1}
+\setlength{\parskip}{5mm}
+\setlength{\parindent}{0em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+%==============================
+% Math, Physics
+%==============================
+% AMS 数学环境基础 对齐公式 分式 矩阵 编号等
+\RequirePackage{amsmath}
+% amsmath 的增强集 对齐微调 \coloneqq \mathclap \DeclarePairedDelimiter 等
+\RequirePackage{mathtools}
+% 额外数学符号
+\RequirePackage{amssymb}
+% 空心粗体/黑板粗体数字与字母 \mathbb{1} 等 外观较“粗”
+\RequirePackage{bbold}
+% 定理类环境 theorem/lemma/proposition/definition样式与编号控制
+\RequirePackage{amsthm}
+% 花体数学字体 \mathscr 字母 脚本风格
+% \RequirePackage{mathrsfs}
+\RequirePackage[cal=rsfso]{mathalfa}
+% 分段函数的增强 cases 环境 带编号/对齐的变体 
+\RequirePackage{cases}
+% 给方程组加框/高亮/括注
+\RequirePackage{empheq}
+% 扩展积分符号
+\RequirePackage{esint}
+% 带行列标签的矩阵 在矩阵边上标注索引/分块
+\RequirePackage{blkarray}
+% 常用物理宏 \dv,\pdv,\qty,\abs,\ket,\bra 等矢量/内积/狄拉克符号
+\RequirePackage{physics}
+% 费曼斜杠记号 \slashed{p} 等
+\RequirePackage{slashed}
+% 公式中加删除线/约去符号 \cancel, \bcancel, \xcancel, \cancelto
+\RequirePackage{cancel}
+% 推导步骤旁注箭头说明 WithArrows 环境 边写边注释步骤
+\RequirePackage{witharrows}
+%====================
+\allowdisplaybreaks
+%==============================
+% Fonts
+%==============================
+% 数学粗体命令 提供 \bm 加粗符号
+\RequirePackage{bm}
+% 使用 Times 风格数学字体 与 Times 文本更匹配
+% \RequirePackage{newtxmath}
+% Palatino 风格正文字体与数学字体 可与 newtxmath 互斥 建议二选一
+% \RequirePackage{mathpazo}
+% Utopia 风格字体与数学套装 可与其他字体方案互斥 需要整体搭配使用
+% \RequirePackage{fourier}
+% 额外重音命令 提供 \accentset 与 \underaccent
+\RequirePackage{accents}
+% 引入 Font Awesome 5 图标 集合丰富
+\RequirePackage{fontawesome5}
+%==============================
+% Plots, Table, Graphix, Tikz
+%==============================
+% 绘图库 TikZ 用于绘制矢量图 表示结构或流程图
+\RequirePackage{tikz}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+% 高级绘图宏包 基于 TikZ 用于绘制函数图 表格图 数据图等
+\RequirePackage{pgfplots}
+% 设置 pgfplots 兼容版本 避免旧代码警告 建议保持与本地版本一致
+\pgfplotsset{compat=1.18}
+% 控制浮动体位置 提供 H 选项强制图表固定位置
+\RequirePackage{float}
+% 保证浮动体不会越过特定位置 使用 \FloatBarrier 控制段落内图表停留
+\RequirePackage{placeins}
+% 控制图表标题格式 字体 行距 间距等
+\RequirePackage{caption}
+% 提供子图环境 支持 \begin{subfigure} 创建多图并列显示
+\RequirePackage{subcaption}
+% 插入图片的基础宏包 提供 \includegraphics 命令
+\RequirePackage{graphicx}
+% 增强表格列定义 支持 m p b 对齐方式与自定义列宽
+\RequirePackage{array}
+% 场论中的Wick记号 支持正负时间排序与收缩符号
+\RequirePackage{simpler-wick}
+%====================
+\captionsetup{labelfont=bf,skip=3pt,figurename=Figure,tablename=Table}
+%==============================
+% Color
+%==============================
+\RequirePackage[table,dvipsnames,x11names]{xcolor}
+\RequirePackage[most]{tcolorbox}
+%====================
+\definecolor{mygreen}{RGB}{131, 175, 155}
+\definecolor{mypink}{RGB}{231, 143, 172}
+\definecolor{myred}{RGB}{255, 36, 0}
+\definecolor{myblue}{RGB}{79, 195, 247}
+\definecolor{myorange}{RGB}{255, 183, 77}
+\definecolor{theoremC}{RGB}{102,103,171}
+\definecolor{corollaryC}{RGB}{241,138,173}
+\definecolor{definitionC}{RGB}{234,103,89}
+\definecolor{noteC}{RGB}{248,143,88}
+\definecolor{proofC}{RGB}{243,198,95}
+\definecolor{exampleC}{RGB}{139,194,140}
+%==============================
+% System
+%==============================
+% 提供更强大的命令定义与参数处理功能
+\RequirePackage{xparse}
+% 选择性屏蔽或抑制编译警告的宏包
+\RequirePackage{silence}
+% 过滤类别为 latex 且消息含 Font shape 的一般性警告
+\WarningFilter{latex}{Font shape}
+% 进一步过滤关于 rsfs 字体在 5.5pt 尺寸不可用的特定警告
+\WarningFilter{latex}{Font shape `U/rsfs/m/n' in size <5.5> not available}
+\WarningFilter{LaTeX Font}{Size substitutions with differences}
+%==============================
+% Hyperef Bibliography
+%==============================
+\RequirePackage[backend=biber,style=numeric-comp,sorting=none]{biblatex}
+\RequirePackage[hidelinks]{hyperref} % 隐藏链接边框
+\hypersetup{
+colorlinks=true, % 启用彩色链接
+linkcolor=myred, % 章节链接颜色
+urlcolor=myblue , % URL 链接颜色
+citecolor=mygreen % 引用链接颜色
+}
+%==============================
+% 定理环境
+%==============================
+% 定理环境
+\newtcbtheorem[number within=section]
+  {mtheoreminner}{总结}
+  {enhanced, breakable,
+   colback=theoremC!5, colframe=theoremC,
+   fonttitle=\bfseries}{thm}
+\NewDocumentEnvironment{mtheorem}{m o}
+  {\IfNoValueTF{#2}
+     {\begin{mtheoreminner}{#1}{}}
+     {\begin{mtheoreminner}{#1}{#2}}}
+  {\end{mtheoreminner}}
+%==============================
+
+%==============================
+% Self-defined command
+%==============================
+\newcommand{\reminder}[1]{\textcolor{myred}{#1}}
+\renewcommand{\comment}[1]{\textcolor{mygreen}{#1}}
+\newcommand{\question}[1]{\textcolor{myblue}{#1}}
+\renewcommand{\bf}[1]{\textbf{#1}}
+
+\newcommand{\dps}{\displaystyle}
+\newcommand*{\me}[3]{[#1]^{#2}_{#3}}
+\newcommand*{\ut}[1]{\underaccent{\sim}{#1}}
+%==============================
+\title{凝聚态物理导论}
+\author[$\dagger$]{刘沛松}
+\affil[$\dagger$]{抽象物理研究所}
+\begin{document}
+\maketitle
+%==============================
+\newpage
+%==============================
+%==============================
+
+\input{GreenFunction.tex}
+% \appendix
+% \input{A_ComplexFunctions.tex}
+%==============================
+%==============================
+\end{document}

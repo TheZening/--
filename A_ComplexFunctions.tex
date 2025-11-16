@@ -1,0 +1,674 @@
+%==============================
+%==============================
+\section{复数, Cauchy积分, Laurent级数和留数定理}
+\label{Sec: Complex number, Cauchy Integral, Laurent Series and Residue Theorem}
+
+
+我们首先可以考虑一个点的邻域, 也就是复平面上的一个小圆盘.
+假设 $z_0$ 是复平面 $\mathbb{C}$ 上的一个点, $\epsilon$ 是一个很小的正实数, 那么我们定义点 $z_0$ 的 $\epsilon$ 邻域为:
+\begin{equation}
+B(z_0, \epsilon) = \{ z \in \mathbb{C} : |z - z_0| < \epsilon \}
+\end{equation}
+也就是说, 点 $z$ 在点 $z_0$ 的 $\epsilon$邻域内, 如果点 $z$ 到点 $z_0$ 的距离小于 $\epsilon$.
+
+
+有了这个邻域的概念, 我们可以定义内点, 就是内部的点.
+如果 $S$ 是复平面 $\mathbb{C}$ 上的一个集合, 如果点 $z_0 \in S$, 并且存在一个正实数 $\epsilon$, 使得点 $z_0$ 的 $\epsilon$ 邻域 $B(z_0, \epsilon)$ 完全包含在集合 $S$ 中, 那么我们称点 $z_0$ 是集合 $S$ 的一个内点.
+简单来说, 就是不仅点要在, 周围小伙伴也要在.
+
+
+有了内点的概念, 我们就可以定义开集.
+如果集合 $S$ 中的每一个点都是集合 $S$ 的内点, 那么我们称集合 $S$ 是复平面 $\mathbb{C}$ 上的一个开集.
+也就是说, 集合 $S$ 中的每一个点都有一个小圆盘完全包含在集合 $S$ 中.
+换句话说, 开集就是没有边界的集合.
+一眼就能看出来, 如果我们想找一个这样的集合, 那么就不能是闭区间, 因为你选边界上的点, 他的小圆盘就会超出这个闭区间.
+
+
+现在我们可以介绍连通集的概念.
+如果集合 $S$ 是复平面 $\mathbb{C}$ 上的一个开集.
+并且对于集合 $S$ 中的任意两点 $z_1, z_2$, 如果我们总是能画出一条连续的曲线 $\gamma$ 链接他们, 并且这条曲线 $\gamma$ 完全包含在集合 $S$ 中, 那么我们称集合 $S$ 是复平面 $\mathbb{C}$ 上的一个连通集.
+有个洞是完全ok的, 没有洞的连通集合我们称为单连通集.
+有洞的连通集合我们称为多连通集.
+
+
+从点到线, 我们可以讨论简单曲线的概念.
+如果曲线 $\gamma$ 的起点和终点重合, 并且曲线 $\gamma$ 在除了起点和终点以外的地方没有自交, 那么我们称曲线 $\gamma$ 是一条简单闭曲线.
+简单意思就是, 自己不打结, 闭意思就是首尾相连.
+
+
+有了简单闭曲线的概念, 我们就可以定义内部和外部了.
+如果曲线 $\gamma$ 是复平面 $\mathbb{C}$ 上的一条简单闭曲线, 那么曲线 $\gamma$ 将复平面 $\mathbb{C}$ 分割成三个部分: 曲线 $\gamma$ 本身, 曲线 $\gamma$ 的内部有解区域, 以及曲线 $\gamma$ 的外部无解区域.
+
+
+有了明确的可以运算的区域之后, 我们就可以定义复变函数的运算求导了(起码现在我们确保在一个开区间内, 任意一个点的邻域都是良好定义的了).
+如果函数在 $z_0$ 点处的可导, 那就是:
+\begin{equation}
+f'(z_0) = \lim_{z \to z_0} \frac{f(z) - f(z_0)}{z - z_0}
+\end{equation}
+这个定义虽然可以和实变函数的导数定义类似, 但是复变函数的导数定义要严格得多.
+在复平面中, $\Delta z = \Delta x + \mathrm{i}\,\Delta y$ 要趋向于0意味着他应该在二维平面上任意方向趋向于0, 这就比实变函数的导数定义要严格得多了.
+\textcolor{mypink}{复变函数在一点处可导, 要比实函数在一点处可导要求高得多.}
+
+
+可导只是在一个点上成立, 而解析或者全纯代表着在一个区域上都可导, 都是良好定义的, 光滑的.
+一个函数在点 $z_0$ 解析, 意味着函数 $f(z)$ 在点 $z_0$ 的某个邻域内的每一点都可导.
+解析又被称为全纯的 (Holomorphic).
+这样, 我们为什么定义开集就很重要了, 因为这避免了讨论边界点的问题, 从而保证了在点 $z_0$ 的某个邻域内的每一点都可导 (因为不用讨论边界外面的东西了).
+
+
+我们补充一个检查解析性的工具: Cauchy-Riemann 方程.
+假设复变函数 $f(z)$ 可以表示为:
+\begin{equation}
+f(z) = u(x,y) + \mathrm{i} v(x,y)
+\end{equation}
+其中 $u(x,y), v(x,y)$ 是实变量 $x,y$ 的实函数.
+那么复变函数 $f(z)$ 在点 $z_0 = x_0 + \mathrm{i} y_0$ 解析的必要条件是: 在 $z_0$ 点处, 函数 $u(x,y), v(x,y)$ 对变量 $x,y$ 偏导数存在, 并且满足 Cauchy-Riemann 方程:
+\begin{equation}
+\pdv{u}{x} = \pdv{v}{y}, \quad \pdv{u}{y} = -\pdv{v}{x}
+\end{equation}
+Cauchy-Riemann 方程给出了一个必要条件, 但是不是充分条件.
+也就是说, 如果函数 $f(z)$ 在点 $z_0$ 解析, 那么他一定满足 Cauchy-Riemann 方程.
+但是如果函数 $f(z)$ 满足 Cauchy-Riemann 方程, 那么他不一定在点 $z_0$ 解析.
+还有个充分条件是, 如果函数 $u(x,y), v(x,y)$ 在点 $z_0$ 的一个邻域内, 四个偏导数:
+\begin{equation}
+\pdv{u}{x}, \quad \pdv{u}{y}, \quad \pdv{v}{x}, \quad \pdv{v}{y}
+\end{equation}
+都存在而且连续, 并且满足 Cauchy-Riemann 方程, 那么函数 $f(z)$ 在点 $z_0$ 解析.
+
+
+当然, 我们是不能避免有坏点的.
+如果一个函数 $f(z)$ 在点 $z_0$ 不解析, 但是在 $z_0$ 任意小的邻域 $N(z_0, \epsilon)$ 内总能找到 $f(z)$ 解析的点, 那么我们称点 $z_0$ 是函数 $f(z)$ 的一个孤立奇点.
+换句话说, 就是 点 $z_0$ 本身不解析, 但是点 $z_0$ 的邻域内有解析的点存在.
+举个例子:
+\begin{equation}
+f(z) = \frac{1}{z}
+\end{equation}
+函数在点 $z = 0$ 处不解析, 但是在点 $z = 0$ 的任意小邻域内总能找到解析的点, 所以点 $z = 0$ 是函数 $f(z) = \frac{1}{z}$ 的一个孤立奇点.
+
+
+有了这个概念, 我们就可以考虑到底有多坏了, 而极点 (pole) 就是一种坏得很有规律的奇点.
+如果当点 $z$ 趋近于点 $z_0$ 时, 函数 $f(z)$ 的极限趋向于无穷大, 那么我们称点 $z_0$ 是函数 $f(z)$ 的一个极点.
+举个例子:
+\begin{equation}
+f(z) = \frac{1}{z}
+\end{equation}
+函数在点 $z = 0$ 是一个奇点, 当 $z \to 0$ 时, 函数 $f(z)$ 趋向于无穷大, 所以点 $z = 0$ 是函数 $f(z) = \frac{1}{z}$ 的一个极点.
+在举个例子:
+\begin{equation}
+f(z) = \frac{1}{(z - \mathrm{i})^2}
+\end{equation}
+函数在点 $z = \mathrm{i}$ 是一个奇点, 当 $z \to \mathrm{i}$ 时, 函数 $f(z)$ 趋向于无穷大, 所以点 $z = \mathrm{i}$ 是函数 $f(z) = \frac{1}{(z - \mathrm{i})^2}$ 的一个极点.
+
+
+这种极点的坏是有规律的, 因为我们可以通过乘以一个适当的 $(z - z_0)^m$ 因子来消除这个极点.
+如果存在一个正整数 $m$, 使得当点 $z$ 趋近于点 $z_0$ 时, 函数 $(z - z_0)^m f(z)$ 的极限存在且有限, 那么我们称点 $z_0$ 是函数 $f(z)$ 的一个$m$阶极点.
+举个例子:
+\begin{equation}
+f(z) = \frac{1}{(z - \mathrm{i})^2}
+\end{equation}
+函数在点 $z = \mathrm{i}$ 是一个奇点, 当 $z \to \mathrm{i}$ 时, 函数 $f(z)$ 趋向于无穷大, 所以点 $z = \mathrm{i}$ 是函数 $f(z) = \frac{1}{(z - \mathrm{i})^2}$ 的一个极点.
+并且我们可以看到, 当 $m = 2$ 时, 当点 $z$ 趋近于点 $z_0$ 时, 函数 $(z - \mathrm{i})^2 f(z) = 1$ 的极限存在且有限, 所以点 $z = \mathrm{i}$ 是函数 $f(z) = \frac{1}{(z - \mathrm{i})^2}$ 的一个2阶极点.
+
+
+我们考虑一个新的例子, 函数:
+\begin{equation}
+f(z) =  \mathrm{e}^{\frac{1}{z}}
+\end{equation}
+函数在点 $z = 0$ 处不解析, 并且在点 $z = 0$ 的任意小邻域内总能找到解析的点, 所以点 $z = 0$ 是函数 $f(z)$ 的一个孤立奇点.
+但是当点 $z$ 沿着正实轴趋近于点 $z_0$ 时, $z = x \to 0^+$, 函数 $f(z) = \mathrm{e}^{\frac{1}{x}} \to +\infty$.
+而当点 $z$ 沿着负实轴趋近于点 $z_0$ 时, $z = x \to 0^-$, 函数 $f(z) = \mathrm{e}^{\frac{1}{x}} \to 0$.
+所以奇点 $z = 0$ 不是一个极点 ($f(z)$ 的值并不统一的趋向于无穷大), 所以他是不是一个极点.
+这种乱的一塌糊涂的奇点我们称为本性奇点 (essential singularity).
+还有什么样的奇点呢?
+
+
+对于一个孤立奇点 $z_0$, 我们可以通过讨论:
+\begin{equation}
+\lim_{z \to z_0} f(z)
+\end{equation}
+的行为, 就可以对这个奇点进行分类.
+如果满足如下条件:
+\begin{equation}
+\lim_{z \to z_0} f(z) = L, \quad L \in \mathbb{C}
+\end{equation}
+那么他就是一个可去奇点 (removable singularity).
+如果满足:
+\begin{equation}
+\lim_{z \to z_0} f(z) = \infty
+\end{equation}
+那么他就是一个极点 (pole).
+如果以上两个条件都不满足, 而且是不趋于有限值的奇点, 那么他就是一个本性奇点 (essential singularity).
+
+
+现在我们可以介绍积分这个概念了, 因为我们已经有了区域的概念, 也有了曲线的概念.
+假设曲线 $\gamma$ 是复平面 $\mathbb{C}$ 上的一条光滑曲线, 并且复变函数 $f(z)$ 在曲线 $\gamma$ 上连续, 那么我们定义复变函数 $f(z)$ 沿着曲线 $\gamma$ 的积分为:
+\begin{equation}
+\int_{\gamma} f(z) \dd{z} = \int_{a}^{b} f(z(t)) z'(t) \dd{t}
+\end{equation}
+其中参数 $t$ 的取值范围是 $t \in [a, b]$, 并且曲线 $\gamma$ 可以参数化为 $z = z(t)$.
+但是我们必须小心闭曲线的方向问题.
+如果曲线 $\gamma$ 是一条简单闭曲线, 那么我们规定, 观察者顺着曲线 $\gamma$ 的方向行走时, 曲线 $\gamma$ 的内部区域总是在观察者的左手边.
+
+
+有一个定理可以帮助我们化简积分的计算, 如果 $f(z) = u(x,y) + \mathrm{i} v(x,y)$ 在光滑曲线 $\gamma$ 上连续, 那么复变函数 $f(z)$ 必然沿着曲线 $\gamma$ 可积, 并且有:
+\begin{equation}
+\int_{\gamma} f(z) \dd{z} = \int_{\gamma} (u \dd{x} - v \dd{y}) + \mathrm{i} \int_{\gamma} (v \dd{x} + u \dd{y})
+\end{equation}
+这个定理可以帮助我们把复变函数的积分转化为实变量的积分, 从而简化计算.
+
+
+举个例子, 我们考虑的曲线 $\gamma$ 是以 $z_0$ 为圆心, $r$ 为半径的圆周, 而且 $n$ 是一个整数.
+那么我们的曲线可以写为:
+\begin{equation}
+\gamma: z = z_0 + r \mathrm{e}^{\mathrm{i} \theta}, \quad \theta \in [0, 2\pi]
+\end{equation}
+从而我们可以写出:
+\begin{equation}
+\int_{\gamma} \frac{1}{(z - z_0)^n} \dd{z} = \int_{0}^{2\pi} \frac{\mathrm{i}\,r \mathrm{e}^{\mathrm{i} \theta}}{r^{n+1} \mathrm{e}^{\mathrm{i} (n+1) \theta}} \dd{\theta}
+\end{equation}
+立刻可以化简:
+\begin{equation}
+\int_0^{2\pi} \frac{\mathrm{i}}{r^{n}\mathrm{e}^{\mathrm{i} n \theta}} \dd{\theta}
+\end{equation}
+如果 $n = 0$, 那么我们可以得到:
+\begin{equation}
+\int_{\gamma} \dd{z} = 2\pi \mathrm{i}
+\end{equation}
+而如果 $n \neq 0$, 那么我们可以得到:
+\begin{equation}
+\int_{\gamma} \frac{1}{(z - z_0)^n} \dd{z} = 0
+\end{equation}
+这个结果与 $r$ 的取值无关, 而且与 $z_0$ 的取值无关.
+
+
+现在我们来讨论一个非常重要的定理: Cauchy-Goursat 定理.
+假设函数 $f(z)$ 在一个单联通区域 $D$ 内解析, 那么对于区域 $D$ 内的任意一条闭曲线 $\gamma$, $f(z)$ 沿着曲线 $\gamma$ 的积分为零:
+\begin{equation}
+\oint_{\gamma} f(z) \dd{z} = 0
+\end{equation}
+单联通区域的意思是, 区域内没有洞.
+处处解析的意思是, 区域内的每一个点都是解析点, 不能有奇点.
+
+
+当然, 这太异想天开了, 不能处理一般情况:
+\begin{equation}
+\oint_{\gamma} \frac{f(z)}{z - z_0} \dd{z}
+\end{equation}
+这个时候就需要到 Cauchy 积分公式了.
+假设函数 $f(z)$ 在一个单联通区域 $D$ 内处处解析 (注意啊! 是 $f(z)$), 并且曲线 $\gamma$ 是区域 $D$ 内的一条简单闭曲线, 那么对于区域 $D$ 内的任意一点 $z_0$ (注意, 点 $z_0$ 不能在曲线 $\gamma$ 上), 我们有:
+\begin{equation}
+\oint_{\gamma} \frac{f(z)}{z - z_0} \dd{z} = 2\pi \mathrm{i}\,f(z_0)
+\end{equation}
+这个公式非常重要, 因为他把一个积分和函数值联系了起来.
+举个例子:
+\begin{equation}
+\frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \frac{\sin z}{z} \dd{z} = \sin 0 = 0
+\end{equation}
+再比如:
+\begin{equation}
+\oint_{\gamma} \frac{1}{z+1} + \frac{2}{z-3} \dd{z} = 2\pi \mathrm{i} + 2 \pi \mathrm{i}\times 2 = 6 \pi \mathrm{i}
+\end{equation}
+
+
+还能进行推广:
+\begin{equation}
+\oint_{\gamma} \frac{f(z)}{(z - z_0)^{n+1}} \dd{z} = \frac{2\pi \mathrm{i}}{n!} f^{(n)}(z_0)
+\end{equation}
+举个例子:
+\begin{equation}
+\oint_{\gamma} \frac{\cos(\pi z)}{(z-1)^5} \dd{z} = \frac{2\pi \mathrm{i}}{4!} \left. \frac{\dd^4}{\dd{z}^4} \cos(\pi z) \right|_{z=1} = -\frac{\pi^5}{12} \mathrm{i}
+\end{equation}
+
+现在我们过渡到 Laurent 级数展开的研究, 在此之前, 实际上还有 Taylor 级数展开, 但是他主要是针对解析函数的展开, 而 Laurent 级数展开可以处理奇点的问题.
+使用 Laurent 级数展开一个函数 $f(z)$ 在 $z_0$ 点的邻域内, 是不要求函数 $f(z)$ 在点 $z_0$ 解析的.
+他唯一的要求是函数 $f(z)$ 在点 $z_0$ 的某个环形邻域内解析.
+对于一个函数的展开为:
+\begin{equation}
+f(z) = \sum_{n=-\infty}^{+\infty} a_n (z - z_0)^n
+\end{equation}
+其中系数为:
+\begin{equation}
+a_n = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \frac{f(z)}{(z - z_0)^{n+1}} \dd{z}
+\end{equation}
+有很多情况下我们可以用已知的 Taylor 级数展开来得到 Laurent 级数展开.
+举个例子, 我们考虑函数:
+\begin{equation}
+f(z) = \mathrm{e}^{\frac{1}{z}}
+\end{equation}
+我们知道指数函数的 Taylor 级数展开为:
+\begin{equation}
+\mathrm{e}^{w} = \sum_{n=0}^{+\infty} \frac{w^n}{n!}
+\end{equation}
+所以我们可以得到:
+\begin{equation}
+\mathrm{e}^{\frac{1}{z}} = \sum_{n=0}^{+\infty} \frac{1}{n!} \frac{1}{z^n} = \sum_{n=0}^{+\infty} \frac{1}{n!} z^{-n} = 1 + \frac{1}{z} + \frac{1}{2!} \frac{1}{z^2} + \frac{1}{3!} \frac{1}{z^3} + \cdots
+\end{equation}
+和标准的 Laurent 级数展开形式对比:
+\begin{equation}
+f(z) = c_{-n} z^{-n} + c_{-n+1} z^{-n+1} + \cdots + c_{-1} z^{-1} + c_0 + c_1 z + c_2 z^2 + \cdots
+\end{equation}
+我们可以观察到:
+\begin{equation}
+c_{-1} = 1 \quad c_{-2} = \frac{1}{2!}, \quad c_{-3} = \frac{1}{3!}, \quad c_0 = 1, \quad c_n = 0 \; (n \geq 1)
+\end{equation}
+然后我们套用定义法:
+\begin{equation}
+c_{-1} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} f(z) \dd{z} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \mathrm{e}^{\frac{1}{z}} \dd{z} = 1
+\end{equation}
+\begin{equation}
+c_{-2} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} f(z) z \dd{z} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \mathrm{e}^{\frac{1}{z}} z \dd{z} = \frac{1}{2!}
+\end{equation}
+\begin{equation}
+c_{-3} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} f(z) z^2 \dd{z} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \mathrm{e}^{\frac{1}{z}} z^2 \dd{z} = \frac{1}{3!}
+\end{equation}
+\begin{equation}
+c_0 = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \frac{f(z)}{z} \dd{z} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} \frac{\mathrm{e}^{\frac{1}{z}}}{z} \dd{z} = 1
+\end{equation}
+这样我们可以在不做积分的情况下迅速通过 Laurent 级数展开的定义得到系数.
+
+
+现在我们补充一下关于奇点特性的说明, 展开了 Laurent 级数之后, 我们可以通过负幂部分的系数来判断奇点的类型.
+如果 Laurent 级数展开中负幂部分的系数全为零, 那么点 $z_0$ 是一个可去奇点.
+如果 Laurent 级数展开中负幂部分有有限项非零, 那么点 $z_0$ 是一个极点, 如果有 $m$ 项非零, 那么点 $z_0$ 是一个$m$阶极点.
+如果 Laurent 级数展开中负幂部分有无限项非零, 那么点 $z_0$ 是一个本性奇点.
+
+
+如果我们重点关注 Laurent 级数展开中的负幂部分:
+\begin{equation}
+f(z) = \cdots + c_{-3} (z - z_0)^{-3} + c_{-2} (z - z_0)^{-2} + \textcolor{myred}{c_{-1}} (z - z_0)^{-1} + c_0 + c_1 (z - z_0) + c_2 (z - z_0)^2 + \cdots
+\end{equation}
+我们有:
+\begin{equation}
+c_{-1} = \frac{1}{2\pi \mathrm{i}} \oint_{\gamma} f(z) \dd{z}
+\end{equation}
+这一项我们称为留数 (residue).
+留数在计算复变函数的积分中起到了非常重要的作用.
+假设函数 $f(z)$ 在一个单联通区域 $D$ 内解析, 并且曲线 $\gamma$ 是区域 $D$ 内的一条简单闭曲线.
+如果区域 $D$ 内有有限个孤立奇点 $z_1, z_2, \cdots, z_n$, 那么我们有:
+\begin{equation}
+\oint_{\gamma} f(z) \dd{z} = 2\pi \mathrm{i} \sum_{k=1}^{n} \mathrm{Res}(f, z_k)
+\end{equation}
+其中 $\mathrm{Res}(f, z_k)$ 表示函数 $f(z)$ 在点 $z_k$ 处的留数.
+这个定理被称为留数定理 (residue theorem).
+
+
+如果是一个奇点是可去奇点, 那么不用想了, 留数就是0.
+如果是一个本性奇点, 那么我们就正常展开 Laurent 级数, 找到 $c_{-1}$ 就是留数.
+如果是一个$m$阶极点, 那么我们有一个快速计算留数的方法:
+\begin{equation}
+\mathrm{Res}(f, z_0) = \lim_{z \to z_0} \frac{1}{(m-1)!} \dv[m-1]{z} \left[ (z - z_0)^m f(z) \right]
+\end{equation}
+
+
+
+举个例子:
+\begin{equation}
+\oint_{|z|=2} \frac{5z-2}{z(z-1)^2} \dd{z} 
+\end{equation}
+我们能立刻发现, 函数在点 $z = 0$ 和 $z = 1$ 处有奇点.
+我们先观察 $z=0$ 这个奇点, 我们此时的 Laurent 级数展开为:
+\begin{equation}
+\frac{5z-2}{z(z-1)^2} = \frac{5z-2}{z} \cdot \frac{1}{(z-1)^2}
+\end{equation}
+展开后面的部分有一个常用技巧:
+\begin{equation}
+\frac{1}{1-z} = 1 + z + z^2 + z^3 + \cdots
+\end{equation}
+两侧对 $z$ 求导, 我们可以得到:
+\begin{equation}
+\frac{1}{(1-z)^2} = 1 + 2z + 3z^2 + 4z^3 + \cdots
+\end{equation}
+所以我们可以得到:
+\begin{equation}
+\frac{5z-2}{z(z-1)^2} = \left( 5 - \frac{2}{z} \right) \left( 1 + 2z + 3z^2 + 4z^3 + \cdots \right)
+\end{equation}
+从而我们可以得到:
+\begin{equation}
+1 - \frac{2}{z} + 4 z + \cdots
+\end{equation}
+所以我们可以看到, 在点 $z = 0$ 处的留数为:
+\begin{equation}
+\mathrm{Res}(f, 0) = -2
+\end{equation}
+接下来我们观察 $z=1$ 这个奇点, 我们考虑如下代换:
+\begin{equation}
+w = z - 1 \quad \Rightarrow \quad z = w + 1
+\end{equation}
+那么我们有:
+\begin{equation}
+\frac{5z-2}{z(z-1)^2} = \frac{3+5w}{(w+1) w^2} = \left( \frac{3}{w^2} + \frac{5}{w} \right) \cdot \frac{1}{w+1}
+\end{equation}
+展开后我们可以得到:
+\begin{equation}
+\frac{3}{w^2} + \frac{2}{w} + \cdots
+\end{equation}
+转回来:
+\begin{equation}
+\frac{3}{(z-1)^2} + \frac{2}{z-1} + \cdots
+\end{equation}
+从而我们确定, 在点 $z_0=1$ 是一个二阶极点, 并且留数为:
+\begin{equation}
+\mathrm{Res}(f, 1) = -2
+\end{equation}
+当然我们也可以用我们之前的定理:
+\begin{equation}
+\mathrm{Res}(f, 1) = \lim_{z \to 1} \dv{}{z} \left[ (z-1)^2 \frac{5z-2}{z(z-1)^2} \right] = \lim_{z \to 1} \dv{}{z} \left( \frac{5z-2}{z} \right) = \lim_{z \to 1} \frac{-2}{z^2} = -2
+\end{equation}
+最后我们可以得到:
+\begin{equation}
+\oint_{|z|=2} \frac{5z-2}{z(z-1)^2} \dd{z} = 0
+\end{equation}
+
+
+现在我们可以介绍对于我们来说最重要的应用: 实积分的计算.
+这个技巧得益于解析延拓 (analytic continuation) 的概念.
+什么是解析延拓呢?
+我们先介绍一下这种情况: 有的时候我们知道函数在区间 $A$ 上的值 (比如实数轴), 我们也知道他在另一个区域 $B$ 上的值 (比如虚轴), 但是我们不知道他在连接 $A$ 和 $B$ 的区域 $C$ 上的值 (比如复平面上的某个区域).
+我们自然的会问, 我们从 $A$ 区域把函数延拓到 $B$ 区域, 如果延拓过去的结果和我们在 $B$ 区域知道的结果一样, 那我们就说他们其实是同一个函数, 只是我们在不同区域看到了他不同的表现形式而已.
+
+
+还有一个情况, 就是说我们的函数使用积分或者级数定义的, 但是这个级数只是在某个区域内收敛, 那么我们就可以通过解析延拓的方式把这个级数延拓到更大的区域.
+我们举个例子, 我们考虑如下的幂级数:
+\begin{equation}
+f(z) = 1 + z + z^2 + z^3 + \cdots
+\end{equation}
+这个级数在 $|z| < 1$ 的区域内收敛, 并且我们可以得到:
+\begin{equation}
+F(z) = \frac{1}{1-z}
+\end{equation}
+函数 $f(z)$ 在复平面上除了点 $z = 1$ 以外的地方都是解析的.
+从而我们就说: $F(z)$ 是 $f(z)$ 在 $|z| < 1$ 区域的解析延拓.
+
+在这个情况下, 我们自然的会问: $z=2$ 时候, $f(z)$ 和 $F(z)$ 取值也不一样啊, 那么我们说 $F(z)$ 是 $f(z)$ 的解析延拓, 这合理吗?
+答案是合理的, 因为解析延拓的定义并不是说两个函数在所有地方都一样, 而是说两个函数在他们都解析的区域内, 如果他们的值一样, 那么我们就说他们是同一个函数的不同表现形式.
+
+级数只是函数的一种表现形式, 但是函数本身可能在更大的区域内解析.
+你把 $z=2$ 带到 $f(z)$ 里面, 那么你得到的结果是发散的, 但是他的实质是你在 $z=2$ 这个点上, 你使用的级数表现形式不适用而已, 而且 $F(z)$ 在 $z=2$ 这个点上是良好定义的.
+
+
+当然, 这个定理的成功之处来自于唯一性定理.
+如果两个函数 $f(z), g(z)$ 在一个连通区域 $D$ 内解析, 并且在区域 $D$ 内的一个包含无穷多个点的子集中, 对应的函数值相等, 那么在区域 $D$ 内的每一个点上, 函数值都相等:
+\begin{equation}
+f(z) = g(z), \quad \forall z \in D
+\end{equation}
+这个定理告诉我们, 如果我们能在一个区域内找到无穷多个点, 使得两个函数在这些点上值相等, 那么我们就可以断定这两个函数在整个区域内都是相等的.
+对于我们来说, 唯一需要小心的就是, 有限个点上相等, 并不能说明两个函数在整个区域内相等.
+另外, 一个不收敛的序列, 一般也不能说明两个函数在整个区域内相等.
+
+
+现在有了这个解析延拓的概念, 我们就可以使用复变函数来计算实积分了.
+假如我们有一个实函数 $f(x)$, 并且我们想计算如下的实积分:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} f(x) \dd{x}
+\end{equation}
+如果这个不好积分, 我们就可以考虑把他拓展到复平面上, 变成复变函数 $f(z)$, 而且这个函数要和原来的函数在实轴上相等.
+现在我们就要看看这个积分上下限的问题了, 我们必须在全部实轴上覆盖, 所以不如考虑一个闭合的曲线, 这个闭合曲线包含实轴的一部分, 然后在复平面上绕一个大圆弧回到实轴上 (我们想用留数定理, 所以必须是闭合曲线).
+然后我们对着围道积分就可以了, 就是用上了留数定理.
+
+
+但是我们现在要拆回去, 我们不想要大圆弧的贡献, 就是:
+\begin{equation}
+I_{\text{AC}} = \int_{\text{Path1}} F(z) \dd{z} + \int_{\text{Path2}} F(z) \dd{z} = 2\pi \mathrm{i} \sum \mathrm{Res}(F, z_k) = I + \int_{\text{Path2}} F(z) \dd{z}
+\end{equation}
+其中 Path1 是实轴上的路径, Path2 是大圆弧路径.
+我们扔掉大圆弧路径的贡献, 需要用到一个 ML 不等式: 一个复积分的大小, 不会超过路径长度乘以被积函数在路径上的最大值.
+如果我们能让大圆弧路径的贡献在半径趋向于无穷大的时候趋向于0, 那么我们就可以得到长度是 $L = \pi R$, 被积函数的最大值是 $M$, 那么我们就有:
+\begin{equation}
+\left| \int_{\text{Path2}} F(z) \dd{z} \right| \leq \pi R \cdot M
+\end{equation}
+如果我们能让 $M$ 的衰减速度比 $R$ 的增长速度快, 那么我们就能让大圆弧路径的贡献在半径趋向于无穷大的时候趋向于0.
+这样我们就能得到:
+\begin{equation}
+I = 2\pi \mathrm{i} \sum \mathrm{Res}(F, z_k)
+\end{equation}
+换句话说, $F(z)$ 只要满足比如 $1/R$ 更快的衰减速度, 我们就能用留数定理来计算实积分.
+还有一个很常用的, 对于我们帮助更大的, 就是如下的被积函数形式:
+\begin{equation}
+F(z) = G(z) \mathrm{e}^{\mathrm{i} \alpha z}
+\end{equation}
+其中 $\alpha > 0$.
+如果 $G(z)$ 在大圆弧路径上满足 $|G(z)| \to 0$ 当 $R \to \infty$, 那么我们就能让大圆弧路径的贡献在半径趋向于无穷大的时候趋向于0.
+无论多慢都行, 比如 $1/\ln R$ 也行.
+这就是 Jordan 引理.
+
+
+第一类积分就是关于三角函数的:
+\begin{equation}
+I = \int_{0}^{2\pi} R(\cos \theta, \sin \theta) \dd{\theta}
+\end{equation}
+我们的方法就是考虑如下的复变函数:
+\begin{equation}
+z = \mathrm{e}^{\mathrm{i} \theta} \quad \Rightarrow \quad \dd{z} = \mathrm{i} \mathrm{e}^{\mathrm{i} \theta}
+\end{equation}
+在用上:
+\begin{equation}
+\sin\theta = \frac{\mathrm{e}^{\mathrm{i} \theta} - \mathrm{e}^{-\mathrm{i} \theta}}{2\mathrm{i}} = \frac{z^2-1}{2\mathrm{i} z}, \quad \cos\theta = \frac{\mathrm{e}^{\mathrm{i} \theta} + \mathrm{e}^{-\mathrm{i} \theta}}{2} = \frac{z^2+1}{2 z}
+\end{equation}
+这一下子就变成了:
+\begin{equation}
+I = \oint_{|z|=1} R\left( \frac{z^2+1}{2 z}, \frac{z^2-1}{2\mathrm{i} z} \right) \frac{1}{\mathrm{i} z} \dd{z} = 2\pi \mathrm{i} \sum_{k=1}^{n} \mathrm{Res}(F, z_k)
+\end{equation}
+
+
+第二类积分是关于无穷区间的:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} R(x) \dd{x}
+\end{equation}
+这个我们就得用最大值估计了: 分母的次数至少比分子的次数大2, 而且 $R(x)$ 在实轴上没有孤立奇点的.
+这样我们画个大圆弧, 然后用留数定理就行了.
+一般来说 $R(z)$ 形式满足:
+\begin{equation}
+R(z) = \frac{z^n + a_1 z^{n-1} + \cdots + a_n}{z^m + b_1 z^{m-1} + \cdots + b_m} \quad m \geq n + 2
+\end{equation}
+从而积分为:
+\begin{equation}
+\int_{-R}^{+R} R(x) \dd{x} + \int_{\text{Arc}} R(z) \dd{z} = 2\pi \mathrm{i} \sum_{k=1}^{n} \mathrm{Res}(R, z_k)
+\end{equation}
+稳定的扔掉大弧贡献, 然后让 $R \to \infty$, 我们就能得到:
+\begin{equation}
+\int_{-\infty}^{+\infty} R(x) \dd{x} = 2\pi \mathrm{i} \sum_{k=1}^{n} \mathrm{Res}(R, z_k)
+\end{equation}
+
+
+接下来就要用 Jordan 引理处理第三类积分了:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} R(x) \mathrm{e}^{\mathrm{i} \alpha x} \dd{x} \quad \alpha > 0
+\end{equation}
+要求 $R(x)$ 在实轴上没有孤立奇点, 并且分母的次数至少比分子的次数大1.
+我们同样画个大圆弧, 然后用留数定理就行了.
+积分为:
+\begin{equation}
+\int_{-\infty}^{+\infty} R(x) \mathrm{e}^{\mathrm{i} \alpha x} \dd{x} = \int_{-\infty}^{+\infty} R(x) \cos(\alpha x) \dd{x} + \mathrm{i} \int_{-\infty}^{+\infty} R(x) \sin(\alpha x) \dd{x} = 2\pi \mathrm{i} \sum_{k=1}^{n} \mathrm{Res}(R \mathrm{e}^{\mathrm{i} \alpha z}, z_k)
+\end{equation}
+
+
+我们现在举几个例子来讨论一下上面介绍的方法的应用:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} \frac{1}{1+x^2} \dd{x}
+\end{equation}
+我们考虑复变函数:
+\begin{equation}
+F(z) = \frac{1}{1+z^2} = \frac{1}{(z - \mathrm{i})(z + \mathrm{i})}
+\end{equation}
+函数在点 $z = \mathrm{i}$ 和 $z = -\mathrm{i}$ 处有孤立奇点, 并且这两个奇点都是一阶极点.
+我们选择闭合曲线为上半平面的大圆弧加上实轴.
+应用留数定理, 我们有:
+\begin{equation}
+\oint_{\gamma} F(z) \dd{z} = 2\pi \mathrm{i}\,\mathrm{Res}(F, \mathrm{i})
+\end{equation}
+我们计算留数:
+\begin{equation}
+\mathrm{Res}(F, \mathrm{i}) = \lim_{z \to \mathrm{i}} (z - \mathrm{i}) F(z) = \lim_{z \to \mathrm{i}} \frac{z - \mathrm{i}}{(z - \mathrm{i})(z + \mathrm{i})} = \lim_{z \to \mathrm{i}} \frac{1}{z + \mathrm{i}} = \frac{1}{2\mathrm{i}}
+\end{equation}
+所以我们有:
+\begin{equation}
+\oint_{\gamma} F(z) \dd{z} = 2\pi \mathrm{i} \cdot \frac{1}{2\mathrm{i}} = \pi
+\end{equation}
+分母次数比分子次数大2, 所以我们可以稳定的扔掉大圆弧的贡献, 从而我们得到:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} \frac{1}{1+x^2} \dd{x} = \pi
+\end{equation}
+
+
+还有一个非常经典的例子:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} \frac{\cos x}{1+x^2} \dd{x}
+\end{equation}
+我们考虑复变函数:
+\begin{equation}
+F(z) = \frac{\mathrm{e}^{\mathrm{i} z}}{1+z^2}
+\end{equation}
+函数在点 $z = \mathrm{i}$ 和 $z = -\mathrm{i}$ 处有孤立奇点, 并且这两个奇点都是一阶极点.
+我们选择闭合曲线为上半平面的大圆弧加上实轴.
+应用留数定理, 我们有:
+\begin{equation}
+\oint_{\gamma} F(z) \dd{z} = 2\pi \mathrm{i}\,\mathrm{Res}(F, \mathrm{i})
+\end{equation}
+我们计算留数:
+\begin{equation}
+\mathrm{Res}(F, \mathrm{i}) = \lim_{z \to \mathrm{i}} (z - \mathrm{i}) F(z) = \lim_{z \to \mathrm{i}} \frac{z - \mathrm{i}}{(z - \mathrm{i})(z + \mathrm{i})} \mathrm{e}^{\mathrm{i} z} = \lim_{z \to \mathrm{i}} \frac{\mathrm{e}^{\mathrm{i} z}}{z + \mathrm{i}} = \frac{\mathrm{e}^{-1}}{2\mathrm{i}}
+\end{equation}
+所以我们有:
+\begin{equation}
+\oint_{\gamma} F(z) \dd{z} = 2\pi \mathrm{i} \cdot \frac{\mathrm{e}^{-1}}{2\mathrm{i}} = \pi \mathrm{e}^{-1}
+\end{equation}
+这个圆弧被扔掉完全来自于 Jordan 引理, 从而我们得到:
+\begin{equation}
+I = \int_{-\infty}^{+\infty} \frac{\cos x}{1+x^2} \dd{x} = \pi \mathrm{e}^{-1}
+\end{equation}
+唯一需要注意的, 就是我们必须取闭合曲线为上半平面的大圆弧加上实轴, 不能取下半平面的大圆弧加上实轴, 否则 Jordan 引理不成立.
+如果那个 Fourier 因子小于 0, 那么就得取下半平面的大圆弧加上实轴了 (这样指数因子才能衰减).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
