@@ -437,3 +437,169 @@ P(t) = F(t) \dv{x(t)}{t} = F_0 \cos \omega t \cdot \left( -\omega \frac{F_0}{\sq
 我们看到, 系统在一个周期内吸收的能量正比于频域格林函数的虚部.
 我们注意到 $\Im \tilde{G}(\omega)$ 永远是非负的, 也就是说外力总是给系统做正功, 这是因为阻尼项的存在, 能量最终会以热的形式耗散掉.
 也就是说虚部描述了系统在频率 $\omega$ 下对于外界能量输入的吸收能力, 也就是耗散特性.
+
+
+%=========================
+%=========================
+\subsection{量子力学的格林函数方法}
+\label{Sec: Green Function Subsec: Quantum Mechanics}
+
+
+我们从量子力学的一些基本观点出发, 可观测量对应于 Hermitian 算符, 无论是无穷维希尔伯特空间还是有限维希尔伯特空间, 本征值都是实数.
+而且, 不同本征值对应的本征态是正交归一的, 从而我们可以选取一组完备的本征态作为希尔伯特空间的基底满足:
+\begin{equation}
+\hat{A} \ket{n} = a_n \ket{n}, \quad \braket{m}{n} = \delta_{mn}, \quad \sum_n \ketbra{n} = \mathbb{1}
+\end{equation}
+对于任意向量 $\ket{\psi}$, 我们都可以把他展开在这个完备基底上:
+\begin{equation}
+\ket{\psi} = \sum_n c_n \ket{n}, \quad c_n = \braket{n}{\psi}
+\end{equation}
+所以原来的算符 $\hat{A}$ 在这个基底下的矩阵元为:
+\begin{equation}
+\hat{A} = \sum_{n=1}^{\infty} a_n \ketbra{n} \Rightarrow A_{mn} = \mel{m}{\hat{A}}{n} = a_n \delta_{mn}
+\end{equation}
+
+
+如果我们选择能量本征态作为完备基底 (就是 Hamltonian 的本征态), 从而我们有:
+\begin{equation}
+\hat{H} \ket{n} = E_n \ket{n}, \quad \braket{m}{n} = \delta_{mn}, \quad \sum_n \ketbra{n} = \mathbb{1}
+\end{equation}
+考虑到:
+\begin{equation}
+\phi_n(x) \equiv \braket{x}{n} \Rightarrow \int \phi_m^*(x) \phi_n(x) \dd{x} = \delta_{mn}, \quad \sum_n \phi_n(x) \phi_n^*(x') = \delta(x - x') 
+\end{equation}
+
+
+有了这些基础, 我们先不要着急, 回到矩阵的本征值问题 (甚至是有限维):
+\begin{equation}
+\hat{A} \ket{n} = a_n \ket{n}
+\end{equation}
+然后我们考虑一个复数 $z$, 我们构造一个新的矩阵:
+\begin{equation}
+z\mathbb{1} - \hat{A}
+\end{equation}
+如果 $z\mathbb{1}-\hat{A}$ 是可逆的, 那么我们可以定义一个叫做 Resolvent 的矩阵:
+\begin{equation}
+\hat{R}(z) := (z\mathbb{1} - \hat{A})^{-1}
+\end{equation}
+\newterm{这个 $R$ 叫做 $A$ 在点 $z$ 的 Resolvent}.
+所以对于所有可能的 $z$, 要么 $z\mathbb{1}-\hat{A}$ 是不可逆的 (就是谱 spectrum 上的点), 要么 $z\mathbb{1}-\hat{A}$ 是可逆的 (就是谱之外的点).
+
+我们有:
+\begin{equation}
+(z\mathbb{1} - \hat{A}) \hat{R}(z) = \mathbb{1}
+\end{equation}
+在 $\hat{A}$ 的本征态基底下, 我们有:
+\begin{equation}
+z\mathbb{1} - \hat{A} = \mathrm{diag}(z - a_1, z - a_2, \cdots, z - a_n)
+\end{equation}
+这个逆还是好求一点:
+\begin{equation}
+\hat{R}(z) = \mathrm{diag}\left( \frac{1}{z - a_1}, \frac{1}{z - a_2}, \cdots, \frac{1}{z - a_n} \right)
+\end{equation}
+翻译成对角矩阵的形式:
+\begin{equation}
+\hat{R}(z) = \sum_{n=1}^{\infty} \frac{1}{z - a_n} \ketbra{n}
+\end{equation}
+所以我们看到, Resolvent 的奇点就是算符 $\hat{A}$ 的本征值.
+这就是我们为什么说 Resolvent 可以揭示算符的谱的原因.
+
+
+如果我们考虑的是 Hamiltonian $\hat{H}$, 那我们可以同时有束缚态和散射态, 也就是说谱是离散的和连续的混合, 所以我们有:
+\begin{equation}
+\hat{R}(z) = \sum_{n} \frac{1}{z - E_n} \ketbra{n} + \int \frac{1}{z - E} \ketbra{E} \dd{E}
+\end{equation}
+现在我们把 Resolvent 和格林函数联系起来, 首先我们注意到:
+\begin{equation}
+(z\mathbb{1} - \hat{H}) \hat{R}(z) = \mathbb{1}
+\end{equation}
+我们在坐标表象下写出来:
+\begin{equation}
+\mel{x}{(z\mathbb{1} - \hat{H}) \hat{R}(z)}{x'} = \mel{x}{\mathbb{1}}{x'} = \delta(x - x')
+\end{equation}
+我们把左边展开:
+\begin{equation}
+\int \mel{x}{(z\mathbb{1} - \hat{H})}{x''} \mel{x''}{\hat{R}(z)}{x'} \dd{x''} = \delta(x - x')
+\end{equation}
+计算这个积分, 我们有:
+\begin{equation}
+\int (z \delta(x - x'') - H(x, x'')) \mel{x''}{\hat{R}(z)}{x'} \dd{x''} = \delta(x - x')
+\end{equation}
+如果 Hamiltonian 是局域的, 也就是说:
+\begin{equation}
+H(x, x'') = \delta(x - x'') \hat{H}_x
+\end{equation}
+那么我们有:
+\begin{equation}
+(z - \hat{H}_x) \mel{x}{\hat{R}(z)}{x'} = \delta(x - x')
+\end{equation}
+仔细观察这个方程, 我们发现他和格林函数的定义方程是一样的!
+\begin{equation}
+G(x, x'; z) = \mel{x}{\hat{R}(z)}{x'} = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'}
+\end{equation}
+所以在这个角度下, Schrödinger 方程的格林函数就是 Hamiltonian 的 Resolvent 在坐标表象下的矩阵元.
+
+
+现在我们不得不面临一个灾难级的翻译了, 在线性代数中, 我们一说到 Kernel (核), 大家第一反应就是想到线性映射的核空间 (Null Space), 也就是所有被映射到零向量的向量构成的子空间.
+但实际上, 我们在讨论积分方程和变换的时候, Kernel 指的就是积分核, \newterm{算符在某个表象下的核 = 这个算符在这组基底上的矩阵元}.
+比如我们考虑:
+\begin{equation}
+\mel{x}{\hat{A}}{\psi} = \int \mel{x}{\hat{A}}{x'} \braket{x'}{\psi} \dd{x'} = \int A(x, x') \psi(x') \dd{x'}
+\end{equation}
+这里的 $A(x, x') = \mel{x}{\hat{A}}{x'}$ 就是算符 $\hat{A}$ 在坐标表象下的核 (Kernel).
+所以我们必须小心区分这两个概念.
+
+
+所以从这角度上讲, 格林函数就是 Hamiltonian 的 Resolvent 在坐标表象下的核:
+\begin{equation}
+G(x, x'; z) = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'}
+\end{equation}
+我们也可以把他写成本征态展开的形式:
+\begin{equation}
+G(x, x'; z) = \sum_{n} \frac{\phi_n(x) \phi_n^*(x')}{z - E_n} + \int \frac{\phi_E(x) \phi_E^*(x')}{z - E} \dd{E}
+\end{equation}
+
+
+现在我们考虑一个算符方程(先不说什么能量, Hamiltonian 之类的):
+\begin{equation}
+(z\mathbb{1} - \hat{H}) \ket{\psi} = \ket{\phi}
+\end{equation}
+在位置表象下, 我们有:
+\begin{equation}
+(z-\hat{H}_x) \psi(x) = \phi(x)
+\end{equation}
+考虑到:
+\begin{equation}
+R(z) = (z\mathbb{1} - \hat{H})^{-1}
+\end{equation}
+我们自然可以写出来:
+\begin{equation}
+\ket{\psi} = R(z) \ket{\phi}
+\end{equation}
+取位置表象:
+\begin{equation}
+\psi(x) = \mel{x}{R(z)}{\phi} = \int \mel{x}{R(z)}{x'} \braket{x'}{\phi} \dd{x'} = \int G(x, x'; z) \phi(x') \dd{x'}
+\end{equation}
+这就是我们一直在说的格林函数方法: 我们把原来的算符方程转化成一个积分方程, 积分核就是格林函数.
+\begin{equation}
+\psi(x) = \int G(x, x'; z) \phi(x') \dd{x'}
+\end{equation}
+
+
+现在我们把这些数学问题翻译回物理问题.
+我们考虑本征值问题:
+\begin{equation}
+\hat{H} \ket{n} = E_n \ket{n}
+\end{equation}
+从线性代数的角度来看, 本征值的一个等价定义是:
+\begin{equation}
+(E_n \mathbb{1} - \hat{H}) \ket{n} = 0
+\end{equation}
+也就是说, 当 $z = E_n$ 的时候, $z\mathbb{1} - \hat{H}$ 是不可逆的, 也就是说 Resolvent 在 $z = E_n$ 有奇点.
+就是说 $z\mathbb{1} - \hat{H}$ 在 $z = E_n$ 的零空间 (Null Space) 非平凡.
+所以能量本征值就是 Hamiltonian 的谱, 也是 Hamiltonian 的 Resolvent 的奇点所在, 也就是格林函数的奇点所在.
+这就是我们为什么说格林函数揭示了系统的能谱结构的原因.
+
+
+
+
