@@ -600,6 +600,271 @@ R(z) = (z\mathbb{1} - \hat{H})^{-1}
 所以能量本征值就是 Hamiltonian 的谱, 也是 Hamiltonian 的 Resolvent 的奇点所在, 也就是格林函数的奇点所在.
 这就是我们为什么说格林函数揭示了系统的能谱结构的原因.
 
+现在我们至少明确了一个问题: 我们实际上是求的算符 $(z\mathbb{1} - \hat{H})$ 的格林函数, 有的时候你看到文献上所谓的 ``Hamiltonian 的格林函数'', 其实就是指的这个算符的格林函数, 是省略的称呼.
 
 
+可是我们为什么要带着这个 $z$ 呢?
+这个问题的答案在于, 不是所有的 Hamiltonian 都有良好的逆算符, 比如有0本征值的 Hamiltonian, 为了避免这个逆算符不存在的问题, 我们引入了一个复数 $z$, 取值任意, 从而达到一般意义下 $(z\mathbb{1} - \hat{H})$ 可逆的目的.
+这样的话谱点就被反应在了格林函数的奇点上, 而不是 Hamiltonian 的逆算符不存在上.
 
+
+把 $z$ 取成复数还有另外一个好处, 就是我们可以通过调节 $z$ 的虚部来控制格林函数的收敛性, 以及容纳因果关系 (等价于施加自然的边界条件).
+我们现在一次说清楚, 然后逐步分析: 
+\begin{equation}
+\text{频域取}+\mathrm{i}\,\epsilon = \text{时域带}\theta(t-t') = \text{推迟格林函数} = \text{自然因果关系}
+\end{equation}
+我们先来从数学上解释一下这个问题, 我们考虑如下的恒等式:
+\begin{equation}
+\frac{1}{x+\mathrm{i}\,\epsilon} = -\mathrm{i}\, \int_{0}^{+\infty} \mathrm{e}^{\mathrm{i}\,(x+\mathrm{i}\,\epsilon) t} \dd{t}, \quad \epsilon > 0
+\end{equation}
+我们把积分拆开看:
+\begin{equation}
+\int_{0}^{+\infty} \mathrm{e}^{\mathrm{i}\,x t} \mathrm{e}^{-\epsilon t} \dd{t}
+\end{equation}
+只有当 $\epsilon > 0$ 的时候, 指数项 $\mathrm{e}^{-\epsilon t}$ 才能保证积分收敛.
+现在我们对齐了第一个拼图: 当我们在频域格林函数中取 $z + \mathrm{i}\,\epsilon$ 的时候, 我们保证了格林函数的积分收敛.
+我们做一个推广:
+\begin{equation}
+(z-\hat{H} + \mathrm{i}\,\epsilon)^{-1} = -\mathrm{i} \int_{0}^{+\infty} \mathrm{e}^{\mathrm{i}\,(z-\hat{H} + \mathrm{i}\,\epsilon) t} \dd{t}, \quad \epsilon > 0
+\end{equation}
+
+现在我们来看第二个问题, 为什么 $+\mathrm{i}\,\epsilon$ 对应于 retarded 推迟格林函数 (就是 $\theta(t-t')$ 出现的格林函数).
+我们考虑时域的格林函数的 Fourier 逆变换:
+\begin{equation}
+G^R(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}^R(\omega) \mathrm{e}^{-\mathrm{i}\,\omega t} \dd{\omega}
+\end{equation}
+这个时候又有一个记号上必须明确的地方了.
+\begin{enumerate}
+\item 我们之前推导的是: 能量域格林函数 $\tilde{G}(z)$ 是Resolvent在坐标表象下的矩阵元 (我们现在给这个格林函数加了上标).
+\item 如果我们不取坐标的矩阵元, 我们就成为了算符形式的格林函数 $\tilde{G}(z) = (z\mathbb{1} - \hat{H})^{-1}$.
+以后我们管他叫\newterm{能量域格林函数}.
+\item 然后我们说 $z$ 是个复数对吧, 现在把他规定成一个实数 $E$ 加上一个虚部 $+\mathrm{i}\,\epsilon$, 这个 $E$ 就是我们常说的能量变量, 不是真的能量, 就是个符号 (此时说明 $z$ 在复平面上半平面).
+从而我们的格林函数变成了:
+\begin{equation}
+\tilde{G}^R(E) = (E + \mathrm{i}\,\epsilon - \hat{H})^{-1}
+\end{equation}
+我们把这个叫做\newterm{能量延迟格林函数} energy domain retarded Green function.
+\item 如果我们把 $z$ 取成 $E - \mathrm{i}\,\epsilon$ (此时说明 $z$ 在复平面下半平面).
+那么我们就叫做\newterm{能量预先格林函数} energy domain advanced Green function:
+\begin{equation}
+\tilde{G}^A(E) = (E - \mathrm{i}\,\epsilon - \hat{H})^{-1}
+\end{equation}
+\item 如果我们不使用能量作为变量, 而是使用频率 $\omega$, 那么我们就把能量域格林函数写成:
+\begin{equation}
+\tilde{G}^{(R/A)}(\omega) = (\hbar \omega \pm \mathrm{i}\,\epsilon - \hat{H})^{-1}
+\end{equation}
+他的量纲还是$[\text{能量}]^{-1}$.
+\item 还有很多文献喜欢直接让 $\epsilon \to 0^+$, 也就是直接写成:
+\begin{equation}
+\tilde{G}^{(R/A)}(E) = (E \pm \mathrm{i}\,0^+ - \hat{H})^{-1}
+\end{equation}
+这些我们会交叉使用.
+\end{enumerate}
+
+
+现在我们就以上面的记号为基础, 来解释为什么 $+\mathrm{i}\,\epsilon$ 对应于推迟格林函数.
+我们考虑能量域延迟格林函数:
+\begin{equation}
+\tilde{G}^R(E) = \frac{1}{E - \hat{H} + \mathrm{i}\,\epsilon}
+\end{equation}
+这个时候还是算符, 我们取一个能级出来, 比如就是能量本征态 $\ket{n}$:
+\begin{equation}
+\tilde{G}^R_{n}(E) = \mel{n}{\tilde{G}^R(E)}{n} = \frac{1}{E - E_n + \mathrm{i}\,\epsilon}
+\end{equation}
+我们先看这一个能量本征态怎么办, 然后等下在用谱分解方法把所有能级都考虑进来.
+我们对这个能量本征态的格林函数做 Fourier 逆变换:
+\begin{equation}
+G^R_{n}(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{1}{E - E_n + \mathrm{i}\,\epsilon} \mathrm{e}^{-\mathrm{i}\,E t/\hbar} \dd{E}
+\end{equation}
+我们现在考虑 $t>0$ 的情况, 重点关注:
+\begin{equation}
+\mathrm{e}^{-\mathrm{i}\,E t/\hbar} \quad t>0
+\end{equation}
+我们首先考虑解析延拓, 然后为了让围道远处的积分消失 (就是 $E \to +\infty$ 的时候), 我们必须要让 $\Im E < 0$.
+也就是说, 我们必须把积分路径闭合在下半平面.
+这时候再看极点的位置, 极点在:
+\begin{equation}
+E = E_n - \mathrm{i}\,\epsilon
+\end{equation}
+这个极点在下半平面, 所以我们把积分路径闭合在下半平面的时候 (注意啊, 下半平面, 留数带个负号了), 极点被包围住了.
+根据留数定理, 我们有:
+\begin{equation}
+G^R_{n}(t) = \frac{1}{2\pi} ( -2\pi \mathrm{i} ) \mathrm{e}^{-\mathrm{i}\,(E_n - \mathrm{i}\,\epsilon) t/\hbar} = -\mathrm{i} \mathrm{e}^{-\mathrm{i}\,E_n t/\hbar} \mathrm{e}^{-\epsilon t/\hbar}, \quad t>0
+\end{equation}
+此时再取极限:
+\begin{equation}
+\lim_{\epsilon \to 0^+} G^R_{n}(t) = -\mathrm{i} \mathrm{e}^{-\mathrm{i}\,E_n t/\hbar}, \quad t>0
+\end{equation}
+没问题了, 继续看 $t<0$ 的情况, 这时候我们关注:
+\begin{equation}
+G^R_{n}(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{1}{E - E_n + \mathrm{i}\,\epsilon} \mathrm{e}^{-\mathrm{i}\,E t/\hbar} \dd{E}
+\end{equation}
+我们考虑 $t<0$ 的时候, 指数项变成:
+\begin{equation}
+\mathrm{e}^{-\mathrm{i}\,E t/\hbar} \quad t<0
+\end{equation}
+为了让围道远处的积分消失, 我们必须要让 $\Im E > 0$.
+也就是说, 我们必须把积分路径闭合在上半平面.
+这时候再看极点的位置, 极点在:
+\begin{equation}
+E = E_n - \mathrm{i}\,\epsilon
+\end{equation}
+这个极点在下半平面, 所以我们把积分路径闭合在上半平面的时候, 极点没有被包围住了.
+根据留数定理, 我们直接用Cauchy积分定理, 我们有:
+\begin{equation}
+G^R_{n}(t) = 0, \quad t<0
+\end{equation}
+综上所述, 我们有:
+\begin{equation}
+G^R_{n}(t) = -\mathrm{i} \Theta(t) \mathrm{e}^{-\mathrm{i}\,E_n t/\hbar}
+\end{equation}
+这就是推迟格林函数的形式, 我们看到, 频域格林函数中取 $+\mathrm{i}\,\epsilon$ 确实对应于时域格林函数中的 $\Theta(t)$ 因果关系.
+
+
+\reminder{重要提示}: 以上的推导我们必须假设 Fourier 变换的定义是:
+\begin{equation}
+\tilde{G}(\omega) = \int_{-\infty}^{+\infty} G(t) \mathrm{e}^{\mathrm{i}\,\omega t} \dd{t}, \quad G(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}(\omega) \mathrm{e}^{-\mathrm{i}\,\omega t} \dd{\omega}
+\end{equation}
+如果你定义成相反的符号, 那么 $+\mathrm{i}\,\epsilon$ 就对应于预先格林函数了.
+
+
+现在我们把所有能级都考虑进来, 我们有:
+\begin{equation}
+\tilde{G}^R(E) = \sum_{n} \frac{1}{E - E_n + \mathrm{i}\,\epsilon} \ketbra{n}
+\end{equation}
+整体做 Fourier 逆变换:
+\begin{equation}
+G^R(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}^R(E) \mathrm{e}^{-\mathrm{i}\,E t/\hbar} \dd{E}
+\end{equation}
+我们对每一个能级都做同样的分析, 最终我们得到:
+\begin{equation}
+G^R(t) = \frac{1}{2\pi}  \sum_n \ketbra{n} \int_{-\infty}^{+\infty} \frac{1}{E - E_n + \mathrm{i}\,\epsilon} \mathrm{e}^{-\mathrm{i}\,E t/\hbar} \dd{E} = -\mathrm{i} \Theta(t) \sum_n \ketbra{n} \mathrm{e}^{-\mathrm{i}\,E_n t/\hbar}
+\end{equation}
+最终我们有:
+\begin{equation}
+G^R(t) = -\mathrm{i} \Theta(t) \mathrm{e}^{-\mathrm{i}\,\hat{H} t/\hbar}
+\end{equation}
+以及:
+\begin{equation}
+G^R(t-t') = -\mathrm{i} \Theta(t-t') \mathrm{e}^{-\mathrm{i}\,\hat{H} (t-t')/\hbar}
+\end{equation}
+现在我们重点强调一下单位问题:
+\begin{enumerate}
+\item 能量域格林函数 $\tilde{G}^R(E) = (E + \mathrm{i}\,\epsilon - \hat{H})^{-1}$ 的量纲是 $[\text{能量}]^{-1}$.
+\item 频域格林函数 $\tilde{G}^R(\omega) = (\hbar \omega + \mathrm{i}\,\epsilon - \hat{H})^{-1}$ 的量纲也是 $[\text{能量}]^{-1}$, 只不过我们用$\omega$代替了$E/\hbar$.
+\item 时域格林函数 $G^R(t-t') = -\mathrm{i} \theta(t-t') \mathrm{e}^{-\mathrm{i}\,\hat{H} (t-t')/\hbar}$ 是无量纲的.
+\item Heaviside阶跃函数, $\Theta(t-t')$ 是无量纲的.
+\item $\delta$函数 $\delta(t-t')$ 的量纲是 $[\text{时间}]^{-1}$:
+\begin{equation}
+\int_{-\infty}^{+\infty} \delta(t-t') \dd{t'} = 1 \quad \dv{\Theta(t-t')}{t} = \delta(t-t')
+\end{equation} 
+\end{enumerate}
+
+
+我们现在考虑一下一维自由粒子的格林函数.
+他的 Hamiltonian 为:
+\begin{equation}
+\hat{H} = \frac{\hat{p}^2}{2m} = -\frac{\hbar^2}{2m} \pdv[2]{}{x}
+\end{equation}
+他的格林函数为:
+\begin{equation}
+(z-H_x) \tilde{G}(x, x'; z) = \delta(x-x')
+\end{equation}
+我们代入 Hamiltonian:
+\begin{equation}
+\left( z + \frac{\hbar^2}{2m} \pdv[2]{}{x} \right) \tilde{G}(x, x'; z) = \delta(x-x')
+\end{equation}
+引入如下记号:
+\begin{equation}
+k^2 := \frac{2m z}{\hbar^2} \Rightarrow z = \frac{\hbar^2 k^2}{2m}
+\end{equation}
+我们有:
+\begin{equation}
+\left( \pdv[2]{}{x} + k^2 \right) G(x, x'; z) = \frac{2m}{\hbar^2} \delta(x-x')
+\end{equation}
+注意啊, 这个时候我们考虑的不是时间问题了, 是一个空间问题.
+这个翻译成自然的条件就是一开始波在 $x'$ 处被激发出来, 然后向两边传播出去.
+对于 $x > x'$ 的区域, 波自然是向右传播的, 对于 $x < x'$ 的区域, 波自然是向左传播的.
+所以我们猜测格林函数的形式为:
+\begin{equation}
+\tilde{G}(x, x'; z) = \begin{cases} C_- \mathrm{e}^{-\mathrm{i}\,k (x - x')}, & x < x' \\ C_+ \mathrm{e}^{\mathrm{i}\,k (x - x')}, & x > x' \end{cases}
+\end{equation}
+连续性要求我们有:
+\begin{equation}
+C_- = C_+ := C
+\end{equation}
+然后我们对方程两边在 $x = x'$ 处做积分:
+\begin{equation}
+\dv{G}{x} \Big|_{x=x'+0} - \dv{G}{x} \Big|_{x=x'-0} = \frac{2m}{\hbar^2} = 2\mathrm{i}\, k C
+\end{equation}
+从而我们得到:
+\begin{equation}
+C = \frac{m}{\mathrm{i}\, \hbar^2 k}
+\end{equation}
+所以我们最终得到一维自由粒子的格林函数为:
+\begin{equation}
+\tilde{G}(x, x'; z) = \frac{m}{\mathrm{i}\, \hbar^2 k} \begin{cases} \mathrm{e}^{-\mathrm{i}\,k (x - x')}, & x < x' \\ \mathrm{e}^{\mathrm{i}\,k (x - x')}, & x > x' \end{cases} 
+\end{equation}
+我们也可以写成:
+\begin{equation}
+\tilde{G}(x, x'; z) = \frac{m}{\mathrm{i}\, \hbar^2 k} \mathrm{e}^{\mathrm{i}\,k |x - x'|} \quad k=\sqrt{\frac{2m z}{\hbar^2}}
+\end{equation}
+这个格林函数描述了一个在 $x'$ 处被激发出来的波, 然后向两边传播出去.
+这个就是一维自由粒子的格林函数, 我们已经投影到了位置表象下:
+\begin{equation}
+\tilde{G}(x, x'; z) = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'} = \frac{m}{\mathrm{i}\, \hbar^2 k} \mathrm{e}^{\mathrm{i}\,k |x - x'|} \quad k=\sqrt{\frac{2m z}{\hbar^2}}
+\end{equation}
+如果我们取 $z = E + \mathrm{i}\,\epsilon$, 那么我们就得到了能量延迟格林函数:
+\begin{equation}
+\tilde{G}^R(x, x'; E) = \mel{x}{(E + \mathrm{i}\,\epsilon - \hat{H})^{-1}}{x'} = \frac{m}{\mathrm{i}\, \hbar^2 k} \mathrm{e}^{\mathrm{i}\,k |x - x'|} \quad k=\sqrt{\frac{2m (E + \mathrm{i}\,\epsilon)}{\hbar^2}}
+\end{equation}
+
+可能刚开始学习的时候会有一个困惑: 这个能还原到我们之前的那种 $1/...$ 的形式吗?
+我们来看一下, 先写出来:
+\begin{equation}
+\tilde{G}^R(E) = \frac{1}{E + \mathrm{i}\,\epsilon - \hat{H}}
+\end{equation}
+留神了! 这是一个连续谱问题:
+\begin{equation}
+\tilde{G}^R(E) = \int \frac{\ketbra{E_1}}{E + \mathrm{i}\,\epsilon - E'} \dd{E_1}
+\end{equation}
+我们取位置表象:
+\begin{equation}
+\tilde{G}^R(x, x'; E) = \mel{x}{\tilde{G}^R(E)}{x'} = \int \frac{1}{E + \mathrm{i}\,\epsilon - E_1} \phi_{E_1}(x) \phi_{E_1}^*(x') \dd{E_1}
+\end{equation}
+这里的 $\phi_{E_1}(x) = \braket{x}{E_1}$ 是能量本征态:
+\begin{equation}
+\phi_{E_1}(x) = \frac{1}{\sqrt{2\pi}} \mathrm{e}^{\mathrm{i}\,k_1 x}, \quad E_1 = \frac{\hbar^2 k_1^2}{2m}
+\end{equation}
+所以我们有:
+\begin{equation}
+\tilde{G}^R(x, x'; E) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{\mathrm{i}\,k_1 (x - x')}}{E + \mathrm{i}\,\epsilon - \hbar^2 k_1^2 / 2m} \dd{k_1}
+\end{equation}
+做这个积分还是应用留数定理:
+\begin{equation}
+\tilde{G}^R(x, x'; E) = \frac{m}{\mathrm{i}\, \hbar^2 k} \mathrm{e}^{\mathrm{i}\,k |x - x'|} \quad k=\sqrt{\frac{2m (E + \mathrm{i}\,\epsilon)}{\hbar^2}}
+\end{equation}
+这样就走通了:
+\begin{equation}
+\tilde{G}^R(x, x'; E) = \mel{x}{(E + \mathrm{i}\,\epsilon - \hat{H})^{-1}}{x'}
+\end{equation}
+
+
+现在我们看看时域格林函数:
+\begin{equation}
+G^R(x,t; x', t') = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}^R(x, x'; E) \mathrm{e}^{-\mathrm{i}\,E (t-t')/\hbar} \dd{E}
+\end{equation}
+代入能量延迟格林函数:
+\begin{equation}
+G^R(x,t; x', t') = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{m}{\mathrm{i}\, \hbar^2 k} \mathrm{e}^{\mathrm{i}\,k |x - x'|} \mathrm{e}^{-\mathrm{i}\,E (t-t')/\hbar} \dd{E}
+\end{equation}
+做这个积分, 我们使用 $k$ 做积分也行, 也可以直接用 $E$ 做积分, 用 $k$ 做积分的话稍微简单一些:
+\begin{equation}
+E = \frac{\hbar^2 k^2}{2m} \Rightarrow \dd{E} = \frac{\hbar^2 k}{m} \dd{k}
+\end{equation}
+这一类 Gauss 积分我们已经很熟悉了, 最终我们得到:
+\begin{equation}
+G^R(x,t; x', t') = \Theta(t-t') \sqrt{\frac{m}{2\pi \mathrm{i}\, \hbar (t-t')}} \exp \left[ \frac{\mathrm{i}\, m |x - x'|^2}{2\hbar (t-t')} \right]
+\end{equation}
+单位是 $[\text{长度}]^{-1}$.
+检查一下单位: $\tilde{G}^R(E)$的单位是 $[\text{能量}]^{-1}$, 投影到矩阵元上是 $[\text{能量}]^{-1}\times[\text{长度}]^{-1}$, 做 Fourier 逆变换的时候乘以 $\dd{E}$, 所以时域格林函数的单位是 $[\text{长度}]^{-1}$, 和上面的结果是一致的.
