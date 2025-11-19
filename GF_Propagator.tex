@@ -1,0 +1,215 @@
+%=========================
+%=========================
+\section{格林函数: 传播子}
+\label{Sec: Propagator}
+
+我们现在应该已经很熟悉格林函数的物理意义以及基础的数学性质了.
+现在我们专注于格林函数在量子力学中的应用.
+我们现在考虑含时的 Hamiltonian, $\hat{H}$, 从而 Schrödinger 方程为
+\begin{equation}
+\mathrm{i}\,\hbar \pdv{}{t} \ket{\psi(t)} = \hat{H} \ket{\psi(t)}
+\end{equation}
+我们可以形式上写出它的解为
+\begin{equation}
+\ket{\psi(t)} = \hat{U}(t, t_0) \ket{\psi(t_0)}
+\end{equation}
+其中 $\ket{\psi(t_0)}$ 是初始时刻 $t_0$ 的波函数, 由初始条件给出.
+$\hat{U}(t, t_0)$ 是时间演化算符, 它将初始时刻的波函数演化到任意时刻 $t$.
+时间演化算符满足以下方程:
+\begin{equation}
+\mathrm{i}\,\hbar \pdv{}{t} \hat{U}(t, t_0) = \hat{H} \hat{U}(t, t_0)
+\end{equation}
+并且满足初始条件 $\hat{U}(t_0, t_0) = \mathbb{1}, $ 其中 $\mathbb{1}$ 是单位算符.
+
+
+我们的量子学习告诉我们, 如果 Hamiltonian $\hat{H}$ 不显含时间, 那么时间演化算符可以写成指数形式:
+\begin{equation}
+\hat{U}(t, t_0) = \exp(-\frac{\mathrm{i}}{\hbar} \hat{H} (t - t_0))
+\end{equation}
+如果 Hamiltonian 显含时间, 但是在不同时刻 Hamiltonian 之间对易, 那么时间演化算符可以写成:
+\begin{equation}
+\hat{U}(t, t_0) = \exp\left(-\frac{\mathrm{i}}{\hbar} \int_{t_0}^{t} \hat{H}(t') \dd{t'}\right)
+\end{equation}
+如果 Hamiltonian 显含时间, 并且在不同时刻 Hamiltonian 之间\reminder{不对易}, 那么时间演化算符需要用时间序列算符 $\mathcal{T}$ 来表示:
+\begin{equation}
+\hat{U}(t, t_0) = \mathcal{T} \exp\left(-\frac{\mathrm{i}}{\hbar} \int_{t_0}^{t} \hat{H}(t') \dd{t'}\right)
+\end{equation}
+如果我们展开时间序列算符的指数, 我们有:
+\begin{equation}
+\hat{U}(t, t_0) = \mathbb{1} + \left( -\frac{\mathrm{i}}{\hbar} \right) \int_{t_0}^{t} \hat{H}(t_1) \dd{t_1} + \left( -\frac{\mathrm{i}}{\hbar} \right)^2 \int_{t_0}^{t} \int_{t_0}^{t_1} \hat{H}(t_1) \hat{H}(t_2) \dd{t_2} \dd{t_1} + \cdots
+\end{equation}
+
+
+我们现在考虑一类带有源头的 Schrödinger 方程:
+\begin{equation}
+\left( \mathrm{i}\,\hbar \pdv{}{t} - \hat{H} \right) \ket{\psi(t)} = \ket{S(t)}
+\end{equation}
+其中 $\ket{S(t)}$ 是源项, \reminder{我们暂且不谈论它的物理意义}.
+现在我们怎么求解这个方程呢?
+标准的解法是考虑\newterm{相互作用汇景, interaction picture}.
+在相互作用汇景中, 我们定义新的波函数 $\ket{\psi_I(t)}$ 和源项 $\ket{S_I(t)}$ 如下:
+\begin{equation}
+\ket{\psi_I(t)} = \hat{U}^\dagger(t, t_0) \ket{\psi(t)}
+\end{equation}
+\begin{equation}
+\ket{S_I(t)} = \hat{U}^\dagger(t, t_0) \ket{S(t)}
+\end{equation}
+其中 $\hat{U}(t, t_0)$ 是无源 Schrödinger 方程的时间演化算符, 就是我们之前讨论的那些解.
+在相互作用汇景中, Schrödinger 方程变成:
+\begin{equation}
+\mathrm{i}\,\hbar \pdv{}{t} \ket{\psi_I(t)} = \hat{U}^\dagger(t, t_0) \ket{S(t)}
+\end{equation}
+这个方程的解可以直接写出:
+\begin{equation}
+\ket{\psi_I(t)} = \ket{\psi_I(t_0)} + \frac{1}{\mathrm{i}\,\hbar} \int_{t_0}^{t} \hat{U}^\dagger(t', t_0) \ket{S(t')} \dd{t'}
+\end{equation}
+其中 $\ket{\psi_I(t_0)} = \ket{\psi(t_0)}$ 是初始时刻的波函数.
+把解变回到薛定谔汇景, 我们有:
+\begin{equation}
+\ket{\psi(t)} = \hat{U}(t, t_0) \ket{\psi(t_0)} + \frac{1}{\mathrm{i}\,\hbar} \int_{t_0}^{t} \hat{U}(t, t') \ket{S(t')} \dd{t'}
+\end{equation}
+我们使用了时间演化算符的半群性质 $\hat{U}(t, t_0) \hat{U}^\dagger(t', t_0) = \hat{U}(t, t')$.
+上式的物理意义是, 波函数在时刻 $t$ 由两部分组成: 第一部分是初始波函数经过时间演化算符演化到时刻 $t$, 实际上就是 Homogeneous solution; 第二部分是源项在过去各个时刻 $t'$ 对波函数的贡献, 这些贡献经过时间演化算符从时刻 $t'$ 演化到时刻 $t$, 实际上就是 Particular solution.
+因此, 时间演化算符 $\hat{U}(t, t')$ 可以看作是从时刻 $t'$ 到时刻 $t$ 的\newterm{传播子, propagator}.
+\begin{mdefinition}{传播子}
+传播子 $\hat{U}(t, t')$ 是时间演化算符, 它将时刻 $t'$ 的波函数演化到时刻 $t$.
+我们常见的还有传播子的空间矩阵元:
+\begin{equation}
+K(x, t; x', t') = \mel{x}{\hat{U}(t, t')}{x'}
+\end{equation}
+其中 $\ket{x}$ 是位置本征态.
+\end{mdefinition}
+于是我们可以把态的演化翻译成波函数语言:
+\begin{equation}
+\psi(x, t) = \int_{-\infty}^{+\infty} K(x, t; x', t_0) \psi(x', t_0) \dd{x'} + \frac{1}{\mathrm{i}\,\hbar} \int_{t_0}^{t} \int_{-\infty}^{+\infty} K(x, t; x', t') S(x', t') \dd{x'} \dd{t'}
+\end{equation}
+好!
+我们对于有源的 Schrödinger 方程已经找到了形式解, 我们先把他放在这里.
+
+
+现在我们回头看看我们的格林函数.
+对于含时的 Schrödinger 方程, 我们定义格林函数 $\hat{G}(t, t')$ 满足:
+\begin{equation}
+\left( \mathrm{i}\,\hbar \pdv{}{t} - \hat{H} \right) \hat{G}(t, t') = \delta(t - t') \mathbb{1}
+\end{equation}
+\reminder{注意这里的格林函数是一个算符, 而不是一个数值函数, 而且我们先不考虑投影到空间基底, 一次做太多事情过于复杂}.
+我们首先考虑 $t \neq t'$, 这时右边为零, 因此格林函数满足无源 Schrödinger 方程:
+\begin{equation}
+\left( \mathrm{i}\,\hbar \pdv{}{t} - \hat{H} \right) \hat{G}(t, t') = 0 \quad (t \neq t')
+\end{equation}
+等一下?
+这难道不就是说, 对于 $t \neq t'$, 格林函数 $\hat{G}(t, t')$ 就是时间演化算符 $\hat{U}(t, t')$?
+所以我们可以猜测, 这个格林函数的一般解为:
+\begin{equation}
+\hat{G}(t, t') = \hat{C}(t') \hat{U}(t, t')
+\end{equation}
+其中 $\hat{C}(t')$ 是一个只依赖于 $t'$ 的算符, 它的形式需要通过在 $t = t'$ 处的奇点来确定.
+为了确定 $\hat{C}(t')$, 我们把上式代入格林函数的定义方程:
+\begin{equation}
+\int_{t' - \epsilon}^{t' + \epsilon} \left( \mathrm{i}\,\hbar \pdv{}{t} - \hat{H} \right) \hat{G}(t, t') \dd{t} = \int_{t' - \epsilon}^{t' + \epsilon} \delta(t - t') \mathbb{1} \dd{t}
+\end{equation}
+其中 $\epsilon$ 是一个非常小的正实数.
+我们先计算左边:
+\begin{equation}
+\mathrm{i}\,\hbar \left[ \hat{G}(t'+\epsilon, t') - \hat{G}(t' - \epsilon, t') \right] - \int_{t' - \epsilon}^{t' + \epsilon} \hat{H} \hat{G}(t, t') \dd{t}
+\end{equation}
+当 $\epsilon \to 0$, 第二项趋近于零, 因为积分区间变得非常小.
+因此, 左边的极限为:
+\begin{equation}
+\lim_{\epsilon \to 0} \mathrm{i}\,\hbar \left[ \hat{G}(t'+\epsilon, t') - \hat{G}(t' - \epsilon, t') \right]
+\end{equation}
+右边的积分直接给出 $\mathbb{1}$.
+因此, 我们有:
+\begin{equation}
+\hat{G}(t'+0^+, t') - \hat{G}(t' - 0^-, t') = -\frac{\mathrm{i}}{\hbar} \mathbb{1}
+\end{equation}
+目前为止, 我们还没有引入任何边界条件.
+为了唯一确定格林函数, 我们还是引入自然的因果关系:
+\begin{equation}
+\hat{G}(t, t') = 0 \quad t<t'
+\end{equation}
+\begin{equation}
+\hat{G}(t, t') = \hat{C}_R \hat{U}(t, t') \quad t>t'
+\end{equation}
+这样我们的跃变条件变成:
+\begin{equation}
+\hat{G}^R(t'+0^+, t') - 0 = \frac{1}{\mathrm{i}\,\hbar} \mathbb{1} \Rightarrow \hat{C}_R = \frac{1}{\mathrm{i}\,\hbar}
+\end{equation}
+因此, 我们得到了含时格林函数的最终形式:
+\begin{equation}
+\hat{G}^R(t, t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t - t') \hat{U}(t, t')
+\end{equation}
+这个格林函数叫做时域延迟格林函数, time domain retarded Green function.
+我们的推导不依赖于 Hamiltonian 是否显含时间, 也没有投影到空间基底, 因此这个结果是非常一般的:
+\begin{mdefinition}{Time domain retarded Green function, 时域延迟格林函数}
+对于一般的含时 Hamiltonian $\hat{H}(t)$, 以及时间演化算符 $\hat{U}(t, t')$, 时域延迟格林函数定义为:
+\begin{equation}
+\hat{G}^R(t, t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t - t') \hat{U}(t, t')
+\end{equation}
+其中 $\Theta(t - t')$ 是 Heaviside 阶跃函数.
+\end{mdefinition}
+同样的, 如果我们逆转因果关系, 我们可以定义时域前进格林函数:
+\begin{mdefinition}{Time domain advanced Green function, 时域前进格林函数}
+对于一般的含时 Hamiltonian $\hat{H}(t)$, 以及时间演化算符 $\hat{U}(t, t')$, 时域前进格林函数定义为:
+\begin{equation}
+\hat{G}^A(t, t') = -\frac{1}{\mathrm{i}\,\hbar} \Theta(t' - t) \hat{U}(t, t')
+\end{equation}
+其中 $\Theta(t' - t)$ 是 Heaviside 阶跃函数.
+\end{mdefinition}
+我们注意到, time domain retarded Green function 和时间演化算符之间就差一个因果关系和一个常数因子 $1/\mathrm{i}\,\hbar$.
+
+
+现在我们尝试把时域格林函数变换到频域.
+\reminder{问题来了! 我们之前讨论的频域格林函数是针对时间平移不变的系统定义的, 但是现在我们面对的是一个含时 Hamiltonian, 系统不再时间平移不变, 那么频域格林函数还存在吗? 它又该如何定义呢?}
+我们暂且回避这个问题, 转而考虑一个特殊情况: Hamiltonian $\hat{H}$ 不显含时间, 能否非扰动的求出不含时的 $\hat{H}$ 的本征值和本征态不要紧的.
+在这种情况下, 时间演化算符为:
+\begin{equation}
+\hat{U}(t, t') = \exp\left( -\frac{\mathrm{i}}{\hbar} \hat{H} (t - t') \right)
+\end{equation}
+因此, 时域延迟格林函数为:
+\begin{equation}
+\hat{G}^R(t, t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t - t') \exp( -\frac{\mathrm{i}}{\hbar} \hat{H} (t - t') )
+\end{equation}
+系统时间平移不变, 格林函数仅仅依赖于时间差 $\tau = t - t'$, 我们可以定义频域格林函数为:
+\begin{equation}
+\hat{G}^R(E) = \int_{-\infty}^{+\infty} \hat{G}^R(\tau) \exp\left( \frac{\mathrm{i}}{\hbar} E \tau \right) \dd{\tau}
+\end{equation}
+把时域格林函数代入上式, 我们有:
+\begin{equation}
+\hat{G}^R(E) = \frac{1}{\mathrm{i}\,\hbar} \int_{-\infty}^{+\infty} \Theta(\tau) \exp\left( \frac{\mathrm{i}}{\hbar} (E - \hat{H}) \tau \right) \dd{\tau}
+\end{equation}
+回忆起:
+\begin{equation}
+\Theta(\tau) = -\frac{1}{2\pi\mathrm{i}}\lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{\exp(-\mathrm{i} \Omega \tau)}{\Omega + \mathrm{i}\,\eta} \dd{\Omega}
+\end{equation}
+从而我们有:
+\begin{equation}
+\hat{G}^R(E) = -\frac{1}{2\pi \hbar} \times \frac{1}{\mathrm{i}\,\hbar} \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{\mathrm{i} (E-\hat{H}) \tau/\hbar} \mathrm{e}^{-\mathrm{i} \Omega \tau}}{\Omega + \mathrm{i}\,\eta} \dd{\Omega} \dd{\tau}
+\end{equation}
+继续使用恒等式:
+\begin{equation}
+\int_{-\infty}^{+\infty} \mathrm{e}^{\mathrm{i} a \tau} \dd{\tau} = 2\pi \delta(a)
+\end{equation}
+我们得到:
+\begin{equation}
+\hat{G}^R(E) = \frac{1}{E-\hat{H} + \mathrm{i}\,\epsilon}
+\end{equation}
+\reminder{这里我们使用了 $\eta\hbar = \epsilon$, 其中 $\epsilon$ 是一个非常小的正实数, 单位为能量, $\eta$也是一个非常小的正实数, 单位为频率.}
+但是至于 $\hat{H}$ 怎么展开, 怎么实际计算, 我们先不关心.
+
+
+现在我们来讨论一下, 为什么一旦 $\hat{H}$ 显含时间, 我们就很难这样简单的写出频域格林函数了.
+首先, 如果 $\hat{H}$ 显含时间, 那么系统不再时间平移不变, 格林函数 $\hat{G}(t, t')$ 不再仅仅依赖于时间差 $\tau = t - t'$, 而是依赖于两个独立的时间变量 $t$ 和 $t'$.
+而这个特点直接反应在了系统的动力学问题上: \reminder{尽管你可以瞬时地对 Hamiltonian 进行对角化, 但是由于 Hamiltonian 随时间变化, 你无法用一个固定的本征态基底来描述系统的演化, 因为系统的本征态本身在随时间变化.}
+因此, 你无法简单地通过傅里叶变换把时域格林函数变换到频域.
+其次, 即使你强行对两个时间变量分别进行傅里叶变换, 你也会发现, 频域格林函数 $\hat{G}(E, E')$ 现在依赖于两个独立的能量变量 $E$ 和 $E'$, 也就是说你还是绕不过去时间依赖性的问题.
+因此, 对于含时 Hamiltonian, 频域格林函数的定义和计算变得非常复杂, 通常需要借助数值方法或者近似方法来处理.
+
+
+那么我们都有什么常用方法可以用呢?
+我们们概述一下.
+如果 Hamiltonian 显含时间, 但是变化的很慢, 满足绝热近似, 那么我们可以考虑 Wigner transformation + gradient expansion 方法.
+如果 Hamiltonian 显含时间, 并且有周期性 (\comment{其实这个很常见, 比如外场驱动是周期性的}), 那么我们可以使用 Floquet 理论来处理.
+这是两个软方法, 有没有硬的方法呢, 也有, 就是 Keldysh-NEGF (非平衡格林函数) 方法.
+当然了, 还有其实更实用的方法, 就是暴力数值计算,  比如 Trotter 分解 + 时间步进的方法, 含时密度矩阵重正化群 (tDMRG) 方法, 时间相关的变分原理 (TDVP) 方法等等.
+这些方法我们以后有机会再详细讨论.

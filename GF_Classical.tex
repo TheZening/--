@@ -381,11 +381,13 @@ G(\tau) = \Theta(\tau) \frac{1}{m \omega_1} \mathrm{e}^{-\beta \tau} \sin \omega
 
 
 所以, 我们的整体逻辑是: 引入因果性 $\Rightarrow$ 所有响应必须在激励之后 $\Rightarrow$ 定义出推迟格林函数, 时域必带 $\Theta(t-t')$ 函数 $\Rightarrow$ 频域格林函数的奇点必须在复平面的下半平面.
-
 实际上, 如果我们考虑 $\Theta$ 函数的分布表示, 我们可以完全的在数学上说明这个过程.
+\begin{mtheorem}
+Heaviside 阶跃函数 $\Theta(t)$ 可以表示为:
 \begin{equation}
 \Theta(t) = -\frac{1}{2\pi \mathrm{i}} \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega t}}{\omega + \mathrm{i}\,\eta} \dd{\omega} \quad (\eta \to 0^+)
 \end{equation}
+\end{mtheorem}
 我们来验证一下这个问题, 当 $t>0$ 的时候, 我们把围道闭合在下半平面, 这样积分在无穷远处的贡献会消失 (根据 Jordan 引理), 因为 $\omega = -\mathrm{i}\,\eta$ 在下半平面, 所以我们得到:
 \begin{equation}
 \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega t}}{\omega + \mathrm{i}\,\eta} \dd{\omega} = -2\pi \mathrm{i}

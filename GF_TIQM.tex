@@ -44,6 +44,7 @@ z\mathbb{1} - \hat{A}
 \newterm{这个 $R$ 叫做 $A$ 在点 $z$ 的 Resolvent}.
 所以对于所有可能的 $z$, 要么 $z\mathbb{1}-\hat{A}$ 是不可逆的 (就是谱 spectrum 上的点), 要么 $z\mathbb{1}-\hat{A}$ 是可逆的 (就是谱之外的点).
 
+
 我们有:
 \begin{equation}
 (z\mathbb{1} - \hat{A}) \hat{R}(z) = \mathbb{1}
@@ -62,12 +63,12 @@ z\mathbb{1} - \hat{A} = \mathrm{diag}(z - a_1, z - a_2, \cdots, z - a_n)
 \end{equation}
 所以我们看到, Resolvent 的奇点就是算符 $\hat{A}$ 的本征值.
 这就是我们为什么说 Resolvent 可以揭示算符的谱的原因.
-
-
 如果我们考虑的是 Hamiltonian $\hat{H}$, 那我们可以同时有束缚态和散射态, 也就是说谱是离散的和连续的混合, 所以我们有:
 \begin{equation}
 \hat{R}(z) = \sum_{n} \frac{1}{z - E_n} \ketbra{n} + \int \frac{1}{z - E} \ketbra{E} \dd{E}
 \end{equation}
+
+
 现在我们把 Resolvent 和格林函数联系起来, 首先我们注意到:
 \begin{equation}
 (z\mathbb{1} - \hat{H}) \hat{R}(z) = \mathbb{1}
@@ -93,10 +94,16 @@ H(x, x'') = \delta(x - x'') \hat{H}_x
 (z - \hat{H}_x) \mel{x}{\hat{R}(z)}{x'} = \delta(x - x')
 \end{equation}
 仔细观察这个方程, 我们发现他和格林函数的定义方程是一样的!
+\begin{mdefinition}{量子力学中的格林函数}
+量子力学中的格林函数定义为满足如下方程的函数 $G(x, x'; z)$:
 \begin{equation}
-G(x, x'; z) = \mel{x}{\hat{R}(z)}{x'} = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'}
+(z - \hat{H}_x) G(x, x'; z) = \delta(x - x')
 \end{equation}
-所以在这个角度下, Schrödinger 方程的格林函数就是 Hamiltonian 的 Resolvent 在坐标表象下的矩阵元.
+其中格林函数是Hamiltonian 的 Resolvent 在坐标表象下的矩阵元:
+\begin{equation}
+G(x, x'; z) = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'}
+\end{equation}
+\end{mdefinition}
 
 
 现在我们不得不面临一个灾难级的翻译了, 在线性代数中, 我们一说到 Kernel (核), 大家第一反应就是想到线性映射的核空间 (Null Space), 也就是所有被映射到零向量的向量构成的子空间.
@@ -106,10 +113,8 @@ G(x, x'; z) = \mel{x}{\hat{R}(z)}{x'} = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'
 \mel{x}{\hat{A}}{\psi} = \int \mel{x}{\hat{A}}{x'} \braket{x'}{\psi} \dd{x'} = \int A(x, x') \psi(x') \dd{x'}
 \end{equation}
 这里的 $A(x, x') = \mel{x}{\hat{A}}{x'}$ 就是算符 $\hat{A}$ 在坐标表象下的核 (Kernel).
-所以我们必须小心区分这两个概念.
-
-
-所以从这角度上讲, 格林函数就是 Hamiltonian 的 Resolvent 在坐标表象下的核:
+我们必须小心区分这两个概念.
+从这角度上讲, 格林函数就是 Hamiltonian 的 Resolvent 在坐标表象下的核:
 \begin{equation}
 G(x, x'; z) = \mel{x}{(z\mathbb{1} - \hat{H})^{-1}}{x'}
 \end{equation}
@@ -146,7 +151,7 @@ R(z) = (z\mathbb{1} - \hat{H})^{-1}
 
 
 现在我们把这些数学问题翻译回物理问题.
-我们考虑本征值问题:
+考虑本征值问题:
 \begin{equation}
 \hat{H} \ket{n} = E_n \ket{n}
 \end{equation}
@@ -158,70 +163,25 @@ R(z) = (z\mathbb{1} - \hat{H})^{-1}
 就是说 $z\mathbb{1} - \hat{H}$ 在 $z = E_n$ 的零空间 (Null Space) 非平凡.
 所以能量本征值就是 Hamiltonian 的谱, 也是 Hamiltonian 的 Resolvent 的奇点所在, 也就是格林函数的奇点所在.
 这就是我们为什么说格林函数揭示了系统的能谱结构的原因.
-
 现在我们至少明确了一个问题: 我们实际上是求的算符 $(z\mathbb{1} - \hat{H})$ 的格林函数, 有的时候你看到文献上所谓的 ``Hamiltonian 的格林函数'', 其实就是指的这个算符的格林函数, 是省略的称呼.
 
 
 可是我们为什么要带着这个 $z$ 呢?
 这个问题的答案在于, 不是所有的 Hamiltonian 都有良好的逆算符, 比如有0本征值的 Hamiltonian, 为了避免这个逆算符不存在的问题, 我们引入了一个复数 $z$, 取值任意, 从而达到一般意义下 $(z\mathbb{1} - \hat{H})$ 可逆的目的.
 这样的话谱点就被反应在了格林函数的奇点上, 而不是 Hamiltonian 的逆算符不存在上.
-
-
-把 $z$ 取成复数还有另外一个好处, 就是我们可以通过调节 $z$ 的虚部来控制格林函数的收敛性, 以及容纳因果关系 (等价于施加自然的边界条件).
-我们现在一次说清楚, 然后逐步分析: 
+另外, 我们可以直接通过调节 $z$ 的虚部来控制格林函数的解析性质.
+如果我们选择把 $z$ 写成 $E + \mathrm{i}\,\epsilon$, 其中 $\epsilon$ 是一个非常小的正实数, 那么我们就自然的引入了自然因果关系, 这就是之前我们提到的 retarded Green function (推迟格林函数).
 \begin{equation}
-\text{频域取}+\mathrm{i}\,\epsilon = \text{时域带}\theta(t-t') = \text{推迟格林函数} = \text{自然因果关系}
+\tilde{G}^R(E) = \frac{1}{E - \hat{H} + \mathrm{i}\,\epsilon}
 \end{equation}
-我们先来从数学上解释一下这个问题, 我们考虑如下的恒等式:
+同样的, 如果我们选择把 $z$ 写成 $E - \mathrm{i}\,\epsilon$, 其中 $\epsilon$ 是一个非常小的正实数, 那么我们就自然的引入了反因果关系, 这叫做 \newterm{advanced Green function (前进格林函数)}, 对应于:
 \begin{equation}
-\frac{1}{x+\mathrm{i}\,\epsilon} = -\mathrm{i}\, \int_{0}^{+\infty} \mathrm{e}^{\mathrm{i}\,(x+\mathrm{i}\,\epsilon) t} \dd{t}, \quad \epsilon > 0
+\tilde{G}^A(E) = \frac{1}{E - \hat{H} - \mathrm{i}\,\epsilon}
 \end{equation}
-我们把积分拆开看:
-\begin{equation}
-\int_{0}^{+\infty} \mathrm{e}^{\mathrm{i}\,x t} \mathrm{e}^{-\epsilon t} \dd{t}
-\end{equation}
-只有当 $\epsilon > 0$ 的时候, 指数项 $\mathrm{e}^{-\epsilon t}$ 才能保证积分收敛.
-现在我们对齐了第一个拼图: 当我们在频域格林函数中取 $z + \mathrm{i}\,\epsilon$ 的时候, 我们保证了格林函数的积分收敛.
-我们做一个推广:
-\begin{equation}
-(z-\hat{H} + \mathrm{i}\,\epsilon)^{-1} = -\mathrm{i} \int_{0}^{+\infty} \mathrm{e}^{\mathrm{i}\,(z-\hat{H} + \mathrm{i}\,\epsilon) t} \dd{t}, \quad \epsilon > 0
-\end{equation}
-
-现在我们来看第二个问题, 为什么 $+\mathrm{i}\,\epsilon$ 对应于 retarded 推迟格林函数 (就是 $\theta(t-t')$ 出现的格林函数).
-我们考虑时域的格林函数的 Fourier 逆变换:
-\begin{equation}
-G^R(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}^R(\omega) \mathrm{e}^{-\mathrm{i}\,\omega t} \dd{\omega}
-\end{equation}
-这个时候又有一个记号上必须明确的地方了.
-\begin{enumerate}
-\item 我们之前推导的是: 能量域格林函数 $\tilde{G}(z)$ 是Resolvent在坐标表象下的矩阵元 (我们现在给这个格林函数加了上标).
-\item 如果我们不取坐标的矩阵元, 我们就成为了算符形式的格林函数 $\tilde{G}(z) = (z\mathbb{1} - \hat{H})^{-1}$.
-以后我们管他叫\newterm{能量域格林函数}.
-\item 然后我们说 $z$ 是个复数对吧, 现在把他规定成一个实数 $E$ 加上一个虚部 $+\mathrm{i}\,\epsilon$, 这个 $E$ 就是我们常说的能量变量, 不是真的能量, 就是个符号 (此时说明 $z$ 在复平面上半平面).
-从而我们的格林函数变成了:
-\begin{equation}
-\tilde{G}^R(E) = (E + \mathrm{i}\,\epsilon - \hat{H})^{-1}
-\end{equation}
-我们把这个叫做\newterm{能量延迟格林函数} energy domain retarded Green function.
-\item 如果我们把 $z$ 取成 $E - \mathrm{i}\,\epsilon$ (此时说明 $z$ 在复平面下半平面).
-那么我们就叫做\newterm{能量预先格林函数} energy domain advanced Green function:
-\begin{equation}
-\tilde{G}^A(E) = (E - \mathrm{i}\,\epsilon - \hat{H})^{-1}
-\end{equation}
-\item 如果我们不使用能量作为变量, 而是使用频率 $\omega$, 那么我们就把能量域格林函数写成:
-\begin{equation}
-\tilde{G}^{(R/A)}(\omega) = (\hbar \omega \pm \mathrm{i}\,\epsilon - \hat{H})^{-1}
-\end{equation}
-他的量纲还是$[\text{能量}]^{-1}$.
-\item 还有很多文献喜欢直接让 $\epsilon \to 0^+$, 也就是直接写成:
-\begin{equation}
-\tilde{G}^{(R/A)}(E) = (E \pm \mathrm{i}\,0^+ - \hat{H})^{-1}
-\end{equation}
-这些我们会交叉使用.
-\end{enumerate}
 
 
 现在我们就以上面的记号为基础, 来解释为什么 $+\mathrm{i}\,\epsilon$ 对应于推迟格林函数.
+\comment{实际上我们第一节就计算过这个问题了, 我们这里再重复一遍, 以加深印象.}
 我们考虑能量域延迟格林函数:
 \begin{equation}
 \tilde{G}^R(E) = \frac{1}{E - \hat{H} + \mathrm{i}\,\epsilon}
@@ -307,25 +267,15 @@ G^R(t) = -\mathrm{i} \Theta(t) \mathrm{e}^{-\mathrm{i}\,\hat{H} t/\hbar}
 \begin{equation}
 G^R(t-t') = -\mathrm{i} \Theta(t-t') \mathrm{e}^{-\mathrm{i}\,\hat{H} (t-t')/\hbar}
 \end{equation}
-现在我们重点强调一下单位问题:
-\begin{enumerate}
-\item 能量域格林函数 $\tilde{G}^R(E) = (E + \mathrm{i}\,\epsilon - \hat{H})^{-1}$ 的量纲是 $[\text{能量}]^{-1}$.
-\item 频域格林函数 $\tilde{G}^R(\omega) = (\hbar \omega + \mathrm{i}\,\epsilon - \hat{H})^{-1}$ 的量纲也是 $[\text{能量}]^{-1}$, 只不过我们用$\omega$代替了$E/\hbar$.
-\item 时域格林函数 $G^R(t-t') = -\mathrm{i} \theta(t-t') \mathrm{e}^{-\mathrm{i}\,\hat{H} (t-t')/\hbar}$ 是无量纲的.
-\item Heaviside阶跃函数, $\Theta(t-t')$ 是无量纲的.
-\item $\delta$函数 $\delta(t-t')$ 的量纲是 $[\text{时间}]^{-1}$:
-\begin{equation}
-\int_{-\infty}^{+\infty} \delta(t-t') \dd{t'} = 1 \quad \dv{\Theta(t-t')}{t} = \delta(t-t')
-\end{equation} 
-\end{enumerate}
 
 
+\begin{mexample}{一维自由粒子的格林函数}
 我们现在考虑一下一维自由粒子的格林函数.
 他的 Hamiltonian 为:
 \begin{equation}
 \hat{H} = \frac{\hat{p}^2}{2m} = -\frac{\hbar^2}{2m} \pdv[2]{}{x}
 \end{equation}
-他的格林函数为:
+对应的格林函数为:
 \begin{equation}
 (z-H_x) \tilde{G}(x, x'; z) = \delta(x-x')
 \end{equation}
@@ -339,7 +289,7 @@ k^2 := \frac{2m z}{\hbar^2} \Rightarrow z = \frac{\hbar^2 k^2}{2m}
 \end{equation}
 我们有:
 \begin{equation}
-\left( \pdv[2]{}{x} + k^2 \right) G(x, x'; z) = \frac{2m}{\hbar^2} \delta(x-x')
+\left( \pdv[2]{}{x} + k^2 \right) \tilde{G}(x, x'; z) = \frac{2m}{\hbar^2} \delta(x-x')
 \end{equation}
 注意啊, 这个时候我们考虑的不是时间问题了, 是一个空间问题.
 这个翻译成自然的条件就是一开始波在 $x'$ 处被激发出来, 然后向两边传播出去.
@@ -377,7 +327,6 @@ C = \frac{m}{\mathrm{i}\, \hbar^2 k}
 \begin{equation}
 \tilde{G}^R(x, x'; E) = \mel{x}{(E + \mathrm{i}\,\epsilon - \hat{H})^{-1}}{x'} = \frac{m}{\mathrm{i}\, \hbar^2 k} \mathrm{e}^{\mathrm{i}\,k |x - x'|} \quad k=\sqrt{\frac{2m (E + \mathrm{i}\,\epsilon)}{\hbar^2}}
 \end{equation}
-
 可能刚开始学习的时候会有一个困惑: 这个能还原到我们之前的那种 $1/...$ 的形式吗?
 我们来看一下, 先写出来:
 \begin{equation}
@@ -407,8 +356,6 @@ C = \frac{m}{\mathrm{i}\, \hbar^2 k}
 \begin{equation}
 \tilde{G}^R(x, x'; E) = \mel{x}{(E + \mathrm{i}\,\epsilon - \hat{H})^{-1}}{x'}
 \end{equation}
-
-
 现在我们看看时域格林函数:
 \begin{equation}
 G^R(x,t; x', t') = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}^R(x, x'; E) \mathrm{e}^{-\mathrm{i}\,E (t-t')/\hbar} \dd{E}
@@ -427,59 +374,4 @@ G^R(x,t; x', t') = \frac{1}{\mathrm{i}} \Theta(t-t') \sqrt{\frac{m}{2\pi \mathrm
 \end{equation}
 单位是 $[\text{长度}]^{-1}$.
 检查一下单位: $\tilde{G}^R(E)$的单位是 $[\text{能量}]^{-1}$, 投影到矩阵元上是 $[\text{能量}]^{-1}\times[\text{长度}]^{-1}$, 做 Fourier 逆变换的时候乘以 $\dd{E}$, 所以时域格林函数的单位是 $[\text{长度}]^{-1}$, 和上面的结果是一致的.
-
-
-现在我们可以完成我们拼图中的最后一环了: 格林函数和时间演化算符之间的关系.
-我们现在求的粒子, 实际上是一个自由粒子, 我们从来没有提到什么时间演化的问题.
-对于不含时的问题, 我们只能求到能量本征态, 但是我们并不知道系统是如何随时间演化的, 同时我们引入了 $z$ 这个复数, 使得我们求的是 $(z\mathbb{1} - \hat{H})$ 的逆算符.
-现在我们把这些问题联系起来, 我们考虑我们不含时的 Hamiltonian 对应的含时 Schrödinger 方程:
-\begin{equation}
-\mathrm{i}\, \hbar \pdv{t} \ket{\psi(t)} = \hat{H} \ket{\psi(t)}
-\end{equation}
-我们注意到他对应的格林函数要满足:
-\begin{equation}
-\left( \mathrm{i}\, \hbar \pdv{t} - \hat{H} \right) G^R = \delta(t-t') \mathbb{1}
-\end{equation}
-此时我们为什么又不需要 $z$ 了呢?
-因为我们现在考虑的是时间演化的问题, 我们可以通过边界条件来唯一确定解, 所以不需要再引入 $z$ 这个复数来保证逆算符存在了.
-我们的边界条件就是自然因果关系, 也就是 $\Theta(t-t')$ (对应与频域的 $+\mathrm{i}\,\epsilon$).
-
-我们可以求解这个方程, 重复之前的标准格林函数, 我们可以发现:
-\begin{equation}
-G^R(t-t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t-t') \mathrm{e}^{-\mathrm{i}\, \hat{H} (t-t')/\hbar}
-\end{equation}
-对于不含时 Hamiltonian, 时间演化算符就是:
-\begin{equation}
-\hat{U}(t, t') = \mathrm{e}^{-\mathrm{i}\, \hat{H} (t-t')/\hbar}
-\end{equation}
-所以我们最终得到:
-\begin{equation}
-G^R(t-t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t-t') \hat{U}(t, t')
-\end{equation}
-如果把他投影到位置空间, 我们有:
-\begin{equation}
-G^R(x,t; x', t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t-t') \mel{x}{\hat{U}(t, t')}{x'}
-\end{equation}
-\newterm{传播子} (Propagator) 就是时间演化算符在位置表象下的矩阵元:
-\begin{equation}
-K(x, t; x', t') := \mel{x}{\hat{U}(t, t')}{x'}
-\end{equation}
-所以我们有:
-\begin{equation}
-G^R(x,t; x', t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t-t') K(x, t; x', t')
-\end{equation}
-这就是格林函数和时间演化算符之间的关系.
-我们完全可以对于自由粒子模型来验证一下这个关系, 结果是:
-\begin{equation}
-K(x, t; x', t') = \sqrt{\frac{m}{2\pi \mathrm{i}\, \hbar (t-t')}} \exp \left[ \frac{\mathrm{i}\, m |x - x'|^2}{2\hbar (t-t')} \right]
-\end{equation}
-这个时候我们要注意了, 我们之前求的时域格林函数和这个差了一个 $\hbar$ 的因子, 这个原则上取哪一个都可以, 只是习惯问题, 但是因为这个从时间演化算符推导出来的关系更为基础, 所以我们建议大家以后都采用这个定义:
-\begin{equation}
-G^R(t-t') = \frac{1}{\mathrm{i}\,\hbar} \Theta(t-t') \mathrm{e}^{-\mathrm{i}\, \hat{H} (t-t')/\hbar}
-\end{equation}
-以及从频域变回时域的时候, 也要注意加上 $\hbar$:
-\begin{equation}
-G(t-t') = \frac{1}{2\pi \hbar} \int_{-\infty}^{+\infty} \tilde{G}(E) \mathrm{e}^{-\mathrm{i}\,E (t-t')/\hbar} \dd{E}
-\end{equation}
-
- 
+\end{mexample}
