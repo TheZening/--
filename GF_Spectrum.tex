@@ -1,0 +1,168 @@
+%=========================
+%=========================
+\section{格林函数: 谱密度}
+\label{Sec: Spectral density}
+
+
+我们还是从量子力学出发, 考虑一个体系的 Hamiltonian $\hat{H}$ 及其本征值问题
+\begin{equation}
+\hat{H} \ket{n} = E_n \ket{n}
+\end{equation}
+我们就先假设这个谱是离散的, 后面再讨论连续谱的情况.
+如果随便拿一个态, 比如 $\ket{\psi}$, 那么它可以展开为本征态的线性组合
+\begin{equation}
+\ket{\psi} = \sum_n c_n \ket{n}
+\end{equation}
+其中 $c_n = \braket{n}{\psi}$.
+那么这个态的能量期望值就是
+\begin{equation}
+\mel{\psi}{\hat{H}}{\psi} = \sum_n |c_n|^2 E_n
+\end{equation}
+也就是说, 我们测的能量为 $E_n$ 的概率就是 $|c_n|^2$.
+这就引出了\newterm{谱密度 (spectral density)} 的概念.
+
+
+\begin{mdefinition}{谱密度, spectral density}
+设 $\hat{H}$ 的本征值为 $E_n$, 本征态为 $\ket{n}$, 则态 $\ket{\psi}$ 的谱密度算符为:
+\begin{equation}
+\hat{\rho}(E) = \delta(E - \hat{H}) = \sum_n \delta(E - E_n) \ketbra{n}
+\end{equation}
+态 $\ket{\psi}$ 在能量 $E$ 处的谱密度定义为: 对于态 $\ket{\psi}$ 进行一次能量测量, 测得能量为 $E$ 的概率密度为:
+\begin{equation}
+S_{\ket{\psi}}(E) = \mel{\psi}{\hat{\rho}(E)}{\psi} = \sum_n |\braket{n}{\psi}|^2 \delta(E - E_n)
+\end{equation}
+\end{mdefinition}
+
+
+便于我们理解的说法, 就是谱密度告诉我们, 对于任意一个态, 它在不同能量处的“分量”有多大.
+而这个 $\delta$ 函数, 就明确的筛选出来了, 必须是本征值对应的能量才有贡献.
+谱密度的归一化条件是
+\begin{equation}
+\int_{-\infty}^{+\infty} S_{\ket{\psi}}(E) \dd{E} = 1
+\end{equation}
+因为我们总是能测到某个能量值.
+
+
+我们举个例子, 你手里拿着一个三棱镜, 让阳光通过它, 你会看到七彩的光谱.
+这是因为阳光是由很多不同频率的光混合而成的, 三棱镜把不同频率的光分离开来, 你就能看到不同频率的光了.
+然后你对着光谱, 拿着一个光度计, 测量每个频率处的光强.
+你测得的光强分布, 就类似于谱密度: 它告诉你, 在不同频率处, 光的“分量”有多大.
+如果你测得的光强在某个频率处特别大, 那么说明, 这个频率的光在阳光中占有很大的比例.
+
+同样的,
+
+
+现在我们转头补充一点数学上的内容.
+\begin{mtheorem}{Sokhotski–Plemelj 定理}
+对于任意实数 $x$, 有
+\begin{equation}
+\lim_{\eta \to 0^+} \frac{1}{x \pm \mathrm{i}\,\eta} = \mathcal{P} \frac{1}{x} \mp \mathrm{i}\,\pi \delta(x)
+\end{equation}
+其中 $\mathcal{P}$ 表示主值积分 (Cauchy principal value), 即
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} \frac{f(x)}{x} \dd{x} = \lim_{\epsilon \to 0^+} \left( \int_{-\infty}^{-\epsilon} \frac{f(x)}{x} \dd{x} + \int_{\epsilon}^{+\infty} \frac{f(x)}{x} \dd{x} \right)
+\end{equation}  
+\end{mtheorem}
+这个定理的使用一定是要在积分意义下的, 也就是说, 对于任意试函数 $f(x)$, 有
+\begin{equation}
+\lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{f(x)}{x \pm \mathrm{i}\,\eta} \dd{x} = \mathcal{P} \int_{-\infty}^{+\infty} \frac{f(x)}{x} \dd{x} \mp \mathrm{i}\,\pi f(0)
+\end{equation}
+这个定理在处理含有 $\delta$ 函数的表达式时非常有用, 我们后面会经常用到它.
+
+
+现在我们来说明 (\reminder{而不是严格证明}), 这个定理的来源.
+我们一切的起源就是对于如下积分的计算尝试:
+\begin{equation}
+I = \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{f(x)}{x \pm \mathrm{i}\,\eta} \dd{x}
+\end{equation}
+这里 $f(x)$ 是一个在光滑的, 在无穷远处足够快趋于零的试验函数.
+我们专注于正号的情况, 负号的情况类似.
+我们可以把这个积分拆成两部分:
+\begin{equation}
+I = \lim_{\eta \to 0^+} \left[ \int_{-\infty}^{+\infty} \frac{x f(x)}{x^2 + \eta^2} \dd{x} - \mathrm{i}\, \int_{-\infty}^{+\infty} \frac{\eta f(x)}{x^2 + \eta^2} \dd{x} \right]
+\end{equation}
+我们先看第二部分:
+\begin{equation}
+I_2 = \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{\eta f(x)}{x^2 + \eta^2} \dd{x}
+\end{equation}
+这指示我们想到一类 Lorentzian 函数:
+\begin{equation}
+L_\eta(x) = \frac{1}{\pi} \frac{\eta}{x^2 + \eta^2}
+\end{equation}
+他满足:
+\begin{equation}
+\int_{-\infty}^{+\infty} L_\eta(x) \dd{x} = 1 \quad \text{且} \quad \lim_{\eta \to 0^+} L_\eta(x) = \delta(x)
+\end{equation}
+因此, 我们有:
+\begin{equation}
+\lim_{\eta \to 0^+} \frac{\eta}{x^2 + \eta^2} = \pi \delta(x)
+\end{equation}
+所以虚部的积分就是:
+\begin{equation}
+I_2 = \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{\eta f(x)}{x^2 + \eta^2} \dd{x} = \pi \int_{-\infty}^{+\infty} f(x) \delta(x) \dd{x} = \pi f(0)
+\end{equation}
+现在我们得看看这个实部的积分:
+\begin{equation}
+I_1 = \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{x f(x)}{x^2 + \eta^2} \dd{x}
+\end{equation}
+我们还是把积分拆成两部分:
+\begin{equation}
+I_1 =  \int_{|x| > \epsilon} \frac{f(x)}{x} \dd{x} + \lim_{\eta \to 0^+} \int_{-\epsilon}^{+\epsilon} \frac{x f(x)}{x^2 + \eta^2} \dd{x}
+\end{equation}
+其中 $\epsilon$ 是一个很小的正数, 而且 $\epsilon \gg \eta$.
+对于第一部分, 是我们直接取极限 $\eta \to 0^+$ 得到的, 这个时候 $x$ 大于 $\epsilon$, 所以分母里的 $\eta^2$ 可以忽略不计, 而且也不会遇到 $x=0$ 的奇点.
+对于第二部分, 我们注意到, 当 $\eta \to 0^+$ 时, $f(x)$ 在 $[-\epsilon, +\epsilon]$ 上可以近似看作常数 $f(0)$, 因为 $f(x)$ 是光滑的, 而且:
+\begin{equation}
+\frac{x}{x^2 + \eta^2}
+\end{equation}
+是一个奇函数, 所以第二部分的积分为零.
+因此, 我们得到了:
+\begin{equation}
+I_1 = \int_{-\infty}^{+\infty} \frac{x f(x)}{x^2+\eta^2} \dd{x} = \mathcal{P} \int_{-\infty}^{+\infty} \frac{f(x)}{x} \dd{x}
+\end{equation}
+所以最后我们还是有:
+\begin{equation}
+I = \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{f(x)}{x + \mathrm{i}\,\eta} \dd{x} = \mathcal{P} \int_{-\infty}^{+\infty} \frac{f(x)}{x} \dd{x} - \mathrm{i}\,\pi f(0)
+\end{equation}
+这就证明了 Sokhotski–Plemelj 定理:
+\begin{equation}
+\lim_{\eta \to 0^+} \frac{1}{x + \mathrm{i}\,\eta} = \mathcal{P} \frac{1}{x} - \mathrm{i}\,\pi \delta(x)
+\end{equation}
+所以我们还可以写出来:
+\begin{equation}
+\lim_{\eta \to 0^+} \frac{1}{x - \mathrm{i}\,\eta} = \mathcal{P} \frac{1}{x} + \mathrm{i}\,\pi \delta(x)
+\end{equation}
+还可以略略变形:
+\begin{equation}
+\lim_{\eta \to 0^+} \frac{1}{(x-y) \pm \mathrm{i}\,\eta} = \mathcal{P} \frac{1}{x-y} \mp \mathrm{i}\,\pi \delta(x-y)
+\end{equation}
+
+
+\begin{mexample}{$\Theta$ 函数的积分表示}
+我们之前提到过:
+\begin{equation}
+\Theta(t) = -\frac{1}{2\pi \mathrm{i}} \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{e^{-\mathrm{i}\, \omega t}}{\omega + \mathrm{i}\, \eta} \dd{\omega} 
+\end{equation}
+应用 Sokhotski–Plemelj 定理, 我们有:
+\begin{equation}
+\frac{1}{\omega + \mathrm{i}\, \eta} = \mathcal{P} \frac{1}{\omega} - \mathrm{i}\, \pi \delta(\omega)
+\end{equation}
+因此, 我们有:
+\begin{equation}
+\Theta(t) = -\frac{1}{2\pi \mathrm{i}} \left[ \mathcal{P} \int_{-\infty}^{+\infty} \frac{e^{-\mathrm{i}\, \omega t}}{\omega} \dd{\omega} - \mathrm{i}\, \pi \int_{-\infty}^{+\infty} e^{-\mathrm{i}\, \omega t} \delta(\omega) \dd{\omega} \right]
+\end{equation}
+我们计算第二部分:
+\begin{equation}
+-\frac{1}{2\pi \mathrm{i}} \left( - \mathrm{i}\, \pi \int_{-\infty}^{+\infty} e^{-\mathrm{i}\, \omega t} \delta(\omega) \dd{\omega} \right) = \frac{1}{2}
+\end{equation}
+第一部分是个有趣的函数, 我们不多说了:
+\begin{equation}
+-\frac{1}{2\pi \mathrm{i}} \mathcal{P} \int_{-\infty}^{+\infty} \frac{e^{-\mathrm{i}\, \omega t}}{\omega} \dd{\omega} = \frac{1}{2} \sgn(t)
+\end{equation}
+其中 $\sgn(t)$ 是符号函数, 当 $t>0$ 时为 $+1$, 当 $t<0$ 时为 $-1$.
+所以最后我们得到了:
+\begin{equation}
+\Theta(t) = \frac{1}{2} \left[ \sgn(t) + 1 \right]
+\end{equation}
+这正是 $\Theta$ 函数的定义.
+\end{mexample}
