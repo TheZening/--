@@ -1,0 +1,423 @@
+%==============================
+%==============================
+\section{格林函数: 经典力学案例}
+
+我们现在复习一下在之前的数学物理方法课程中学过的格林函数的概念.
+一切的起点来自于 $\delta$ 函数的分布性质:
+\begin{equation}
+\int_{-\infty}^{+\infty} f(t) \delta(t - t_0) \dd{t} = f(t_0)
+\end{equation}
+对于任意的线性微分算符 $\hat{L}$, 我们需要满足:
+\begin{equation}
+\hat{L}[\alpha x_1(t) + \beta x_2(t)] = \alpha \hat{L} x_1(t) + \beta \hat{L} x_2(t)
+\end{equation}
+所以对于一个线性微分方程:
+\begin{equation}
+\hat{L} x(t) = f(t)
+\end{equation}
+我们可以构造出一个格林函数 $G(t, t')$, 使得:
+\begin{equation}
+\hat{L} x(t) = \int_{-\infty}^{+\infty} f(t') \delta(t - t') \dd{t'}
+\end{equation}
+利用线性的特点, 我们可以构造出一个格林函数满足, \reminder{注意啊, 这是一个特解, 不是通解, 通解还要加上齐次解哦}:
+\begin{equation}
+x(t) = \int_{-\infty}^{+\infty} G(t, t') f(t') \dd{t'}
+\end{equation}
+代入我们的线性微分方程, 我们可以得到:
+\begin{equation}
+\hat{L} \int_{-\infty}^{+\infty} G(t, t') f(t') \dd{t'} = \int_{-\infty}^{+\infty} f(t') \delta(t - t') \dd{t'}
+\end{equation}
+由于 $f(t')$ 是任意的, 我们可以得到格林函数需要满足的方程:
+\begin{equation}
+\hat{L} G(t, t') = \delta(t - t')
+\end{equation}
+这个方程的意思就是, 如果我们对于一个线性系统施加一个 $\delta$ 函数的激励, 那么系统的响应就是格林函数 $G(t, t')$.
+
+
+用生活化的方法理解也很简单, 就是我们考虑一个线性机器, 虽然你不知道他的具体工作机制, 但是你可以通过给他一个非常短暂的脉冲输入, 来观察他的输出, 来探测他的工作机制.
+这个脉冲输入就是 $\delta$ 函数, 而机器的输出就是格林函数 $G(t, t')$.
+因为机器的工作机制是线性的, 所以我们想知道机器对于任意输入的响应, 只需要把任意输入拆解成无数个 $\delta$ 函数脉冲的叠加, 然后把每个脉冲的响应叠加起来就可以了.
+这就是格林函数方法在时域中的基本理解.
+格林函数 $G(t, t')$ 实际上应该包含两层信息:
+\begin{itemize}
+\item 系统响应的强度, 也就是系统对于冲击的响应强度.
+换句话说, 就是你敲打了一下这个机器, 他会响多大声. 
+\item 系统响应的时间结构, 其实就是相位.
+也就是说, 你敲打了一下这个机器, 他会在什么时候开始响, 响多长时间, 响的频率是多少等等.
+\end{itemize}
+这个我们会在接下来学习中仔细探索
+
+
+对于大多数的系统来说, 我们的系统都满足\newterm{时间平移不变性}, 也就是说系统的性质不会随着时间的变化而变化.
+比如说, 你敲打一个钟, 他会响, 这个钟的性质不会因为你在早上敲打和晚上敲打而变化.
+再比如说弹簧的刚度系数, 小物块的质量等等, 这些性质都是时间不变的.
+所以我们的格林函数实际上只和时间差有关, 也就是说:
+\begin{equation}
+G(t, t') = G(t - t')
+\end{equation}
+于是我们的时域方程变为:
+\begin{equation}
+\hat{L} G(t - t') = \delta(t - t') \Rightarrow \hat{L} G(\tau) = \delta(\tau)
+\end{equation}
+对于时域的脉冲激励函数:
+\begin{equation}
+\delta(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \mathrm{e}^{-\mathrm{i}\,\omega t} \dd{\omega}
+\end{equation}
+这实际上就是强度为1的所有频率的平面波的叠加.
+所以现在我们可以提出一个新问题:
+\question{如何求得系统对于一个强度为1的任意频率$\omega$做出的响应呢?}
+这个物理意思就是, 比如对于一个谐振子系统, 我们想知道当我们用频率为 $\omega$ 的外力去一直驱动它的时候, 它会做出什么样的响应 (包含两个层次, 响应的强度和相位).
+
+
+如果我们考虑到系统的特性, 我们直觉上可以确定, 不同的系统一定对于自己的\newterm{固有频率}会有很强的响应, 而对于远离固有频率的驱动频率, 响应会很弱.
+这个直觉来源于简单的力学实验: 共振现象发生于系统的驱动频率接近其固有频率的时候.
+实际上, 我们会看到, 这个说法既是对的, 也是不完全对的:
+对于没有阻尼的系统, 共振峰会出现在固有频率处, 并且峰值会发散; 对于有阻尼的系统, 共振峰会有偏移, 而且峰值是有限的.
+
+
+接下来, 我们回顾一下经典力学中带有阻尼的谐振子系统, 来回忆一下格林函数的求解过程.
+带有阻尼的谐振子系统的运动方程为:
+\begin{equation}
+m \dv[2]{x(t)}{t} + \gamma \dv{x(t)}{t} + k x(t) = F(t)
+\end{equation}
+其中 $m$ 是质量, $\gamma$ 是阻尼系数, $k$ 是弹性系数, $F(t)$ 是外力.
+我们首先采用最一般的方法来求解这个方程.
+我们先看齐次方程:
+\begin{equation}
+m \dv[2]{x(t)}{t} + \gamma \dv{x(t)}{t} + k x(t) = 0
+\end{equation}
+特征方程为:
+\begin{equation}
+m \lambda^2 + \gamma \lambda + k = 0
+\end{equation}
+解得:
+\begin{equation}
+\lambda = \frac{-\gamma \pm \sqrt{\gamma^2 - 4 m k}}{2m}
+\end{equation}
+根据判别式的不同, 我们有三种情况:
+\begin{itemize}
+\item $\gamma^2 > 4 m k$: 过阻尼情况, 两个实根 $\lambda_1, \lambda_2$.
+\item $\gamma^2 = 4 m k$: 临界阻尼情况, 一个重根 $\lambda$.
+\item $\gamma^2 < 4 m k$: 欠阻尼情况, 一对共轭复根 $\lambda = -\beta \pm \mathrm{i} \omega_1$.
+\end{itemize}
+其中:
+\begin{equation}
+\beta = \frac{\gamma}{2m}, \quad \omega_0 = \sqrt{\frac{k}{m}}, \quad \omega_1 = \sqrt{\omega_0^2 - \beta^2} = \sqrt{\frac{k}{m} - \left( \frac{\gamma}{2m} \right)^2}
+\end{equation}
+对于每一种情况, 我们都可以写出齐次方程的通解, 在这个小节中, 我们主要考虑\reminder{欠阻尼}的情况, 也就是 $\gamma^2 < 4 m k$.
+现在我们可以写出欠阻尼情况下齐次方程的通解为:
+\begin{equation}
+x_h(t) = \mathrm{e}^{-\beta t} ( C_1 \cos \omega_1 t + C_2 \sin \omega_1 t )
+\end{equation}
+我们可以发现, 系统的响应是一个指数衰减的振荡, 衰减速率为 $\beta$, 振荡频率为 $\omega_1$.
+如果没有外部驱动的话, 系统最终会静止在平衡位置: 就像是商场里面的大门, 被人推开之后, 会来回摆动几次, 然后最终静止下来.
+
+
+现在我们继续求特解, 我们考虑一个简单的情况 $F(t) = F_0 \cos(\omega t)$, 这个驱动频率 $\omega$ 是任意的.
+我们现在只需要求一个特解, 我们猜测特解的形式为:
+\begin{equation}
+x_p(t) = A \cos(\omega t) + B \sin(\omega t)
+\end{equation}
+代入方程, 我们得到:
+\begin{equation}
+A = \frac{F_0 (k - m \omega^2)}{(k - m \omega^2)^2 + (\gamma \omega)^2}, \quad B = \frac{F_0 \gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2}
+\end{equation}
+所以我们最终的解为:
+\begin{equation}
+x(t) = \mathrm{e}^{-\beta t} ( C_1 \cos \omega_1 t + C_2 \sin \omega_1 t ) + \frac{F_0 (k - m \omega^2)}{(k - m \omega^2)^2 + (\gamma \omega)^2} \cos(\omega t) + \frac{F_0 \gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2} \sin(\omega t)
+\end{equation}
+我们现在考虑系统在稳态下的行为, 也就是齐次解消失之后的行为:
+\begin{equation}
+x(t) = \frac{F_0 (k - m \omega^2)}{(k - m \omega^2)^2 + (\gamma \omega)^2} \cos(\omega t) + \frac{F_0 \gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2} \sin(\omega t)
+\end{equation}
+这可以写为振幅-相位的形式:
+\begin{equation}
+x(t) = \frac{F_0}{\sqrt{(k - m \omega^2)^2 + (\gamma \omega)^2}} \cos(\omega t - \delta)
+\end{equation}
+其中相位延迟 $\delta$ 为:
+\begin{equation}
+\tan \delta = \frac{\gamma \omega}{k - m \omega^2} \Rightarrow \delta = \arctan \left( \frac{\gamma \omega}{k - m \omega^2} \right)
+\end{equation}
+这完全是力学中学过的内容, 没什么新鲜的.
+
+
+现在我们考虑使用格林函数方法来求解这个方程, 格林函数需要满足:
+\begin{equation}
+m \dv[2]{}{t}G(t - t') + \gamma \dv{}{t}G(t - t') + k G(t - t') = \delta(t - t')
+\end{equation}
+我们先考虑 $t \neq t'$, 的区域, 也就是齐次方程:
+\begin{equation}
+m \dv[2]{}{t}G(t - t') + \gamma \dv{}{t}G(t - t') + k G(t - t') = 0
+\end{equation}
+这又分为两个区域: $t < t'$ 和 $t > t'$, 他们的格林函数分别记为 $G^<(t - t')$ 和 $G^>(t - t')$.
+对于这个辅助方程, 格林函数齐次方程的通解为:
+\begin{equation}
+G(t,t') = \mathrm{e}^{-\beta t} ( C_1 \cos \omega_1 t + C_2 \sin \omega_1 t )
+\end{equation}
+对于$t<t'$的区域, 我们的解为:
+\begin{equation}
+G^<(t,t') = \mathrm{e}^{-\beta t} ( A_1 \cos \omega_1 t + A_2 \sin \omega_1 t )
+\end{equation}
+对于$t>t'$的区域, 我们的解为:
+\begin{equation}
+G^>(t,t') = \mathrm{e}^{-\beta t} ( B_1 \cos \omega_1 t + B_2 \sin \omega_1 t )
+\end{equation}
+我们现在考虑边界条件, 就是最一般的\newterm{因果关系}, 也就是说, 系统不可能在受到激励之前就做出响应.
+所以我们有:
+\begin{equation}
+G^<(t,t') = 0 \quad (t < t')
+\end{equation}
+所以 $A_1 = A_2 = 0$.
+接下来我们需要考虑在 $t = t'$ 处的连续性条件和跳跃条件.
+首先是连续性条件:
+\begin{equation}
+G^<(t',t') = G^>(t',t')
+\end{equation}
+由于 $G^<(t',t') = 0$, 所以我们有:
+\begin{equation}
+0 = \mathrm{e}^{-\beta t'} ( B_1 \cos \omega_1 t' + B_2 \sin \omega_1 t' )
+\end{equation}
+接下来是跳跃条件, 我们对格林函数方程在 $t = t'$ 处积分:
+\begin{equation}
+\int_{t' - \varepsilon}^{t' + \varepsilon} \left[ m \dv[2]{}{t}G(t - t') + \gamma \dv{}{t}G(t - t') + k G(t - t') \right] \dd{t} = \int_{t' - \varepsilon}^{t' + \varepsilon} \delta(t - t') \dd{t}
+\end{equation}
+取 $\varepsilon \to 0$, 我们得到:
+\begin{equation}
+m \left[ \dv{}{t}G(t - t') \right]_{t = t' - 0}^{t = t' + 0} = 1
+\end{equation}
+也就是说:
+\begin{equation}
+m \left( \dv{}{t}G^>(t',t') - \dv{}{t}G^<(t',t') \right) = 1
+\end{equation}
+由于 $G^<(t',t') = 0$, 所以:
+\begin{equation}
+m \dv{}{t}G^>(t',t') = 1
+\end{equation}
+从而我们可以解出 $B_1$ 和 $B_2$:
+\begin{equation}
+B_1 = 0, \quad B_2 = \frac{1}{m \omega_1} \mathrm{e}^{\beta t'}
+\end{equation}
+所以最终我们得到欠阻尼情况下的格林函数为:
+\begin{equation}
+G(t, t') = \Theta(t - t') \frac{1}{m \omega_1} \mathrm{e}^{-\beta (t - t')} \sin(\omega_1 (t - t'))
+\end{equation}
+其中 $\Theta(t - t')$ 是\newterm{Heaviside阶跃函数}, 保证了因果关系.
+从而我们任意的一个解可以写为:
+\begin{equation}
+x(t) = \int_{-\infty}^{+\infty} G(t, t') f(t') \dd{t'} = \int_{-\infty}^{t} \frac{1}{m \omega_1} \mathrm{e}^{-\beta (t - t')} \sin(\omega_1 (t - t')) f(t') \dd{t'}
+\end{equation}
+这是我们之前在数学物理方法课程中学过的内容.
+他的物理意义是, 系统的响应是过去所有时刻的外力 $f(t')$ 经过格林函数加权之后的叠加.
+
+现在我们换一个思路来求解格林函数, 我们考虑 Fourier 变换的方法来求解格林函数.
+我们首先明确我们的 Fourier 变换定义为:
+\begin{equation}
+\tilde{f}(\omega) = \mathcal{F}[f(t)] = \int_{-\infty}^{+\infty} f(t) \mathrm{e}^{\mathrm{i}\,\omega t} \dd{t}
+\end{equation}
+对应的逆变换为:
+\begin{equation}
+f(t) = \mathcal{F}^{-1}[\tilde{f}(\omega)] = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{f}(\omega) \mathrm{e}^{-\mathrm{i}\,\omega t} \dd{\omega}
+\end{equation}
+
+
+我们需要求解的函数是:
+\begin{equation}
+\hat{L} G(t-t') = \delta(t - t')
+\end{equation}
+注意, 我们之前就说了, 因为系统是时间平移不变的, 所以格林函数只和时间差有关:
+\begin{equation}
+\hat{L} G(\tau) = \delta(\tau)
+\end{equation}
+我们对上式两边做Fourier变换:
+\begin{equation}
+\mathcal{F} \left[ \dv[2]{G(\tau)}{t} \right] = -\omega^2 \tilde{G}(\omega), \quad \mathcal{F} \left[ \dv{G(\tau)}{t} \right] = -\mathrm{i} \omega \tilde{G}(\omega), \quad \mathcal{F} \left[ G(\tau) \right] = \tilde{G}(\omega)
+\end{equation}
+所以我们得到:
+\begin{equation}
+(-m \omega^2 - \mathrm{i} \gamma \omega + k) \tilde{G}(\omega) = 1
+\end{equation}
+从而我们得到频域的格林函数为:
+\begin{equation}
+\tilde{G}(\omega) = \frac{1}{-m \omega^2 - \mathrm{i} \gamma \omega + k} = \frac{1}{m(\omega_0^2 - \omega^2) - \mathrm{i}\,\gamma\omega}
+\end{equation}
+
+
+我们先不着急往下算东西, 我们先来物理理解一下这个频域格林函数.
+\begin{equation}
+(-m \omega^2 - \mathrm{i} \gamma \omega + k) \tilde{G}(\omega) = 1
+\end{equation}
+这个方程的物理意义是, 当我们给系统一个频率为 $\omega$ 的驱动力的时候, 如果强度是1, 那么系统会做出的响应就是 $\tilde{G}(\omega)$, 他的强度$|\tilde{G}(\omega)|$, 反应了系统对于强度为1的频率为 $\omega$ 的驱动力的响应强度, 而相位 $\arg \tilde{G}(\omega)$ 则反应了系统响应的时间结构, 其实就是延迟.
+我们可以计算出响应的强度:
+\begin{equation}
+|\tilde{G}(\omega)| = \frac{1}{\sqrt{(m(\omega_0^2 - \omega^2))^2 + (\gamma \omega)^2}}
+\end{equation}
+我们可以看到, 当 $\omega$ 接近 $\omega_0$ 的时候, 响应的强度会变得很大, 这就是共振现象.
+\reminder{注意这里的共振峰是有限的, 因为我们有阻尼项 $\gamma$, 如果没有阻尼项, 那么在 $\omega = \omega_0$ 的时候, 响应强度会发散.}
+而且, 真正的共振峰位置会因为阻尼项的存在而发生偏移, 具体来说, 共振峰位置在:
+\begin{equation}
+\omega_{\text{res}} = \sqrt{\omega_0^2 - \frac{\gamma^2}{2 m^2}}
+\end{equation}
+如果我们看相位的话, 我们有:
+\begin{equation}
+\arg \tilde{G}(\omega) = \arctan \left( \frac{\gamma \omega}{m(\omega_0^2 - \omega^2)} \right)
+\end{equation}
+这就是我们之前用力学方法求解出来的相位延迟 $\delta$, 这没什么新鲜的.
+力学系统之前求出来的相位结果, 不就是假设了是单频驱动吗?
+这和我们现在频域格林函数的相位结果是一致的.
+如果力学系统是被多个频率的驱动同时驱动的话, 那么每个频率的驱动都会有一个对应的相位延迟, 这个相位延迟就是由频域格林函数的相位决定的.
+我们看看这个相位在不同频率下的表现:
+\begin{enumerate}
+\item 当 $\omega \ll \omega_0$ 的时候, 也就是驱动频率远低于系统的固有频率, 这个时候 $\arg \tilde{G}(\omega) \approx 0$, 也就是(稳态之后)说系统的响应和驱动力是同相的, 没有相位延迟.
+换句话说, 我们系统的反应频率是可以跟上驱动力的频率的, 所以没有相位延迟.
+\item 当 $\omega = \omega_0$ 的时候, 也就是驱动频率等于系统的固有频率, 这个时候 $\arg \tilde{G}(\omega) = \frac{\pi}{2}$, 也就是说(稳态之后)系统的响应相对于驱动力有 $\frac{\pi}{2}$ 的相位延迟.
+\item 当 $\omega \gg \omega_0$ 的时候, 也就是驱动频率远高于系统的固有频率, 这个时候 $\arg \tilde{G}(\omega) \approx \pi$, 也就是说(稳态之后)系统的响应相对于驱动力有 $\pi$ 的相位延迟, 输出和输入是反相的.
+这就是机械系统中的惯性效应.
+\end{enumerate}
+
+
+现在我们必须把两个拼图拼在一起, 也就是时域和频域的格林函数之间的关系.
+从频域出发, 我们知道, 对于频率为 $\omega$ 强度为1的波, 系统的响应为 $\tilde{G}(\omega)$.
+如果我们回到时域来看, 我们时域的格林函数就是把不同的频率的响应叠加起来:
+\begin{equation}
+G(\tau) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \tilde{G}(\omega) \mathrm{e}^{-\mathrm{i}\,\omega \tau} \dd{\omega}
+\end{equation}
+这个数学技巧我们要熟悉:
+\begin{align}
+G(\tau) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega \tau}}{-m \omega^2 - \mathrm{i} \gamma \omega + k}  \dd{\omega} = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega \tau}}{-m(\omega^2 + 2 \mathrm{i} \beta \omega - \omega_0^2)} \dd{\omega}
+\end{align}
+把奇点找出来, 实际上之前解特征方程已经解出来了:
+\begin{equation}
+\omega_+ = -\mathrm{i} \beta + \omega_1, \quad \omega_- = -\mathrm{i} \beta - \omega_1
+\end{equation}
+这两个奇点都是在复平面的下半平面, 而他们的移位就是来自于这个阻尼项 $\gamma$, 也就是 $\beta = \frac{\gamma}{2m}$.
+\reminder{这是一个非常有趣的现象, 我们会在本章结尾处讨论这个现象的物理意义, 但是在这里, 我们提醒大家: 因果关系不是因为阻尼项引入的, 因为即使没有阻尼项, 系统也是因果的. 阻尼项只是把奇点移到了下半平面而已.}
+
+
+现在主要是把围道积分选对.
+注意到被积因子中有 $\mathrm{e}^{-\mathrm{i}\,\omega \tau}$, 经过解析延拓后, 他可以写成:
+\begin{equation}
+\mathrm{e}^{-\mathrm{i}\,\omega \tau} = \mathrm{e}^{-\mathrm{i}(\Re{\omega} + \mathrm{i}\,\Im{\omega}) \tau} = \mathrm{e}^{-\mathrm{i}\,\Re{\omega} \tau} \mathrm{e}^{\Im{\omega} \tau}
+\end{equation}
+而这个 $\tau = t - t'$, 所以我们分两种情况讨论:
+\begin{enumerate}
+\item 当 $\tau < 0$ 的时候, 也就是 $t < t'$, 也就是说系统在受到激励之前的响应.
+这个时候我们应该把围道闭合在上半平面, 这样积分在无穷远处的贡献会消失 (根据 Jordan 引理).
+由于两个奇点都在下半平面, 所以围道内没有奇点, 根据 Cauchy 积分定理, 我们得到:
+\begin{equation}
+G(\tau) = 0 \quad (\tau < 0)
+\end{equation}
+这正好符合我们的因果关系: 系统不可能在受到激励之前就做出响应.
+\item 当 $\tau > 0$ 的时候, 也就是 $t > t'$, 也就是说系统在受到激励之后的响应.
+这个时候我们应该把围道闭合在下半平面, 这样积分在无穷远处的贡献会消失 (根据 Jordan 引理).
+这就需要留数计算了.
+\end{enumerate}
+
+
+把围道闭合在下半平面, 使用留数定理, 我们考虑 $\omega = \omega_+$ 的留数:
+\begin{equation}
+\mathrm{Res} = \lim_{\omega \to \omega_+} (\omega - \omega_+) \frac{\mathrm{e}^{-\mathrm{i}\,\omega \tau}}{-m(\omega - \omega_+)(\omega - \omega_-)} = \frac{\mathrm{e}^{-\mathrm{i}\,\omega_+ \tau}}{-m(\omega_+ - \omega_-)}
+\end{equation}
+还得考虑到 $\omega = \omega_-$ 的留数 (因为大家都在下半平面, 被围道包围):
+\begin{equation}
+\mathrm{Res} = \lim_{\omega \to \omega_-} (\omega - \omega_-) \frac{\mathrm{e}^{-\mathrm{i}\,\omega \tau}}{-m(\omega - \omega_+)(\omega - \omega_-)} = \frac{\mathrm{e}^{-\mathrm{i}\,\omega_- \tau}}{-m(\omega_- - \omega_+)}
+\end{equation}
+所以我们得到:
+\begin{equation}
+\sum \mathrm{Res} = \frac{\mathrm{i}\,\mathrm{e}^{-\beta \tau}}{m\omega_1} \sin \omega_1 \tau
+\end{equation}
+这个时候应用留数定理要小心了!
+\begin{equation}
+\oint_{\gamma} f(\omega) \dd{\omega} = \reminder{-} 2\pi \mathrm{i} \sum \mathrm{Res}
+\end{equation}
+这个负号是因为我们现在围道是顺时针方向的: 从负无穷到正无穷, 然后从正无穷的大半圆回到负无穷, 这是顺时针方向.
+所以我们得到:
+\begin{equation}
+G(\tau) = \Theta(\tau) \frac{1}{m \omega_1} \mathrm{e}^{-\beta \tau} \sin \omega_1 \tau
+\end{equation}
+这就是我们之前求过的时域格林函数!
+这样, 我们就确定了时域和频域格林函数之间的关系.
+通过频域格林函数, 我们可以很方便地分析系统对于不同频率驱动力的响应特性, 包括共振现象和相位延迟等.
+
+
+\begin{msummary}{初识格林函数}
+格林函数朴素的像我们展示了我们探索世界的几乎唯一方法: 通过给系统一个脉冲激励, 然后观察系统的响应.
+然后给系统不同频率的驱动力, 观察系统的响应, 探测系统的本征频率.
+\begin{enumerate}
+\item 我们知道了时域格林函数, 他的意义是, 当系统受到一个强度为 $\delta(t-t')$ 的冲击的时候, 系统会做出什么样的响应, 包括响应强度和时间结构.
+\item 所以我们对于一个任意的外力 $f(t)$, 我们都可以通过把 $f(t)$ 拆解成无数个 $\delta$ 函数的叠加, 然后把每个 $\delta$ 函数激励下的响应叠加起来, 来求得系统的总响应.
+\item 但是我们必须保持因果性: 系统不可能在受到激励之前就做出响应.
+\item 我们也可以调查系统对于一个频率为 $\omega$ 强度为1的正弦波驱动力的响应, 这个响应就是频域格林函数 $\tilde{G}(\omega)$, 一旦你输入驱动频率 $\omega$, 他就告诉你系统返回的波的强度和相位.
+\item 所以我们立刻对应上了时域和频域格林函数之间的关系: 时间上的脉冲激励可以拆解成无数个频率为 $\omega$ 的正弦波驱动力的叠加, 而系统对于每个频率 $\omega$ 的响应就是频域格林函数 $\tilde{G}(\omega)$, 所以时域格林函数就是把所有频率的响应叠加起来.
+\item 最后一个小提醒, 我们给出的格林函数的解其实是特解, 我们不关注齐次解是因为很多时候我们关注的是系统在长期稳定状态下的响应, 齐次解通常会随着时间衰减到零, 实际求解的时候要小心.
+\end{enumerate}
+\end{msummary}
+
+最后, 作为一个补充, 我们说一下阻尼项 $\gamma$ 把奇点移到复平面下半平面的物理意义, 以及为什么即使没有阻尼项, 系统也是因果的.
+我们先来看没有阻尼项的情况, 也就是 $\gamma = 0$, 这时候我们的频域格林函数为:
+\begin{equation}
+\tilde{G}(\omega) = \frac{1}{m(\omega_0^2 - \omega^2)}
+\end{equation}
+他的奇点在 $\omega = \pm \omega_0$, 都在实轴上.
+这个时候, 我们在做围道积分的时候, 会遇到奇点在实轴上的情况.
+所以在这个时候, 我们需要引入一个小的虚部位移, 也就是所谓的\newterm{Feynman $\mathrm{i}\,\epsilon$ 处置}, 根据因果性, 我们希望采取:
+\begin{equation}
+\omega \to \omega + \mathrm{i}\,\epsilon \quad (\epsilon > 0)
+\end{equation}
+\reminder{这个对于$\omega$的虚部位移, 也依赖于我们选择的时域 Fourier 变换的正负号 convention.}
+从而我们的频域格林函数变为:
+\begin{equation}
+\tilde{G}(\omega) = \frac{1}{m(\omega_0^2 - (\omega + \mathrm{i}\,\epsilon)^2)}
+\end{equation}
+这个时候, 奇点就被移到了复平面的下半平面, 从而我们就可以按照之前的方法来求解时域格林函数了.
+所以即使没有阻尼项, 系统也是因果的, 只是我们需要通过 $\mathrm{i}\,\epsilon$ 处置来保证奇点在下半平面.
+等价的说, \reminder{在这个宇宙里, 虽然没有阻尼, 但是为了数学上的方便, 我们假设了一个非常小的阻尼项, 这样就保证了因果性.}
+
+
+
+而当我们有阻尼项 $\gamma$ 的时候, 这个阻尼项自然地把奇点移到了复平面的下半平面, 所以我们不需要再额外引入 $\mathrm{i}\,\epsilon$ 处置了.
+我们千万不能小看这个阻尼, 阻尼的作用是破坏了时间反演对称性: 在深刻的物理图像中, 他沟通了宏观与微观, 量子与经典
+当我们写下带阻尼的谐振子方程时, 实际上做了一个巨大的近似: 这个阻尼代表了环境对系统的影响, 如果切换到微观的量子力学描述, 我们会发现, 系统和环境是纠缠在一起的, 系统的能量会通过各种复杂的相互作用传递给环境, 这就是阻尼的本质来源, 而这个阻尼项实际上是我们对环境的粗粒化近似的结果.
+如果我们真的写出系统和环境的完整哈密顿量, 那么整个系统是没有阻尼的, 但是当我们只关注系统本身的时候, 我们会看到阻尼现象的出现, 这就是开放量子系统的基本思想 - 信息的丢失.
+
+
+所以, 我们的整体逻辑是: 引入因果性 $\Rightarrow$ 所有响应必须在激励之后 $\Rightarrow$ 定义出推迟格林函数, 时域必带 $\Theta(t-t')$ 函数 $\Rightarrow$ 频域格林函数的奇点必须在复平面的下半平面.
+
+实际上, 如果我们考虑 $\Theta$ 函数的分布表示, 我们可以完全的在数学上说明这个过程.
+\begin{equation}
+\Theta(t) = -\frac{1}{2\pi \mathrm{i}} \int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega t}}{\omega + \mathrm{i}\,\eta} \dd{\omega} \quad (\eta \to 0^+)
+\end{equation}
+我们来验证一下这个问题, 当 $t>0$ 的时候, 我们把围道闭合在下半平面, 这样积分在无穷远处的贡献会消失 (根据 Jordan 引理), 因为 $\omega = -\mathrm{i}\,\eta$ 在下半平面, 所以我们得到:
+\begin{equation}
+\int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega t}}{\omega + \mathrm{i}\,\eta} \dd{\omega} = -2\pi \mathrm{i}
+\end{equation}
+所以我们有:
+\begin{equation}
+\Theta(t) = 1 \quad (t > 0)
+\end{equation}
+当 $t<0$ 的时候, 我们把围道闭合在上半平面, 这样积分在无穷远处的贡献会消失 (根据 Jordan 引理), 由于没有奇点在上半平面, 所以我们得到:
+\begin{equation}
+\int_{-\infty}^{+\infty} \frac{\mathrm{e}^{-\mathrm{i}\,\omega t}}{\omega + \mathrm{i}\,\eta} \dd{\omega} = 0
+\end{equation}
+所以我们有:
+\begin{equation}
+\Theta(t) = 0 \quad (t < 0)
+\end{equation}
+这正好验证了 $\Theta$ 函数的定义.
+然后我们对格林函数进行 Fourier 变换:
+\begin{equation}
+\tilde{G}(\omega) = \int_{-\infty}^{+\infty} G(\tau) \mathrm{e}^{\mathrm{i}\,\omega \tau} \dd{\tau} = -\frac{1}{2\pi \mathrm{i}} \iint \frac{1}{m\omega_0} \sin(\omega_0 \tau) \frac{\mathrm{e}^{-\mathrm{i}\,\Omega \tau}}{\Omega + \mathrm{i}\,\eta} \dd{\Omega} \dd{\tau}  
+\end{equation}
+使用恒等式:
+\begin{equation}
+\sin(\omega_0 \tau) = \frac{\mathrm{e}^{\mathrm{i}\,\omega_0 \tau} - \mathrm{e}^{-\mathrm{i}\,\omega_0 \tau}}{2\mathrm{i}}
+\end{equation}
+以及:
+\begin{equation}
+\int_{-\infty}^{+\infty} \mathrm{e}^{-\mathrm{i}(\Omega - \omega) \tau} \dd{\tau} = 2\pi \delta(\Omega - \omega)
+\end{equation}
+我们可以证明:
+\begin{equation}
+\tilde{G}(\omega) = \frac{1}{m} \frac{1}{\omega_0^2 - (\omega + \mathrm{i}\,\eta)^2}
+\end{equation}
+这就是我们之前得到的结果, 只是这里我们明确地看到了 $\mathrm{i}\,\eta$ 处置的来源: 他来自于时域格林函数中的 $\Theta$ 函数.
+所以, 因果性 $\Rightarrow$ 时域格林函数带 $\Theta$ 函数 $\Rightarrow$ 频域格林函数奇点在下半平面.

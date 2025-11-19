@@ -174,7 +174,7 @@ citecolor=mygreen % 引用链接颜色
 %==============================
 % 定理环境
 \newtcbtheorem[number within=section]
-  {mtheoreminner}{总结}
+  {mtheoreminner}{定理}
   {enhanced, breakable,
    colback=theoremC!5, colframe=theoremC,
    fonttitle=\bfseries}{thm}
@@ -183,6 +183,42 @@ citecolor=mygreen % 引用链接颜色
      {\begin{mtheoreminner}{#1}{}}
      {\begin{mtheoreminner}{#1}{#2}}}
   {\end{mtheoreminner}}
+
+% 定义环境
+\newtcbtheorem[number within=section]
+  {mdefinitioninner}{定义}
+  {enhanced, breakable,
+   colback=definitionC!5, colframe=definitionC,
+   fonttitle=\bfseries}{def}
+\NewDocumentEnvironment{mdefinition}{m o}
+  {\IfNoValueTF{#2}
+     {\begin{mdefinitioninner}{#1}{}}
+     {\begin{mdefinitioninner}{#1}{#2}}}
+  {\end{mdefinitioninner}}
+
+% 总结环境
+\newtcbtheorem[number within=section]
+  {msummaryinner}{总结}
+  {enhanced, breakable,
+   colback=proofC!5, colframe=proofC,
+   fonttitle=\bfseries}{prf}
+\NewDocumentEnvironment{msummary}{m o}
+  {\IfNoValueTF{#2}
+     {\begin{msummaryinner}{#1}{}}
+     {\begin{msummaryinner}{#1}{#2}}}
+  {\end{msummaryinner}}
+
+% 例子环境
+\newtcbtheorem[number within=section]
+  {mexampleinner}{例子}
+  {enhanced, breakable,
+   colback=exampleC!5, colframe=exampleC,
+   fonttitle=\bfseries}{ex}
+\NewDocumentEnvironment{mexample}{m o}
+  {\IfNoValueTF{#2}
+     {\begin{mexampleinner}{#1}{}}
+     {\begin{mexampleinner}{#1}{#2}}}
+  {\end{mexampleinner}}
 %==============================
 
 %==============================
@@ -190,8 +226,8 @@ citecolor=mygreen % 引用链接颜色
 %==============================
 \newcommand{\reminder}[1]{\textcolor{myred}{#1}}
 \renewcommand{\comment}[1]{\textcolor{mygreen}{#1}}
-\newcommand{\question}[1]{\textcolor{myblue}{#1}}
-\newcommand{\newterm}[1]{\textcolor{mypink}{#1}}
+\newcommand{\question}[1]{\textcolor{mypink}{#1}}
+\newcommand{\newterm}[1]{\textcolor{definitionC}{#1}}
 \renewcommand{\bf}[1]{\textbf{#1}}
 
 \newcommand{\dps}{\displaystyle}
@@ -207,10 +243,18 @@ citecolor=mygreen % 引用链接颜色
 \newpage
 %==============================
 %==============================
+\newpage
+\input{GF_Classical.tex}
+\newpage
+\input{GF_KKRelation.tex}
+\newpage
+\input{GF_TIQM.tex}
 
-\input{GreenFunction.tex}
-% \appendix
-% \input{A_ComplexFunctions.tex}
+
+
+\newpage
+\appendix
+\input{A_ComplexFunctions.tex}
 %==============================
 %==============================
 \end{document}

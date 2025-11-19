@@ -1,0 +1,172 @@
+%=========================
+%=========================
+\section{格林函数: Kramers-Kronig 关系}
+\label{Sec: Kramers-Kronig relation}
+
+
+Kramers-Kronig 关系是联系一个线性系统响应函数的实部与虚部的一组积分关系, 这个关系最根本的基石是因果性 (Causality).
+就像我们之前讨论的格林函数一样, 因果性要求系统的响应不能在激励之前发生.
+满足这个条件的格林函数, 我们称之为\newterm{推迟格林函数 (Retarded Green Function) $G^R$}, 因为系统的响应总是滞后于激励.
+我们考虑他的 Fourier 变换:
+\begin{equation}
+\tilde{G}^R(\omega) = \int_{-\infty}^{+\infty} G^R(\tau) \mathrm{e}^{\mathrm{i}\,\omega \tau} \dd{\tau} = \int_{0}^{+\infty} G^R(\tau) \mathrm{e}^{\mathrm{i}\,\omega \tau} \dd{\tau}
+\end{equation}
+一般来说, 推迟格林函数在时域上是复值的, 所以频域上的格林函数也是复值的:
+\begin{equation}
+\tilde{G}^R(\omega) = \Re \tilde{G}^R(\omega) + \mathrm{i}\, \Im \tilde{G}^R(\omega)
+\end{equation}
+\question{我们现在要证明实部和虚部之间的关系}.
+
+
+我们现在把 $\omega$ 推广到复平面上, $\omega = \Re{\omega} + \mathrm{i}\, \Im{\omega}$:
+\begin{equation}
+\tilde{G}^R(\omega) = \int_{0}^{+\infty} G^R(\tau) \mathrm{e}^{\mathrm{i}\,(\Re{\omega} + \mathrm{i}\, \Im{\omega}) \tau} \dd{\tau} = \int_{0}^{+\infty} G^R(\tau) \mathrm{e}^{\mathrm{i}\,\Re{\omega} \tau} \mathrm{e}^{-\Im{\omega} \tau} \dd{\tau}
+\end{equation}
+我们的积分区间是从 $0$ 到 $+\infty$, 所以只要 $\Im \omega > 0$, 指数项 $\mathrm{e}^{-\Im \omega \tau}$ 就会让积分收敛.
+上一个小节中, 我们已经讨论过了, 对于推迟格林函数, 一定是要把 $\omega$ 往复平面的上半平面移动的, \reminder{这就等价于把奇点移到下半平面}, 所有我们可以断定, 推迟格林函数的 Fourier 变换 $\tilde{G}^R(\omega)$ 在复平面的上半平面是解析的 (Analytic).
+
+
+利用这个特性, 现在我们构造一个如下的围道积分:
+\begin{equation}
+I = \oint_{\gamma} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+其中 $\gamma$ 是如下的围道: 从 $-\infty$ 到 $\omega-\epsilon$ 沿实轴走, 然后绕过 $\omega$ 点, 然后从 $\omega+\epsilon$ 沿实轴走到 $+\infty$, 然后沿着无穷远的大半圆回到 $-\infty$.
+因为 $\tilde{G}^R(\omega')$ 在上半平面是解析的, 而我们选择的围道积分又绕过了 $\omega$ 点, 所以根据 Cauchy 积分定理, 我们有:
+\begin{equation}
+\oint_{\gamma} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = 0
+\end{equation}
+我们把围道积分拆成三部分: 实轴上的积分, 绕过 $\omega$ 点的积分, 以及无穷远大半圆的积分.
+无穷远大半圆的积分根据 Jordan 引理会消失.
+所以我们有:
+\begin{equation}
+\int_{-\infty}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} + \int_{\text{绕过 } \omega} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = 0
+\end{equation}
+我们计算绕过 $\omega$ 点的积分, 我们参数化小圆弧:
+\begin{equation}
+\omega' = \omega + \epsilon \mathrm{e}^{\mathrm{i}\,\theta}, \quad \dd{\omega'} = \mathrm{i}\, \epsilon \mathrm{e}^{\mathrm{i}\,\theta} \dd{\theta}, \quad \theta: \pi \to 0
+\end{equation}
+所以我们有:
+\begin{equation}
+\int_{\text{绕过 } \omega} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = \int_{\pi}^{0} \frac{\tilde{G}^R(\omega + \epsilon \mathrm{e}^{\mathrm{i}\,\theta})}{\epsilon \mathrm{e}^{\mathrm{i}\,\theta}} \mathrm{i}\, \epsilon \mathrm{e}^{\mathrm{i}\,\theta} \dd{\theta} = \mathrm{i} \int_{\pi}^{0} \tilde{G}^R(\omega + \epsilon \mathrm{e}^{\mathrm{i}\,\theta}) \dd{\theta}
+\end{equation}
+然后我们取 $\epsilon \to 0$, 我们得到:
+\begin{equation}
+\int_{\text{绕过 } \omega} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = -\mathrm{i} \pi \tilde{G}^R(\omega)
+\end{equation}
+
+
+现在我们来看实轴上的积分:
+\begin{equation}
+\int_{-\infty}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = \mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+其中 $\mathcal{P}$ 表示\newterm{主值积分 (Principal Value Integral)}:
+\begin{mdefinition}{主值积分}
+主值积分是指在计算含有奇点的积分时, 忽略掉奇点处的无穷大贡献, 具体来说, 对于一个在 $x=a$ 处有奇点的函数 $f(x)$, 他的主值积分定义为:
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} f(x) \dd{x} = \lim_{\epsilon \to 0} \left( \int_{-\infty}^{a - \epsilon} f(x) \dd{x} + \int_{a + \epsilon}^{+\infty} f(x) \dd{x} \right)
+\end{equation}
+\end{mdefinition}
+
+
+从而我们有:
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = \lim_{\epsilon \to 0} \left( \int_{-\infty}^{\omega - \epsilon} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} + \int_{\omega + \epsilon}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} \right)
+\end{equation}
+综上所述, 我们有:
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} - \mathrm{i} \pi \tilde{G}^R(\omega) = 0
+\end{equation}
+整理一下:
+\begin{equation}
+\tilde{G}^R(\omega) = \frac{1}{\mathrm{i}\, \pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+我们把上式的实部和虚部分别写出来:
+\begin{equation}
+\Re \tilde{G}^R(\omega) + \mathrm{i}\, \Im \tilde{G}^R(\omega) = \frac{1}{\mathrm{i}\, \pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Re \tilde{G}^R(\omega') + \mathrm{i}\, \Im \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+从而我们得到 \newterm{Kramers-Kronig 关系}:
+\begin{mtheorem}{Kramers-Kronig 关系}
+推迟格林函数的实部和虚部之间满足如下的积分关系:
+\begin{equation}
+\Re \tilde{G}^R(\omega) = \frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Im \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+\begin{equation}
+\Im \tilde{G}^R(\omega) = -\frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Re \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+\end{mtheorem}
+这个推导表明, 任何一个 Retarded Green Function 的实部和虚部之间都满足 Kramers-Kronig 关系, 不是随便来的, 而是\reminder{源于因果性这个基本物理原则}.
+
+
+实验上, 这个定理有重要的应用价值, 我们可以仅仅过测量一个物理量, 就能计算出另一个完全不同的物理量.
+比如我们测量一个材料的吸收光谱很简单, 就是对着材料打光, 然后测量透射光的强度就可以了, 这个就是直接对应于频域格林函数的虚部.
+但是如果我们想知道材料的折射率, 直接测量就很麻烦, 需要复杂的干涉实验.
+但是利用 Kramers-Kronig 关系, 我们可以通过测量吸收光谱 (频域格林函数的虚部), 然后通过积分计算出折射率 (频域格林函数的实部).
+这就是因果性的巧妙之处.
+
+
+\begin{mexample}{阻尼谐振子}
+我们回到上一小节讨论的阻尼谐振子, 他的频域格林函数是:
+\begin{equation}
+\tilde{G}^R(\omega) = \frac{1}{k - m \omega^2 - \mathrm{i}\, \gamma \omega} = \frac{1}{m(\omega_0^2- \omega^2) - \mathrm{i}\, \gamma \omega} = \frac{1}{m} \frac{1}{\omega_0^2 - \omega^2 - 2\mathrm{i}\,\beta \omega}
+\end{equation}
+我们计算他的实部和虚部:
+\begin{equation}
+\Re \tilde{G}^R(\omega) = \frac{1}{m^2} \frac{\omega_0^2 - \omega^2}{(\omega_0^2 - \omega^2)^2 + (2 \beta \omega)^2} \quad
+\Im \tilde{G}^R(\omega) = \frac{1}{m^2} \frac{2 \beta \omega}{(\omega_0^2 - \omega^2)^2 + (2 \beta \omega)^2}
+\end{equation}
+我们验证一下 Kramers-Kronig 关系:
+\begin{equation}
+\Re \tilde{G}^R(\omega) = \frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Im \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'}
+\end{equation}
+我们需要分析一下:
+\begin{equation}
+\frac{\Im \tilde{G}^R(\omega')}{\omega' - \omega} = \frac{1}{m^2} \frac{2 \beta \omega'}{(\omega_0^2 - \omega'^2)^2 + (2 \beta \omega')^2} \cdot \frac{1}{\omega' - \omega}
+\end{equation}
+的奇点结构:
+这个函数在 $\omega' = \omega$ 处有一个一阶极点, 这个需要被主值积分处理, 就是说我们要选一个绕过 $\omega$ 点的小半圆.
+除此之外, 这个函数在复平面的四个点处有极点, 要分析他们, 需要求解如下的方程:
+\begin{equation}
+(\omega_0^2 - \omega'^2)^2 + (2 \beta \omega')^2 = 0 \Rightarrow (\omega_0^2 - \omega'^2 + 2 \mathrm{i}\, \beta \omega')(\omega_0^2 - \omega'^2 - 2 \mathrm{i}\, \beta \omega') = 0
+\end{equation}
+解出:
+\begin{equation}
+\omega' = 2 \mathrm{i}\, \beta \pm \sqrt{\omega_0^2 - 4 \beta^2}, \quad \omega' = -2 \mathrm{i}\, \beta \pm \sqrt{\omega_0^2 - 4 \beta^2}
+\end{equation}
+我们看到, 这四个极点中有两个在上半平面, 有两个在下半平面.
+我们选择一个闭合的围道, 包含实轴和无穷远大半圆, 并且绕过 $\omega$ 点的小半圆在上半平面.
+根据 Cauchy 积分定理, 我们有:
+\begin{equation}
+\oint_{\gamma} \frac{\Im \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = 2 \pi \mathrm{i} \mathrm{Res}[f, \omega'_1] + 2 \pi \mathrm{i} \mathrm{Res}[f, \omega'_2] 
+\end{equation}
+其中 $\omega'_1, \omega'_2$ 是上半平面的两个极点.
+无穷远大半圆的积分根据 Jordan 引理会消失.
+绕过 $\omega$ 点的小半圆的积分我们已经计算过了, 是 $-\mathrm{i}\, \pi \tilde{G}^R(\omega)$.
+所以我们有:
+\begin{equation}
+\mathcal{P} \int_{-\infty}^{+\infty} \frac{\Im \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} - \mathrm{i}\, \pi \tilde{G}^R(\omega) = 2 \pi \mathrm{i} \left( \mathrm{Res}[f, \omega'_1] + \mathrm{Res}[f, \omega'_2] \right)
+\end{equation}
+剩下的就是机械的计算留数了, 最终我们会得到:
+\begin{equation}
+\frac{1}{\pi} \mathcal{P} \int_{-\infty}^{+\infty} \frac{\Im \tilde{G}^R(\omega')}{\omega' - \omega} \dd{\omega'} = \frac{1}{m^2} \frac{\omega_0^2 - \omega^2}{(\omega_0^2 - \omega^2)^2 + (2 \beta \omega)^2} = \Re \tilde{G}^R(\omega)
+\end{equation}
+验证了 Kramers-Kronig 关系.
+\end{mexample}
+
+
+
+现在我们要讨论一下为什么我们一直在强调频域格林函数的虚部和阻尼有关, 以及实部和色散有关.
+这个问题的答案在于能量在一个周期内是如何被吸收和释放的.
+\begin{mexample}{阻尼谐振子}
+对于上一小节的例子, 我们考虑外力$F(t) = F_0 \cos \omega t$ 作用下的阻尼谐振子.
+如果我们计算瞬时功率:
+\begin{equation}
+P(t) = F(t) \dv{x(t)}{t} = F_0 \cos \omega t \cdot \left( -\omega \frac{F_0}{\sqrt{(k - m \omega^2)^2 + (\gamma \omega)^2}} \sin(\omega t - \delta) \right)
+\end{equation}
+我们对瞬时功率做时间平均:
+\begin{equation}
+\expval{P} = \frac{1}{T} \int_{0}^{T} P(t) \dd{t} = \frac{1}{2} \omega F_0^2 \frac{\gamma \omega}{(k - m \omega^2)^2 + (\gamma \omega)^2} = \frac{1}{2} \omega F_0^2 \Im \tilde{G}(\omega)
+\end{equation}
+我们看到, 系统在一个周期内吸收的能量正比于频域格林函数的虚部.
+\end{mexample}
+我们注意到 $\Im \tilde{G}(\omega)$ 永远是非负的, 也就是说外力总是给系统做正功, 这是因为阻尼项的存在, 能量最终会以热的形式耗散掉.
+也就是说虚部描述了系统在频率 $\omega$ 下对于外界能量输入的吸收能力, 也就是耗散特性.
