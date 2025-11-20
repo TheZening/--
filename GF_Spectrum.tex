@@ -19,6 +19,7 @@
 \mel{\psi}{\hat{H}}{\psi} = \sum_n |c_n|^2 E_n
 \end{equation}
 也就是说, 我们测的能量为 $E_n$ 的概率就是 $|c_n|^2$.
+\reminder{一个重要的提示, 我们这里的 $n$ 是量子态的编号, 不是能量的编号!}
 这就引出了\newterm{谱密度 (spectral density)} 的概念.
 
 
@@ -157,12 +158,216 @@ I = \lim_{\eta \to 0^+} \int_{-\infty}^{+\infty} \frac{f(x)}{x + \mathrm{i}\,\et
 \end{equation}
 第一部分是个有趣的函数, 我们不多说了:
 \begin{equation}
--\frac{1}{2\pi \mathrm{i}} \mathcal{P} \int_{-\infty}^{+\infty} \frac{e^{-\mathrm{i}\, \omega t}}{\omega} \dd{\omega} = \frac{1}{2} \sgn(t)
+-\frac{1}{2\pi \mathrm{i}} \mathcal{P} \int_{-\infty}^{+\infty} \frac{e^{-\mathrm{i}\, \omega t}}{\omega} \dd{\omega} = \frac{1}{2} \mathrm{sgn}(t)
 \end{equation}
-其中 $\sgn(t)$ 是符号函数, 当 $t>0$ 时为 $+1$, 当 $t<0$ 时为 $-1$.
+其中 $\mathrm{sgn}(t)$ 是符号函数, 当 $t>0$ 时为 $+1$, 当 $t<0$ 时为 $-1$.
 所以最后我们得到了:
 \begin{equation}
-\Theta(t) = \frac{1}{2} \left[ \sgn(t) + 1 \right]
+\Theta(t) = \frac{1}{2} \left[ \mathrm{sgn}(t) + 1 \right]
 \end{equation}
 这正是 $\Theta$ 函数的定义.
 \end{mexample}
+
+
+有了这个恒等式, 我们就可以把谱密度和格林函数联系起来.
+上一个小节, 我们说了, 对于不含时的 Hamiltonian, 我们可以写出它的频域推迟格林函数为:
+\begin{equation}
+\tilde{G}^R(E) = \lim_{\eta \to 0^+} \frac{1}{E - \hat{H} + \mathrm{i}\, \eta}
+\end{equation}
+对他进行谱分解, 考虑本征谱:
+\begin{equation}
+\hat{H} \ket{n} = E_n \ket{n}
+\end{equation}
+那么我们就有:
+\begin{equation}
+\tilde{G}^R(E) = \sum_n \lim_{\eta \to 0^+} \frac{\ketbra{n}}{E - E_n + \mathrm{i}\, \eta} 
+\end{equation}
+应用 Sokhotski–Plemelj 定理, 我们有:
+\begin{equation}
+\tilde{G}^R(E) = \sum_n \left[ \mathcal{P} \frac{1}{E - E_n} - \mathrm{i}\,\pi \delta(E - E_n) \right] \ketbra{n}
+\end{equation}
+这个时候天然出现了谱密度这个东西, 就是虚部:
+\begin{equation}
+\Im \tilde{G}^R(E) = -\pi \sum_n \delta(E - E_n) \ketbra{n} = -\pi \hat{\rho}(E)
+\end{equation}
+如果我们求他的期望值:
+\begin{equation}
+\Im \mel{\psi}{\tilde{G}^R(E)}{\psi} = -\pi \sum_n |\braket{n}{\psi}|^2 \delta(E - E_n) = -\pi S_{\ket{\psi}}(E)
+\end{equation}
+从而我们得到:
+\begin{equation}
+S_{\ket{\psi}}(E) = -\frac{1}{\pi} \Im \mel{\psi}{\tilde{G}^R(E)}{\psi}
+\end{equation}
+
+
+说来说去, 谱密度到底有什么用呢?
+\reminder{注意啊, 我们目前的讨论都是基于不含时的 Hamiltonian 的.}
+首先, 他解决的第一个问题很简单, 就是告诉我们, 一个粒子, 一开始处于某个态 $\ket{\psi}$, 那么过了一段时间, 他保持在这个状态的概率有多大.
+有的文献管这个叫做\newterm{生存振幅, survival amplitude}:
+\begin{equation}
+A_{\psi}(t) = \mel{\psi}{\mathrm{e}^{-\mathrm{i}\, \hat{H} t / \hbar}}{\psi}
+\end{equation}
+考虑谱分解:
+\begin{equation}
+A_{\psi}(t) = \sum_{n,m} \braket{\psi}{n} \mel{n}{\mathrm{e}^{-\mathrm{i}\, \hat{H} t / \hbar}}{m} \braket{m}{\psi} = \sum_n |\braket{n}{\psi}|^2 \mathrm{e}^{-\mathrm{i}\, E_n t / \hbar}
+\end{equation}
+如果我们再插入一个恒等式:
+\begin{equation}
+\mathbb{1} = \int_{-\infty}^{+\infty} \delta(E - \hat{H}) \dd{E}
+\end{equation}
+我们有:
+\begin{equation}
+A_{\psi}(t) = \int_{-\infty}^{+\infty} \sum_n |\braket{n}{\psi}|^2 \delta(E - E_n) \mathrm{e}^{-\mathrm{i}\, E t / \hbar} \dd{E}
+\end{equation}
+注意到谱密度的定义, 我们有:
+\begin{equation}
+A_{\psi}(t) = \int_{-\infty}^{+\infty} S_{\ket{\psi}}(E) \mathrm{e}^{-\mathrm{i}\, E t / \hbar} \dd{E}
+\end{equation}
+也就是说, 生存振幅就是谱密度的傅里叶变换.
+这就很有意思了, 因为谱密度告诉我们, 态 $\ket{\psi}$ 在不同能量处的“分量”有多大, 而生存振幅告诉我们, 态 $\ket{\psi}$ 随时间的演化情况.
+所以, 态 $\ket{\psi}$ 在不同能量处的“分量”有多大, 决定了它随时间的演化情况.
+这就是谱密度的第一个用途.
+
+\begin{mexample}{单色波}
+一个自然而然的推论: 如果态 $\ket{\psi}$ 恰好是某个本征态 $\ket{n}$, 那么他的谱密度就是:
+\begin{equation}
+S_{\ket{n}}(E) = \delta(E - E_n)
+\end{equation}
+那么他的生存振幅就是:
+\begin{equation}
+A_{n}(t) = \int_{-\infty}^{+\infty} \delta(E - E_n) \mathrm{e}^{-\mathrm{i}\, E t / \hbar} \dd{E} = \mathrm{e}^{-\mathrm{i}\, E_n t / \hbar}
+\end{equation}
+也就是说, 态 $\ket{n}$ 会一直保持不变, 只是多了一个相位因子.
+这就是量子力学中的单色波 (monochromatic wave).
+\end{mexample}
+
+\begin{mexample}{两个本征态的叠加}
+如果态 $\ket{\psi}$ 是两个本征态的叠加, 比如:
+\begin{equation}
+\ket{\psi} = \frac{1}{\sqrt{2}} (\ket{n_1} + \ket{n_2})
+\end{equation}
+那么他的谱密度就是:
+\begin{equation}
+S_{\ket{\psi}}(E) = \frac{1}{2} \left[ \delta(E - E_{n_1}) + \delta(E - E_{n_2}) \right]
+\end{equation}
+那么他的生存振幅就是:
+\begin{equation}
+A_{\psi}(t) = \frac{1}{2} \left[ \mathrm{e}^{-\mathrm{i}\, E_{n_1} t / \hbar} + \mathrm{e}^{-\mathrm{i}\, E_{n_2} t / \hbar} \right]
+\end{equation}
+概率为:
+\begin{equation}
+|A_{\psi}(t)|^2 = \frac{1}{2} \cos^2 \left( \frac{E_{n_2} - E_{n_1}}{2 \hbar} t \right)
+\end{equation}
+也就是说, 态 $\ket{\psi}$ 会在两个本征态之间振荡.
+\end{mexample}
+
+\begin{mexample}{有限宽度的谱}
+如果态 $\ket{\psi}$ 的谱密度在某个能量范围内是连续的, 比如:
+\begin{equation}
+S_{\ket{\psi}}(E) = \frac{1}{\pi} \frac{\Gamma / 2}{(E - E_0)^2 + (\Gamma / 2)^2}
+\end{equation}
+这是一个 Lorentzian 分布, 宽度为 $\Gamma$, 中心在 $E_0$.
+那么他的生存振幅就是:
+\begin{equation}
+A_{\psi}(t) = \int_{-\infty}^{+\infty} \frac{1}{\pi} \frac{\Gamma / 2}{(E - E_0)^2 + (\Gamma / 2)^2} \mathrm{e}^{-\mathrm{i}\, E t / \hbar} \dd{E}
+\end{equation}
+这个积分可以通过留数定理计算, 结果是:
+\begin{equation}
+A_{\psi}(t) = \mathrm{e}^{-\mathrm{i}\, E_0 t / \hbar} \mathrm{e}^{-\Gamma t / (2 \hbar)}
+\end{equation}
+计算概率为:
+\begin{equation}
+|A_{\psi}(t)|^2 = \mathrm{e}^{-\Gamma t / \hbar}
+\end{equation}
+也就是说, 态 $\ket{\psi}$ 会以指数形式衰减, 他会随着时间的推移逐渐转化成其他态.
+这个问题我们会再次强调的
+\end{mexample}
+总而言之, 谱密度越窄, 态的时间演化就越接近单色波; 谱密度越宽, 态的时间演化就越复杂, 可能会出现衰减等现象.
+
+
+接下来, 我们介绍和谱密度息息相关的一个概念: \newterm{态密度, density of states}.
+我们之前说了, 谱密度告诉我们, 对于一个态 $\ket{\psi}$, 它在不同能量处的分量有多大.
+这里面就有一个观察: 对于 $\ket{\psi}$ 来说, 长的和他自己越像 (交叠积分越大) 的本征态, 他在那个能量处的分量就越大.
+所以谱密度还是在针对某个特定态 $\ket{\psi}$ 来说的.
+那么如果我们不针对某个特定态, 而是想知道, 在某个能量处, 有多少个本征态呢?
+这就引出了态密度的概念.
+\begin{mdefinition}{态密度, density of states}
+设 $\hat{H}$ 的本征值为 $E_n$, 本征态为 $\ket{n}$.
+我们考虑一组完备的正交归一化基底 $\{\ket{\phi_i}\}$, 对于其中一个基底态 $\ket{\phi_i}$, 我们定义他在能量 $E$ 处谱密度为:
+\begin{equation}
+S_{\ket{\phi_i}}(E) = \mel{\phi_i}{\hat{\rho}(E)}{\phi_i} = \sum_n |\braket{n}{\phi_i}|^2 \delta(E - E_n)
+\end{equation}
+态密度就是这组基底态在能量 $E$ 处的谱密度的总和:
+\begin{equation}
+N(E) = \sum_i S_{\ket{\phi_i}}(E) = \sum_{i,n} |\braket{n}{\phi_i}|^2 \delta(E - E_n)
+\end{equation}
+\end{mdefinition}
+这一下就告诉我们, $S_{\ket{\phi_i}}(E)$ 是依赖于 $\ket{\phi_i}$ 的, 而态密度 $N(E)$ 则是和基底无关的.
+实际上我们还能化简上述推导:
+\begin{equation}
+N(E) = \sum_{i,n} |\braket{n}{\phi_i}|^2 \delta(E - E_n) = \sum_n \left( \sum_i |\braket{n}{\phi_i}|^2 \right) \delta(E - E_n) = \sum_n \delta(E - E_n)
+\end{equation}
+也就是说, 我们把所有的满足能量为 $E$ 的本征态 $\ket{n}$ 都数了一遍, 这就是态密度.
+这里面存在一个可能的疑惑: \question{难道不是一个对应每个 $E$ 都只有一个 $E_n$}.
+这个答案就很简单了: 不是的, 很多体系的 Hamiltonian 都存在简并现象, 也就是说, 可能有多个本征态对应同一个本征值, 而且 $n$ 是用来编号本征态的, 不是编号能量的, 所以很有可能:
+\begin{equation}
+E_{n_1} = E_{n_2} = \cdots = E_{n_k} = E
+\end{equation}
+就是说, 态 $\ket{1}$, $\ket{2}$, ..., $\ket{k}$ 都对应同一个能量 $E$.
+所以态密度就是告诉我们, 在某个能量 $E$ 处, 有多少个本征态.
+从这个角度上说, 谱密度是针对某个态的, 而态密度则是针对整个体系的.
+
+
+现在我们把所有的内容串一下, 首先我们注意到, 频域推迟格林函数为 (算符形式, 我们忽略了那个$\tilde{}$, 然后标上了算符标志):
+\begin{equation}
+\hat{G}^R(E) = \lim_{\eta \to 0^+} \frac{1}{E - \hat{H} + \mathrm{i}\, \eta}
+\end{equation}
+从而我们的谱密度 (spectral density operator) 就是:
+\begin{equation}
+\hat{\rho}(E) = -\frac{1}{\pi} \Im \hat{G}^R(E)
+\end{equation}
+态 $\ket{\psi}$ 的谱密度就是:
+\begin{equation}
+S_{\ket{\psi}}(E) = -\frac{1}{\pi} \Im \mel{\psi}{\hat{G}^R(E)}{\psi}
+\end{equation}
+态密度就是:
+\begin{equation}
+N(E) = -\frac{1}{\pi} \Im \Tr \hat{G}^R(E)
+\end{equation}
+这里面的 $\Tr$ 是算符的迹运算, 定义为:
+\begin{equation}
+\Tr \hat{A} = \sum_i \mel{\phi_i}{\hat{A}}{\phi_i}
+\end{equation}
+其中 $\{\ket{\phi_i}\}$ 是一组完备的正交归一化基底.
+
+
+最后, 我们再讲一个非常有用的例子.
+我们之前定义了任意态的谱密度为:
+\begin{equation}
+S_{\ket{\psi}}(E) = \mel{\psi}{\hat{\rho}(E)}{\psi} = \mel{\psi}{\delta(E - \hat{H})}{\psi}
+\end{equation}
+我们自然是可以选择位置本征态 $\ket{\bm{x}}$ 作为态 $\ket{\psi}$ 的, 就相当于, 我们把一个探针放到空间中的某个位置 $\bm{x}$, 然后测量这个位置处的谱密度.
+这就是所谓的\newterm{局域态密度, local density of states}:
+\begin{equation}
+\rho(\bm{x}, E) = S_{\ket{\bm{x}}}(E) = \mel{\bm{x}}{\delta(E - \hat{H})}{\bm{x}}
+\end{equation}
+利用本征谱展开, 我们有:
+\begin{equation}
+\rho(\bm{x}, E) = \sum_n |\braket{n}{\bm{x}}|^2 \delta(E - E_n) = \sum_n |\psi_n(\bm{x})|^2 \delta(E - E_n)
+\end{equation}
+其中 $\psi_n(\bm{x}) = \braket{\bm{x}}{n}$ 是本征态 $\ket{n}$ 在位置空间的波函数表示.
+局域态密度告诉我们, 在位置 $\bm{x}$ 处, 能量为 $E$ 时候, 我们找到例子的概率密度有多大.
+\reminder{注意啊, 局域态密度和态密度是不同的概念, 态密度是针对整个体系的, 而局域态密度是针对空间中的某个位置的.}
+同样的, 我们也可以把局域态密度和格林函数联系起来:
+\begin{equation}
+\rho(\bm{x}, E) = -\frac{1}{\pi} \Im \mel{\bm{x}}{\hat{G}^R(\bm{x}, \bm{x}; E)}{\bm{x}}
+\end{equation}
+这就是说, 如果我们知道了格林函数在位置空间的表示 (对角元), 那么我们就可以计算出局域态密度.
+
+这个理论在凝聚态物理中有非常重要的应用, 比如扫描隧道显微镜 (STM) 的工作原理, 就是基于局域态密度的测量.
+我们有一个尖端, 把它放到样品表面附近, 然后施加一个小的电压.
+电子会从尖端隧道到样品表面, 隧道电流的大小, 就和样品表面的局域态密度成正比.
+通过扫描尖端的位置, 我们就可以得到样品表面的局域态密度分布, 从而得到样品的表面结构信息.
+他可以直接固定电流, 然后扫描 $\bm{x}$, 记录下不同位置处的电压, 直接反映出电子云的整体形状.
+他还可以固定位置, 然后扫描电压, 记录下不同电压下的电流, 直接反映出局域态密度随能量的分布情况, 这就是 scanning tunneling spectroscopy (STS).
+这样一旦看到了格林函数的虚部, 我们就能直接得到局域态密度, 进而得到很多有用的信息.
