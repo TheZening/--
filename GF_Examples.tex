@@ -1,0 +1,113 @@
+%=========================
+%=========================
+\section{格林函数: 几个例子1}
+\label{Sec: GF_Examples1}
+
+
+现在我们整合一下, 把之前学过的内容放在一起, 看看格林函数的具体概念和细节是怎么应用的.
+我们的第一个例子是一维连续空间中的 $\delta$ 势阱, 也就是
+\begin{equation}
+\hat{H} = \hat{H}_0 + \hat{V} = -\frac{\hbar^2}{2m} \pdv[2]{}{x} + \lambda \delta(x)
+\end{equation}
+其中 $m$ 是粒子的质量, $\lambda$ 是势阱的强度, 如果 $\lambda < 0$ 则表示吸引势阱, $\lambda > 0$ 则表示排斥势阱 (势垒).
+我们的目标自然是求出来这个系统的格林函数 (full Green function):
+\begin{equation}
+(z\mathbb{1}-\hat{H}) \hat{G} = \mathbb{1}
+\end{equation}
+我们已经知道, 这个格林函数可以通过无扰动格林函数 (free Green function) $\hat{G}_0$ 来表示, 也就是 Dyson 方程:
+\begin{equation}
+\hat{G} = \hat{G}_0 + \hat{G}_0 \hat{V} \hat{G}
+\end{equation}
+其中无扰动格林函数 $\hat{G}_0$ 满足
+\begin{equation}
+(z\mathbb{1}-\hat{H}_0) \hat{G}_0 = \mathbb{1}
+\end{equation}
+投影到位置矩阵元上:
+\begin{equation}
+\left( z + \frac{\hbar^2}{2m} \pdv[2]{}{x} \right) G_0(x,x';z) = \delta(x-x')
+\end{equation}
+我们可以通过傅里叶变换来求解这个方程:
+\begin{equation}
+G_0(x,x';z) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \tilde{G}_0(k;z) \mathrm{e}^{\mathrm{i}\,k(x-x')} \dd{k} 
+\end{equation}
+动量空间的无扰动格林函数 $\tilde{G}_0(k;z)$ 好求:
+\begin{equation}
+\tilde{G}_0(k;z) = \frac{1}{z - \hbar^2 k^2/(2m)}
+\end{equation}
+我们考虑推迟格林函数, 也就是 $z = E + \mathrm{i}\,\epsilon$:
+\begin{equation}
+G^R_0(k) = \frac{1}{E - \hbar^2 k^2/(2m) + \mathrm{i}\,\epsilon}
+\end{equation}
+代入 Fourier 反变换:
+\begin{equation}
+G^R_0(x,x';E) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \frac{\mathrm{e}^{\mathrm{i}\,k(x-x')}}{E - \hbar^2 k^2/(2m) + \mathrm{i}\,\epsilon} \dd{k}
+\end{equation}
+整理一下再算留数:
+\begin{equation}
+G^R_0(x,x';E) = -\frac{2m}{\hbar^2} \frac{1}{2\pi} \int_{-\infty}^{\infty} \frac{\mathrm{e}^{\mathrm{i}\,k(x-x')}}{k^2 - k_0^2 - \mathrm{i}\,\eta} \dd{k}
+\end{equation}
+计算留数, 我们注意到, 奇点一个在上半平面, 一个在下半平面.
+如果 $x-x' > 0$, 我们闭合上半平面, 积分结果为
+\begin{equation}
+2\pi \mathrm{i}\,\mathrm{Res} = 2\pi \mathrm{i} \frac{\mathrm{e}^{\mathrm{i}\,k_0 (x-x')}}{2 k_0} = \frac{\mathrm{i}\,\pi}{k_0} \mathrm{e}^{\mathrm{i}\,k_0 (x-x')}
+\end{equation}
+如果 $x-x' < 0$, 我们闭合下半平面, 积分结果为
+\begin{equation}
+-2\pi \mathrm{i}\,\mathrm{Res} = \frac{\mathrm{i}\,\pi}{k_0} \mathrm{e}^{-\mathrm{i}\,k_0 (x-x')}
+\end{equation}
+这样不管是哪种情况, 我们都可以把结果写成:
+\begin{equation}
+G^R_0(x,x';E) = -\frac{2m}{2\pi\hbar^2} \cdot \frac{\mathrm{i}\,\pi}{k_0} \mathrm{e}^{\mathrm{i}\,k_0 |x-x'|} = \frac{m}{\mathrm{i}\,\hbar^2k_0} \mathrm{e}^{\mathrm{i}\,k_0 |x-x'|}
+\end{equation}
+这个物理意义是, 从位置 $x'$ 发出的波, 以动量 $k_0$ 向四面八方传播, 没问题!
+
+接下来我们回到 Dyson 方程:
+\begin{equation}
+G^R(x,x';E) = G^R_0(x,x';E) + \int \dd{x''} G^R_0(x,x'';E) V(x'') G^R(x'',x';E)
+\end{equation}
+由于势阱是 $\delta$ 函数, 所以积分一下就变成:
+\begin{equation}
+G^R(x,x';E) = G^R_0(x,x';E) + \lambda G^R_0(x,0;E) G^R(0,x';E)
+\end{equation}
+我们把 $x=0$ 代入上式, 得到:
+\begin{equation}
+G^R(0,x';E) = G^R_0(0,x';E) + \lambda G^R_0(0,0;E) G^R(0,x';E)
+\end{equation}
+整理一下:
+\begin{equation}
+G^R(0,x';E) = \frac{G^R_0(0,x';E)}{1 - \lambda G^R_0(0,0;E)}
+\end{equation}
+代入回去:
+\begin{equation}
+G^R(x,x';E) = G^R_0(x,x';E) + \frac{\lambda G^R_0(x,0;E) G^R_0(0,x';E)}{1 - \lambda G^R_0(0,0;E)}
+\end{equation}
+首先我们注意到:
+\begin{equation}
+G^R_0(0,0;E) = \frac{m}{\mathrm{i}\,\hbar^2 k_0}
+\end{equation}
+从而那个分母是:
+\begin{equation}
+1 - \lambda G^R_0(0,0;E) = 1 - \frac{m \lambda}{\mathrm{i}\,\hbar^2 k_0} = \frac{\hbar^2 k_0 + \mathrm{i}\,m \lambda}{\hbar^2 k_0}
+\end{equation}
+然后我们算分子:
+\begin{equation}
+\lambda G^R_0(x,0;E) G^R_0(0,x';E) = \lambda \left( \frac{m}{\mathrm{i}\,\hbar^2 k_0} \right)^2 \mathrm{e}^{\mathrm{i}\,k_0 |x|} \mathrm{e}^{\mathrm{i}\,k_0 |x'|}
+\end{equation}
+最后我们把它们合起来:
+\begin{equation}
+G^R(x,x';E) = \frac{m}{\mathrm{i}\,\hbar^2 k_0} \mathrm{e}^{\mathrm{i}\,k_0 |x-x'|} - \frac{m^2 \lambda}{\hbar^4 k_0^2+ \mathrm{i}\,m \lambda \hbar^2 k_0} \mathrm{e}^{\mathrm{i}\,k_0 (|x| + |x'|)}
+\end{equation}
+这就是我们的一维 $\delta$ 势阱的推迟格林函数完整表达式.
+第一项是粒子在没有势阱时的传播: 直接从 $x'$ 到 $x$的振幅, 就是和相对距离 $|x-x'|$ 成指数关系的波.
+第二项则是粒子先从 $x'$ 传播到势阱位置 $0$, 然后被势阱散射, 再从 $0$ 传播到 $x$ 的振幅: 不经过远点的势能井, 就没有这个贡献.
+如果势能很弱: $\lambda \to 0$, 那么第二项就消失了, 我们恢复到自由粒子的格林函数.
+如果势能很强: $\lambda \to \infty$, 那么我们就要考虑:
+\begin{equation}
+\mathrm{e}^{\mathrm{i}\,k_0 |x-x'|} - \mathrm{e}^{\mathrm{i}\,k_0 (|x| + |x'|)}
+\end{equation}
+如果我们有 $x$ 和 $x'$ 在势阱的同一侧, 比如说都大于零, 那么 $x=0$ 时候, 这两项正好抵消, 也就是说粒子不可能穿过这个无穷深的势垒, 这符合我们的物理直觉: 势垒无穷高, 粒子无法穿过的边界条件.
+
+
+接下来我们讨论一个新例子: 一维紧束缚模型中的单杂质 (Single Impurity in 1D Tight-Binding Model).
+这个模型就是一串原子, 每个原子上有一个轨道, 轨道之间通过近邻跃迁耦合, 但是在一开始的原子上是一个杂质.
+如果没有这个杂质, 电子可以在晶格中自由传播, 但是有了杂质之后, 电子可能会被散射, 形成局域态.

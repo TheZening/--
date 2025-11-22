@@ -4,3 +4,277 @@
 \label{Sec: GF_SEandBroadening}
 
 
+我们之前讨论谱密度的时候, 我们提到过, 如果一个粒子是在 Hamiltonian 的本征态上的时候, 那么它的谱密度就是一个 $\delta$ 函数.
+而且我们计算告诉我们, 他会一直保持在那个本征态上 (\reminder{我们还是讨论的不含时的 Hamiltonian}).
+但是现在我们介绍了, 粒子和其他粒子之间的相互作用, 那么这个粒子就不再会一直保持在那个本征态上了.
+更复杂的, 如果这个例子和可能的连续态 $\ket{k}$ 相互作用 (黑话叫做耦合 \newterm{coupling}), 那么这个粒子就有可能从本征态 $\ket{i}$ 跃迁到连续态 $\ket{k}$ 上去.
+因此, 这个粒子在本征态 $\ket{i}$ 上的寿命就是有限的, 也就是说, 它在本征态 $\ket{i}$ 上的谱密度不再是一个 $\delta$ 函数了, 而是一个有展宽 (broadening) 的峰.
+
+
+我们现在的问题变成了: \question{如果现在引入了耦合, 原来的粒子变成什么了!? 他的能量怎么变的? 他的谱密度又变成什么样子了?}
+我们会发现, 这个问题的答案和格林函数的\newterm{自能 (self-energy)} 有关.
+
+
+现在我们来设置一下我们的问题.
+假设单粒子能够存在的空间有两个部分: $P$ 空间和 $Q$ 空间.
+$P$ 空间是我们感兴趣的空间, 里面有我们想要研究的粒子.
+$Q$ 空间是一个连续态空间, 里面有一大堆连续态.
+Hamitlonian 自然是肯定包含了 $P$ 空间和 $Q$ 空间的部分, 以及它们之间的耦合:
+\begin{equation}
+\hat{H} = \hat{H}_{P} + \hat{H}_{Q} + \hat{H}_{PQ} + \hat{H}_{QP}
+\end{equation}
+其中 $\hat{H}_{P}$ 是 $P$ 空间的 Hamiltonian, $\hat{H}_{Q}$ 是 $Q$ 空间的 Hamiltonian, $\hat{H}_{PQ}$ 是从 $Q$ 空间到 $P$ 空间的耦合, $\hat{H}_{QP}$ 是从 $P$ 空间到 $Q$ 空间的耦合.
+对应到我们的 $\hat{H} = \hat{H}_{0} + \hat{V}$ 的形式, 我们可以把 $\hat{H}_{0} = \hat{H}_{P} + \hat{H}_{Q}$, 把 $\hat{V} = \hat{H}_{PQ} + \hat{H}_{QP}$.
+用矩阵表示起来就是:
+\begin{equation}
+\hat{H}_0 = \mqty[ \hat{H}_{pp} & 0 \\ 0 & \hat{H}_{qq} ], \quad
+\hat{V} = \mqty[ 0 & \hat{H}_{pq} \\ \hat{H}_{qp} & 0 ]
+\end{equation}
+我们的未耦合格林函数 $\hat{G}_0(E)$ 也是类似的:
+\begin{equation}
+\hat{G}_0(E) = \mqty[ (E-H_{pp})^{-1} & 0 \\ 0 & (E-H_{qq})^{-1} ]
+\end{equation}
+为了等下好写, 我们定义:
+\begin{equation}
+g_{0,p}(E) \equiv (E-H_{pp})^{-1}, \quad
+g_{0,q}(E) \equiv (E-H_{qq})^{-1}
+\end{equation}
+所以现在我们有:
+\begin{equation}
+\hat{G}_0(E) = \mqty[ g_{0,p}(E) & 0 \\ 0 & g_{0,q}(E) ]
+\end{equation}
+现在就是纯线性代数操作了, 我们把 Dyson 方程:
+\begin{equation}
+\hat{G}(E) = \hat{G}_0(E) + \hat{G}_0(E) \hat{V} \hat{G}(E)
+\end{equation}
+展开成矩阵形式:
+\begin{equation}
+\mqty[ G_{pp}(E) & G_{pq}(E) \\ G_{qp}(E) & G_{qq}(E) ]
+=
+\mqty[ g_{0,p}(E) & 0 \\ 0 & g_{0,q}(E) ]
++
+\mqty[ g_{0,p}(E) & 0 \\ 0 & g_{0,q}(E) ]
+\mqty[ 0 & H_{pq} \\ H_{qp} & 0 ]
+\mqty[ G_{pp}(E) & G_{pq}(E) \\ G_{qp}(E) & G_{qq}(E) ]
+\end{equation}
+然后我们把矩阵乘法算出来, 得到四个方程:
+\begin{align}
+G_{pp}(E) &= g_{0,p}(E) + g_{0,p}(E) H_{pq} G_{qp}(E) \\
+G_{pq}(E) &= g_{0,p}(E) H_{pq} G_{pp}(E) \\
+G_{qp}(E) &= g_{0,q}(E) H_{qp} G_{pp}(E) \\
+G_{qq}(E) &= g_{0,q}(E) + g_{0,q}(E) H_{qp} G_{pq}(E)
+\end{align}
+我们现在的目标是把 $G_{pp}(E)$ 算出来, 因为 $P$ 空间才是我们感兴趣的空间.
+我们把第二个方程代入第一个方程, 得到:
+\begin{equation}
+G_{pp}(E) = g_{0,p}(E) + g_{0,p}(E) H_{pq} g_{0,q}(E) H_{qp} G_{pp}(E)
+\end{equation}
+然后我们把这个方程整理一下, 得到:
+\begin{equation}
+G_{pp}(E) = g_{0,p}(E) + g_{0,p}(E) (H_{pq} g_{0,q}(E) H_{qp}) G_{pp}(E)
+\end{equation}
+也就是说, $P$ 空间的格林函数 $G_{pp}(E)$ 满足一个类似 Dyson 方程的形式, 但是多了一个项 $H_{pq} g_{0,q}(E) H_{qp}$.
+我们把这个项定义为 $P$ 空间的\newterm{自能 (self-energy)}:
+\begin{mdefinition}{自能, Self-Energy}
+对于两个子空间 $P$ 和 $Q$, 我们关心的 $P$ 空间的自能定义为:
+\begin{equation}
+\Sigma_{P}(E) \equiv H_{pq} g_{0,q}(E) H_{qp}
+\end{equation}
+其实就是有效的记录了 $Q$ 空间对 $P$ 空间的影响.
+\end{mdefinition}
+
+因此, 我们可以把 $P$ 空间的格林函数写成:
+\begin{equation}
+G_{pp}(E) = g_{0,p}(E) + g_{0,p}(E) \Sigma_{P}(E) G_{pp}(E)
+\end{equation}
+其中:
+\begin{equation}
+\Sigma_{P}(E) = H_{pq} g_{0,q}(E) H_{qp} = H_{pq} \frac{1}{E-H_{qq}} H_{qp}
+\end{equation}
+我们现在还是需要吧 $G_{pp}(E)$ 解出来.
+我们把上面的方程整理一下, 得到:
+\begin{equation}
+(\mathbb{1}-g_{0,p}(E) \Sigma_{P}(E) ) G_{pp}(E) = g_{0,p}(E)
+\end{equation}
+因此, 我们得到:
+\begin{equation}
+G_{pp}(E) = (\mathbb{1}-g_{0,p}(E) \Sigma_{P}(E) )^{-1} g_{0,p}(E)
+\end{equation}
+我们把 $g_{0,p}(E)$ 代入, 得到:
+\begin{equation}
+G_{pp}(E) = (\mathbb{1}-\frac{1}{E-H_{pp}} \Sigma_{P}(E) )^{-1} \frac{1}{E-H_{pp}}
+\end{equation}
+我们把上面的式子再整理一下, 得到:
+\begin{equation}
+G_{pp}(E) = \frac{1}{E-H_{pp} - \Sigma_{P}(E)}
+\end{equation}
+这就是我们想要的结果!
+我们发现, $P$ 空间的格林函数 $G_{pp}(E)$ 和未耦合的格林函数 $g_{0,p}(E)$ 的区别就在于多了一个自能项 $\Sigma_{P}(E)$.
+这个自能项记录了 $Q$ 空间对 $P$ 空间的影响.
+
+
+说来说去, 咱们自能算符目前还是一个算符:
+\begin{equation}
+\Sigma_{P}(E) = H_{pq} \frac{1}{E-H_{qq}} H_{qp}
+\end{equation}
+要是想要更具体一点, 我们还是得给他投影到矩阵元上.
+我们采取一个一般性的, 但是没那么复杂的模型.
+我们考虑 $Q$ 空间的本征态 $\ket{k}$, 以及 $P$ 空间的本征态 $\ket{n}$.
+自能是一个算符, 所以如果我们想知道一个能级因为耦合而产生的变化, 我们就需要计算自能在这个能级上的矩阵元:
+\begin{equation}
+\Sigma_{P,n}(E) = \mel{n}{\Sigma_{P}(E)}{n} = \mel{n}{H_{pq} \frac{1}{E-H_{qq}} H_{qp}}{n}
+\end{equation}
+我们把 $Q$ 空间的本征态 $\ket{k}$ 插入到上面的式子中, 得到:
+\begin{equation}
+\Sigma_{P,n}(E) = \sum_{k,k'} \mel{n}{H_{pq}}{k} \mel{k}{\frac{1}{E-H_{qq}}}{k'} \mel{k'}{H_{qp}}{n}
+\end{equation}
+注意, 我们应用了 $Q$ 空间的完备关系 $\mathbb{1}_{Q} = \sum_{k} \ket{k}\bra{k}$.
+这个单位只是针对 $Q$ 空间的, 不是针对整个空间的.
+所以我们有:
+\begin{equation}
+\frac{1}{E-H_{qq}} = \sum_{k} \frac{1}{E-E_{k}} \ket{k}\bra{k}
+\end{equation}
+从而矩阵元化简为:
+\begin{equation}
+\Sigma_{P,n}(E) = \sum_{k} \frac{|\mel{k}{H_{qp}}{n}|^2}{E - E_{k}}
+\end{equation}
+我们要是展开那个矩阵元(分子上的), 我们有:
+\begin{equation}
+\mel{n}{H_{pq}}{k} \times \mel{k}{H_{qp}}{n}
+\end{equation}
+第一个矩阵元是从 $P$ 空间的本征态 $\ket{n}$ 跃迁到 $Q$ 空间的本征态 $\ket{k}$ 的幅度, 第二个矩阵元是从 $Q$ 空间的本征态 $\ket{k}$ 跃迁回 $P$ 空间的本征态 $\ket{n}$ 的幅度.
+\comment{实际上很好理解: 我们了解国外的最好方法就是看看国外的情况, 也就是先从国内跑到国外, 然后再从国外跑回国内.}
+因此, 这个矩阵元的乘积就是从 $\ket{n}$ 跃迁到 $\ket{k}$ 然后再跃迁回 $\ket{n}$ 的总幅度.
+因为 $H_{qp} = H_{pq}^\dagger$, 所以这个乘积等于:
+\begin{equation}
+|\mel{k}{H_{qp}}{n}|^2 := |V_{nk}|^2
+\end{equation}
+因此, 我们最终得到自能的矩阵元:
+\begin{equation}
+\Sigma_{P,n}(E) = \sum_{k} \frac{|V_{nk}|^2}{E - E_{k}}
+\end{equation}
+
+
+现在我们引入一些物理现实, 真实的 $Q$ 空间通常是一个连续态空间, 也就是说, $k$ 是连续变量.
+所以我们把上面的求和改成积分:
+\begin{equation}
+\Sigma_{P,n}(E) = \int_{-\infty}^{\infty} \frac{|V(\varepsilon)|^2}{E - \varepsilon} \rho(\varepsilon) \dd{\varepsilon}
+\end{equation}
+其中 $\rho(\epsilon)$ 是 $Q$ 空间的态密度.
+现在, 引入因果性, 我们考察推迟格林函数, 以及推迟格林函数的自能:
+\begin{equation}
+\Sigma^R_{P,n}(E) = \lim_{\epsilon \to 0^+} \int_{-\infty}^{\infty} \frac{|V(\varepsilon)|^2}{E - \varepsilon + \mathrm{i}\,\epsilon} \rho(\varepsilon) \dd{\varepsilon}
+\end{equation}
+我们永远把 $\epsilon$ 留作一个正的无穷小量, 而 $\varepsilon$ 是积分变量.
+我们现在要计算上面的积分.
+我们把分母拆成实部和虚部:
+\begin{equation}
+\frac{1}{E - \varepsilon + \mathrm{i}\,\epsilon} = \frac{E - \varepsilon}{(E - \varepsilon)^2 + \epsilon^2} - \mathrm{i} \frac{\epsilon}{(E - \varepsilon)^2 + \epsilon^2}
+\end{equation}
+因此, 自能的实部和虚部分别是:
+\begin{align}
+\Re \Sigma^R_{P,n}(E) &= \lim_{\epsilon \to 0^+} \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \frac{E - \varepsilon}{(E - \varepsilon)^2 + \epsilon^2} \dd{\varepsilon} \\
+\Im \Sigma^R_{P,n}(E) &= - \lim_{\epsilon \to 0^+} \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \frac{\epsilon}{(E - \varepsilon)^2 + \epsilon^2} \dd{\varepsilon}
+\end{align}
+我们先来看实部.
+我们注意到, 当 $\epsilon \to 0^+$ 的时候, 上面的积分就是\textbf{主值积分} (Cauchy principal value):
+\begin{equation}
+\Re \Sigma^R_{P,n}(E) = \mathcal{P} \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \frac{1}{E - \varepsilon} \dd{\varepsilon}
+\end{equation}
+主值积分的意思是, 当积分变量 $\varepsilon$ 靠近 $E$ 的时候, 我们把那个点挖掉, 然后取极限.
+换句话说就是, 这个主值积分会修正我们原本的能级的位置.
+
+现在我们来看虚部:
+\begin{equation}
+\Im \Sigma^R_{P,n}(E) = - \lim_{\epsilon \to 0^+} \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \frac{\epsilon}{(E - \varepsilon)^2 + \epsilon^2} \dd{\varepsilon}
+\end{equation}
+还记得我们之前说的那个 Lorentzian 函数吗?
+\begin{equation}
+L(\varepsilon, \epsilon) = \frac{1}{\pi} \frac{\epsilon}{\varepsilon^2 + \epsilon^2}
+\end{equation}
+当 $\epsilon \to 0^+$ 的时候, 这个函数会变成 $\delta$ 函数:
+\begin{equation}
+\lim_{\epsilon \to 0^+} L(\varepsilon, \epsilon) = \delta(\varepsilon)
+\end{equation}
+因此, 我们可以把虚部写成:
+\begin{equation}
+\Im \Sigma^R_{P,n}(E) = - \pi \lim_{\epsilon \to 0^+} \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) L(\varepsilon, \epsilon) \dd{\varepsilon}
+\end{equation}
+从而我们得到:
+\begin{equation}
+\Im \Sigma^R_{P,n}(E) = - \pi \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \delta(E - \varepsilon) \dd{\varepsilon}
+\end{equation}
+也就是说:
+\begin{equation}
+\Im \Sigma^R_{P,n}(E) = - \pi |V(E)|^2 \rho(E)
+\end{equation}
+我们看到, 自能的虚部和态密度成正比.
+我们现在定义展宽 $\Gamma_{n}(E)$:
+\begin{mdefinition}{展宽, Broadening}
+对于 $P$ 空间的本征态 $\ket{n}$, 我们定义展宽为:
+\begin{equation}
+\Gamma_{n}(E) = -2 \Im \Sigma(E) = 2 \pi |V(E)|^2 \rho(E)
+\end{equation}
+展宽描述了粒子从 $P$ 空间的本征态 $\ket{n}$ 跃迁到 $Q$ 空间的连续态的速率.
+\end{mdefinition}
+因此, 我们最终得到推迟格林函数的自能:
+\begin{equation}
+\Sigma^R_{P,n}(E) = \mathcal{P} \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \frac{1}{E - \varepsilon} \dd{\varepsilon}
+- \mathrm{i} \frac{\Gamma_{n}(E)}{2}
+\end{equation}
+
+
+\comment{回头看看, 这个虚部怎么来的?}
+我们必须引入因果性, 所以我们必须考虑推迟格林函数, 然后我们在分母上加上一个 $\mathrm{i}\,\epsilon$.
+但是因为粒子能够从 $P$ 空间的本征态 $\ket{n}$ 跃迁到 $Q$ 空间的连续态, 这个微小的虚部实际上是被``放大"了.
+这就意味着, 粒子跳进了连续态之后, 他的相位信息(虚部)会和无数个连续态纠缠在一起, 从而很难在复杂的干涉之后再回到原来的态上, 这种无法回来的效应就体现在虚部上, 表现为概率幅的丢失.
+还有一个重要前提, 就是, $Q$ 空间是一个连续态空间, 也就是说, 态密度 $\rho(E)$ 是连续的, 这样才能保证粒子一旦跳进连续态之后, 就很难再回到原来的态上去.
+
+
+\question{物理学果然是双标的艺术?}
+我们之前大多数推导和计算都是明目张胆的忽略了积分, 求导, 求极限等等操作的交换顺序问题.
+但是现在我们为了得到正确的结果, 却不得不小心翼翼地处理这些操作的顺序问题.
+核心问题有三点: 态的个数的极限: $N \to \infty$, 无穷小参数 $\epsilon \to 0^+$, 以及\reminder{多密算够密}?
+我们看看离散情况啊, 我们的自能是:
+\begin{equation}
+\Sigma_{P,n}(E) = \sum_{k} \frac{|V_{nk}|^2}{E - E_{k} + \mathrm{i}\,\epsilon}
+\end{equation}
+如果 $E$ 不等于 $E_k$ 中的任何一个, 那么当我们让 $\epsilon \to 0^+$ 的时候, 自能就是实数, 虚部是0:
+\begin{equation}
+\lim_{\epsilon \to 0^+} \frac{\eta}{\Delta^2 + \eta^2} = 0 \quad (\Delta \neq 0)
+\end{equation}
+但是如果 $E$ 恰好等于某个 $E_{k'}$, 那么当我们让 $\epsilon \to 0^+$ 的时候, 自能的虚部就会发散:
+\begin{equation}
+\lim_{\epsilon \to 0^+} \frac{\epsilon}{(E - E_{k'})^2 + \epsilon^2} = \lim_{\epsilon \to 0^+} \frac{\epsilon}{\epsilon^2} = +\infty
+\end{equation}
+这个分母上的无穷小是没有办法被人抵消的, 不像是连续态的情况, 那里我们有一个积分测度, 也是无穷小.
+这说明, 在离散能级的情况下, 自能的虚部要么是0, 要么是发散的.
+自能虚部是 $0$, 格林函数也没有虚部, 就是没有 $\mathrm{i}\,\Gamma$ 项, 也就是说没有展宽!
+\reminder{我们不能见到 Lorentzian 就说他是 $\delta$ 函数, 有无那个趋向于 $0$ 的极限很重要!}
+
+
+我们现在展示一下展宽真的就是在时域上的衰退, 我们假设对于某个能级 $n$, 能量 $E_n$, 我们假设自能已经被计算出来了:
+\begin{equation}
+\Sigma^R(E) = \Delta(E) - \mathrm{i} \frac{\Gamma(E)}{2}
+\end{equation}
+再进一步假设, 他们甚至不依赖于能量 $E$, 也就是说, $\Delta(E) = \Delta$, $\Gamma(E) = \Gamma$.
+那么, 这个能级的推迟格林函数就是:
+\begin{equation}
+G^R(E) = \frac{1}{E - (E_n + \Delta) + \mathrm{i}\,\Gamma/2}
+\end{equation}
+我们需要把这个格林函数变换到时域上去:
+\begin{equation}
+G^R(t) = \frac{1}{2\pi\hbar} \int_{-\infty}^{\infty} \frac{\mathrm{e}^{- \mathrm{i} E t / \hbar}}{E - (E_n + \Delta) + \mathrm{i}\,\Gamma/2} \dd{E}
+\end{equation}
+我们注意到, 这个积分可以通过留数定理来计算.
+我们已经重复过无数次了:
+\begin{equation}
+G^R(t) = \frac{1}{\mathrm{i}\,\hbar} \Theta(t) \mathrm{e}^{- \mathrm{i} (E_n + \Delta) t / \hbar} \mathrm{e}^{- \Gamma t / 2\hbar}
+\end{equation}
+这立刻提示了两个问题: 1. 在时域, 本来应该是按照 $E$ 的本征态振荡的, 现在多了一个 $\Delta$ 项, 说明能级被移动了; 2. 多了一个指数衰减项, 说明粒子在这个能级上的寿命是有限的, 寿命大约是 $\tau = \hbar / \Gamma$:
+\begin{equation}
+\tau = \frac{\hbar}{\Gamma} \quad \Gamma = 2 \pi \int_{-\infty}^{\infty} |V(\varepsilon)|^2 \rho(\varepsilon) \delta(E - \varepsilon) \dd{\varepsilon}
+\end{equation}
+我们看到, 展宽 $\Gamma$ 越大, 寿命 $\tau$ 越短.
+这和我们之前的物理直觉是一致的: 耗散越强, 寿命越短.
+这个特征时间 $\tau$ 也被称为\newterm{单粒子弛豫时间 (relaxation time)}.
